@@ -1,15 +1,13 @@
 ---
-title: API Reference
+title: Feathery API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
-  - ruby
   - python
   - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
+  - <a href='https://feathery.tech'>Sign up for an API key</a>
 
 includes:
   - errors
@@ -21,221 +19,364 @@ code_clipboard: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+The Feathery API is organized around REST. Our API has predictable resource-oriented URLs, accepts form-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
-
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
+You can use our API to access and modify your forms, fields, and users. Our [React library](https://github.com/feathery-org/feathery-react) wraps many of these endpoints.
 
 # Authentication
 
-> To authorize, use this code:
+Provide an admin-level API key to authenticate access.
+You can register a new API key after joining our [waitlist](https://feathery.tech). 
 
-```ruby
-require 'kittn'
+Include your API key as a request header that looks like the following:
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here" \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
+`Authorization: <API KEY>`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>&lt;API KEY&gt;</code> with your personal API key.
 </aside>
 
-# Kittens
+# Users
 
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
+## List All Users
 
 ```python
-import kittn
+import requests
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
+url = "https://api.feathery.tech/api/user/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
 ```
 
 ```shell
-curl "http://example.com/api/kittens" \
-  -H "Authorization: meowmeowmeow"
+curl "https://api.feathery.tech/api/user/" \
+    -H "Authorization: Token <API KEY>"
 ```
 
 ```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+const url = "https://api.feathery.tech/api/user/";
+const options = { headers: { Authorization: "Token <API KEY>" } };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
 ```
 
-> The above command returns JSON structured like this:
+> The above command outputs JSON structured like this:
 
 ```json
 [
   {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
+    "key": "alice@feathery.tech",
+    "name": "Alice",
+    "created_at": "2020-06-01T00:00:00Z",
+    "updated_at": "2020-06-02T00:00:00Z"
   },
   {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+    "key": "bob@feathery.tech",
+    "name": "Bob",
+    "created_at": "2020-06-03T00:00:00Z",
+    "updated_at": "2020-06-04T00:00:00Z"
   }
 ]
 ```
 
-This endpoint retrieves all kittens.
+List all of your users in Feathery.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET https://api.feathery.tech/api/user/`
 
-### Query Parameters
+### Response Parameters
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+The response will be an array of objects with the following parameters.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+Parameter | Type | Description
+--------- | --------- | -----------
+key | String | Your unique user key
+name | String (Optional) | Your human-friendly user name
+created_at | Datetime | When this user was created
+updated_at | Datetime | When this user was last updated
 
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
+## Create and Fetch a User
 
 ```python
-import kittn
+import requests
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
+url = "https://api.feathery.tech/api/user/";
+data = {"key": "alice@feathery.tech", "name": "Alice 2.0"}
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+result = requests.post(url, data=data, headers=headers)
+print(result.json())
 ```
 
 ```shell
-curl "http://example.com/api/kittens/2" \
-  -H "Authorization: meowmeowmeow"
+curl "https://api.feathery.tech/api/user/" \
+    -X POST \
+    -d "{'key': 'alice@feathery.tech', 'name': 'Alice 2.0'}" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json" \
 ```
 
 ```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
+const url = "https://api.feathery.tech/api/user/";
+const data = {key: "alice@feathery.tech", name: "Alice 2.0"}
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = {
+    headers, 
+    method: 'POST',
+    body: JSON.stringify(data)
+};
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
 ```
 
-> The above command returns JSON structured like this:
+> The above command outputs JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+  "api_key": "b8629a53-b1ba-49c1-99bc-0117cf12fd98",
+  "key": "alice@feathery.tech",
+  "name": "Alice 2.0",
+  "created_at": "2020-06-03T00:00:00Z",
+  "updated_at": "2020-06-04T00:00:00Z"
 }
 ```
 
-This endpoint retrieves a specific kitten.
+Create, update, or retrieve the information of a specific user.
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+If the user belonging to the key you specify doesn't exist, they'll be created
+based on the request body parameters. Otherwise, the user will be updated based
+on those parameters.
+
+The user API key will also be returned, which can be used for authenticating
+our React library for displaying forms.
 
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`POST https://api.feathery.tech/api/user/`
+
+### Body Parameters
+
+Parameter | Type | Description
+--------- | --------- | -----------
+key | String | Your unique user key
+name | String (Optional) | Your human-friendly user name.
+
+### Response Parameters
+
+Parameter | Type | Description
+--------- | --------- | -----------
+api_key | String | This user's API key
+key | String | Your unique user key
+name | String (Optional) | Your human-friendly user name
+created_at | Datetime | When this user was created
+updated_at | Datetime | When this user was last updated
+
+## Delete a User
+
+```python
+import requests
+
+url = "https://api.feathery.tech/api/user/alice@feathery.tech/";
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+result = requests.delete(url, headers=headers)
+print(result.status_code)
+```
+
+```shell
+curl "https://api.feathery.tech/api/user/alice@feathery.tech/" \
+    -X DELETE \
+    -d "{'key': 'alice@feathery.tech'}" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json" \
+```
+
+```javascript
+const url = "https://api.feathery.tech/api/user/alice@feathery.tech/";
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = { headers, method: 'DELETE' };
+fetch(url, options).then((response) => console.log(response.status))
+```
+
+> The above command does not return a response body
+
+Delete a specific user.
+
+### HTTP Request
+
+`DELETE https://api.feathery.tech/api/user/<key>/`
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to retrieve
+key | The key of the user to delete
 
-## Delete a Specific Kitten
 
-```ruby
-require 'kittn'
+# Fields
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
+## List All Fields for a User 
 
 ```python
-import kittn
+import requests
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
+url = "https://api.feathery.tech/api/field/?key=alice@feathery.tech";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
 ```
 
 ```shell
-curl "http://example.com/api/kittens/2" \
-  -X DELETE \
-  -H "Authorization: meowmeowmeow"
+curl "https://api.feathery.tech/api/field/?key=alice@feathery.tech" \
+    -H "Authorization: Token <API KEY>"
 ```
 
 ```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
+const url = "https://api.feathery.tech/api/field/?key=alice@feathery.tech";
+const options = { headers: { Authorization: "Token <API KEY>" } };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
 ```
 
-> The above command returns JSON structured like this:
+> The above command outputs JSON structured like this:
 
 ```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
+[
+  {
+    "key": "name",
+    "type": "text_field",
+    "display_text": "What is your name?",
+    "value": "Alice Smith",
+    "created_at": "2020-06-01T00:00:00Z",
+    "updated_at": "2020-06-02T00:00:00Z"
+  },
+  {
+    "key": "age",
+    "type": "integer_field",
+    "display_text": "How old are you?",
+    "value": null,
+    "created_at": "2020-06-01T00:00:00Z",
+    "updated_at": "2020-06-02T00:00:00Z"
+  }
+]
 ```
 
-This endpoint deletes a specific kitten.
+
+List all of your fields in Feathery and their values for a specific user
 
 ### HTTP Request
 
-`DELETE http://example.com/kittens/<ID>`
+`GET https://api.feathery.tech/api/field/`
+
+### Request Query Parameters
+
+Parameter | Type | Description
+--------- | --------- | -----------
+key | String (Optional) | Your unique user key
+
+### Response Parameters
+
+The response will be an array of objects with the following parameters.
+
+Parameter | Type | Description
+--------- | --------- | -----------
+key | String | Your unique field key
+type | String Enum | The field type (e.g. text_area, dropdown, etc.)
+display_text | String | Human-friendly text to display for this field
+value | Polymorphic (Optional) | Submitted value of the user whose key was passed in.
+created_at | Datetime | When this field was created
+updated_at | Datetime | When this field was last updated
+
+## Create Field Value for User
+
+```python
+import requests
+
+url = "https://api.feathery.tech/api/field/alice@feathery.tech/";
+data = {"key": "age", "value": 21}
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+result = requests.post(url, data=data, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.tech/api/field/alice@feathery.tech/" \
+    -X POST \
+    -d "{'key': 'age', 'value': 21}" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json" \
+```
+
+```javascript
+const url = "https://api.feathery.tech/api/field/alice@feathery.tech/";
+const data = {key: "age", value: 21}
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = {
+    headers, 
+    method: 'POST',
+    body: JSON.stringify(data)
+};
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "key": "age",
+  "value":  21,
+  "created_at": "2020-06-01T00:00:00Z",
+  "updated_at": "2020-06-03T00:00:00Z"
+}
+```
+
+Create or update the value of a field for a specific user
+
+### HTTP Request
+
+`POST https://api.feathery.tech/api/field/<key>/`
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to delete
+key | Your unique user key
 
+### Request Body Parameters
+
+Parameter | Type | Description
+--------- | --------- | -----------
+key | String | Your unique field key
+value | Polymorphic | Field value to associate with the specified user
+
+### Response Parameters
+
+Parameter | Type | Description
+--------- | --------- | -----------
+key | String | Your unique field key
+value | Polymorphic (Optional) | Field value associated with the specified user
+created_at | Datetime | When this value was created
+updated_at | Datetime | When this value was last updated
