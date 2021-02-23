@@ -28,6 +28,10 @@ You can use our API to access and modify your forms, fields, and users. Our [Rea
 Provide an admin-level API key to authenticate access.
 You can register a new API key after joining our [waitlist](https://feathery.tech). 
 
+API keys are environment-specific (production, development, etc.), which allows you to
+separate real from test data. All API keys have access to the same fields and forms,
+but users are environment-specific.
+
 Include your API key as a request header that looks like the following:
 
 `Authorization: <API KEY>`
@@ -297,7 +301,7 @@ Parameter | Type | Description
 --------- | --------- | -----------
 key | String | Your unique field key
 type | String Enum | The field type (e.g. text_area, dropdown, etc.)
-display_text | String | Human-friendly text to display for this field
+display_text | String (Optional) | Human-friendly text to display for this field
 value | Polymorphic (Optional) | Submitted value of the user whose key was passed in.
 created_at | Datetime | When this field was created
 updated_at | Datetime | When this field was last updated
