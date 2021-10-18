@@ -126,7 +126,6 @@ Retrieve the schema of a form created in Feathery.
 
 `GET https://api.feathery.io/api/form/<form_id>/`
 
-
 ### Response Parameters
 
 The response will be an object containing the following parameters.
@@ -155,7 +154,7 @@ updated_at | Datetime | When this step was last updated
 Each form element (images, progress_bars, texts, buttons, fields) has a common `id` parameter that uniquely identifies it.
 
 
-## Generate a form via API
+## Create a form
 
 ```python
 import requests
@@ -163,71 +162,71 @@ import requests
 url = "https://api.feathery.io/api/form/";
 headers = {"Authorization": "Token <API KEY>"}
 data = {
-          "form_id": "new_form_id",
-          "template_form_id": "id_of_form_to_copy",
-          "steps": [
-              {
-                  "step_id": "new_copied_step",
-                  "template_step_id": "step_from_copied_form",
-                  "origin": True,
-                  "fields": [
-                      {
-                          "id": "field_to_change",
-                          "field_id": "name_of_new_field_value_or_value_to_copy"
-                      }
-                  ],
-                  "texts": [
-                      {
-                          "id": "name_of_text_to_change",
-                          "text": "New Text to replace copied text",
-                      }
-                  ],
-                  "buttons": [
-                      {
-                          "id": "name_of_button_to_change",
-                          "text": "New Button Text",
-                      }
-                  ],
-                  "images": [
-                      {
-                          "id": "name_of_image_to_change",
-                          "source_url": "https://new-image-to-replace-old.com",
-                      }
-                  ],
-                  "progress_bars": [
-                      {
-                          "id": "name_of_progress_bar_to_change",
-                          "progress": 10,
-                      }
-                  ],
-              },
-              {
-                  "step_id": "new_copied_step_2",
-                  "template_step_id": "Step 2",
-                  "fields": [],
-                  "texts": [],
-                  "buttons": [],
-                  "images": [],
-                  "progress_bars": [],
-              },
-          ],
-          "navigation_rules": [
-              {
-                  "previous_step_id": "new_copied_step",
-                  "next_step_id": "new_copied_step_2",
-                  "trigger": "click",
-                  "element_type": "button",
-                  "element_id": str(self.button.id),
-                  "rules": [
-                      {
-                          "comparison": "equal",
-                          "field_key": "",
-                          "value": "",
-                      },
-                  ],
-              },
-          ],
-      }
+    "form_id": "new_form_id",
+    "template_form_id": "id_of_form_to_copy",
+    "steps": [
+        {
+            "step_id": "name_of_new_step",
+            "template_step_id": "step_to_copy",
+            "origin": True,
+            "fields": [
+                {
+                    "id": "field_to_change",
+                    "field_id": "new_field_name"
+                }
+            ],
+            "texts": [
+                {
+                    "id": "text_element_to_change",
+                    "text": "New Text to replace copied text",
+                }
+            ],
+            "buttons": [
+                {
+                    "id": "button_element_to_change",
+                    "text": "New Button Text",
+                }
+            ],
+            "images": [
+                {
+                    "id": "image_element_to_change",
+                    "source_url": "https://new-image-to-replace-old.com",
+                }
+            ],
+            "progress_bars": [
+                {
+                    "id": "name_of_progress_bar_to_change",
+                    "progress": 10,
+                }
+            ],
+        },
+        {
+            "step_id": "name_of_new_step_2",
+            "template_step_id": "step_to_copy_2",
+            "fields": [],
+            "texts": [],
+            "buttons": [],
+            "images": [],
+            "progress_bars": [],
+        },
+    ],
+    "navigation_rules": [
+        {
+            "previous_step_id": "name_of_new_step",
+            "next_step_id": "name_of_new_step_2",
+            "trigger": "click",
+            "element_type": "button",
+            "element_id": "button_element_to_change",
+            "rules": [
+                {
+                    "comparison": "equal",
+                    "field_key": "",
+                    "value": "",
+                },
+            ],
+        },
+    ],
+}
 result = requests.post(url, data=data, headers=headers)
 print(result.json())
 ```
@@ -236,143 +235,143 @@ print(result.json())
 curl "https://api.feathery.io/api/form/" \
     -X POST \
     -d "{
-          'form_id': 'new_form_id',
-          'template_form_id': 'id_of_form_to_copy',
-          'steps': [
-              {
-                  'step_id': 'new_copied_step',
-                  'template_step_id': 'step_from_copied_form',
-                  'origin': True,
-                  'fields': [
-                      {
-                          'id': 'field_to_change',
-                          'field_id': 'name_of_new_field_value_or_value_to_copy'
-                      }
-                  ],
-                  'texts': [
-                      {
-                          'id': 'name_of_text_to_change',
-                          'text': 'New Text to replace copied text',
-                      }
-                  ],
-                  'buttons': [
-                      {
-                          'id': 'name_of_button_to_change',
-                          'text': 'New Button Text',
-                      }
-                  ],
-                  'images': [
-                      {
-                          'id': 'name_of_image_to_change',
-                          'source_url': 'https://new-image-to-replace-old.com',
-                      }
-                  ],
-                  'progress_bars': [
-                      {
-                          'id': 'name_of_progress_bar_to_change',
-                          'progress': 10,
-                      }
-                  ],
-              },
-              {
-                  'step_id': 'new_copied_step_2',
-                  'template_step_id': 'Step 2',
-                  'fields': [],
-                  'texts': [],
-                  'buttons': [],
-                  'images': [],
-                  'progress_bars': [],
-              },
-          ],
-          'navigation_rules': [
-              {
-                  'previous_step_id': 'new_copied_step',
-                  'next_step_id': 'new_copied_step_2',
-                  'trigger': 'click',
-                  'element_type': 'button',
-                  'element_id': 'str(self.button.id)',
-                  'rules': [
-                      {
-                          'comparison': 'equal',
-                          'field_key': '',
-                          'value': '',
-                      },
-                  ],
-              },
-          ],
-      }" \
+        'form_id': 'new_form_id',
+        'template_form_id': 'id_of_form_to_copy',
+        'steps': [
+            {
+                'step_id': 'name_of_new_step',
+                'template_step_id': 'step_to_copy',
+                'origin': True,
+                'fields': [
+                    {
+                        'id': 'field_to_change',
+                        'field_id': 'new_field_name'
+                    }
+                ],
+                'texts': [
+                    {
+                        'id': 'text_element_to_change',
+                        'text': 'New Text to replace copied text',
+                    }
+                ],
+                'buttons': [
+                    {
+                        'id': 'button_element_to_change',
+                        'text': 'New Button Text',
+                    }
+                ],
+                'images': [
+                    {
+                        'id': 'image_element_to_change',
+                        'source_url': 'https://new-image-to-replace-old.com',
+                    }
+                ],
+                'progress_bars': [
+                    {
+                        'id': 'name_of_progress_bar_to_change',
+                        'progress': 10,
+                    }
+                ],
+            },
+            {
+                'step_id': 'name_of_new_step_2',
+                'template_step_id': 'step_to_copy_2',
+                'fields': [],
+                'texts': [],
+                'buttons': [],
+                'images': [],
+                'progress_bars': [],
+            },
+        ],
+        'navigation_rules': [
+            {
+                'previous_step_id': 'name_of_new_step',
+                'next_step_id': 'name_of_new_step_2',
+                'trigger': 'click',
+                'element_type': 'button',
+                'element_id': 'button_element_to_change',
+                'rules': [
+                    {
+                        'comparison': 'equal',
+                        'field_key': '',
+                        'value': '",
+                    },
+                ],
+            },
+        ],
+    }" \
     -H "Authorization: Token <API KEY>" \
-    -H "Content-Type: application/json" \
+    -H "Content-Type: application/json"
 ```
 
 ```javascript
 const url = "https://api.feathery.io/api/form/";
 const data = {
-          "form_id": "new_form_id",
-          "template_form_id": "id_of_form_to_copy",
-          "steps": [
-              {
-                  "step_id": "new_copied_step",
-                  "template_step_id": "step_from_copied_form",
-                  "origin": True,
-                  "fields": [
-                      {
-                          "id": "field_to_change",
-                          "field_id": "name_of_new_field_value_or_value_to_copy"
-                      }
-                  ],
-                  "texts": [
-                      {
-                          "id": "name_of_text_to_change",
-                          "text": "New Text to replace copied text",
-                      }
-                  ],
-                  "buttons": [
-                      {
-                          "id": "name_of_button_to_change",
-                          "text": "New Button Text",
-                      }
-                  ],
-                  "images": [
-                      {
-                          "id": "name_of_image_to_change",
-                          "source_url": "https://new-image-to-replace-old.com",
-                      }
-                  ],
-                  "progress_bars": [
-                      {
-                          "id": "name_of_progress_bar_to_change",
-                          "progress": 10,
-                      }
-                  ],
-              },
-              {
-                  "step_id": "new_copied_step_2",
-                  "template_step_id": "Step 2",
-                  "fields": [],
-                  "texts": [],
-                  "buttons": [],
-                  "images": [],
-                  "progress_bars": [],
-              },
-          ],
-          "navigation_rules": [
-              {
-                  "previous_step_id": "new_copied_step",
-                  "next_step_id": "new_copied_step_2",
-                  "trigger": "click",
-                  "element_type": "button",
-                  "element_id": str(self.button.id),
-                  "rules": [
-                      {
-                          "comparison": "equal",
-                          "field_key": "",
-                          "value": "",
-                      },
-                  ],
-              },
-          ],
-      }
+  "form_id": "new_form_id",
+  "template_form_id": "id_of_form_to_copy",
+  "steps": [
+    {
+      "step_id": "name_of_new_step",
+      "template_step_id": "step_to_copy",
+      "origin": True,
+      "fields": [
+        {
+          "id": "field_to_change",
+          "field_id": "new_field_name"
+        }
+      ],
+      "texts": [
+        {
+          "id": "text_element_to_change",
+          "text": "New Text to replace copied text",
+        }
+      ],
+      "buttons": [
+        {
+          "id": "button_element_to_change",
+          "text": "New Button Text",
+        }
+      ],
+      "images": [
+        {
+          "id": "image_element_to_change",
+          "source_url": "https://new-image-to-replace-old.com",
+        }
+      ],
+      "progress_bars": [
+        {
+          "id": "name_of_progress_bar_to_change",
+          "progress": 10,
+        }
+      ],
+    },
+    {
+      "step_id": "name_of_new_step_2",
+      "template_step_id": "step_to_copy_2",
+      "fields": [],
+      "texts": [],
+      "buttons": [],
+      "images": [],
+      "progress_bars": [],
+    },
+  ],
+  "navigation_rules": [
+    {
+      "previous_step_id": "name_of_new_step",
+      "next_step_id": "name_of_new_step_2",
+      "trigger": "click",
+      "element_type": "button",
+      "element_id": "button_element_to_change",
+      "rules": [
+        {
+          "comparison": "equal",
+          "field_key": "",
+          "value": "",
+        },
+      ],
+    },
+  ],
+};
 const headers = {
     Authorization: "Token <API KEY>",
     "Content-Type": "application/json"
@@ -387,9 +386,9 @@ fetch(url, options)
     .then(result => console.log(result));
 ```
 
-> The above command outputs HTTP_201_CREATED
+> The above command returns a 201 status on success
 
-Generate a form via API.
+Create a form based off an existing template form.
 
 ### HTTP Request
 
@@ -399,71 +398,71 @@ Generate a form via API.
 
 Parameter | Type | Description
 --------- | --------- | -----------
-form_id | String | Your desired new form ID
-template_form_id | String | The ID of the form you'd like to copy from
-steps | Array<Obj> | An array of step objects
-navigation_rules | Array<Obj> | An array of navigation rule objects
+form_id | String | The ID of the new form being created (must be unique)
+template_form_id | String | The ID of the template form to copy from
+steps | Array<Obj> | An array of steps to create
+navigation_rules | Array<Obj> | An array of navigation rule connecting steps to be created
 
 Each `steps` object contains the following parameters.
-The arrays of images, progress bars, texts, buttons, and fields allow you to override qualities from the elements in the copied step.
+The form element arrays allow you to edit attributes from the elements in the copied step.
 If nothing is specified, the elements on the step will be copied as they are.
 
 Parameter | Type | Description
 --------- | --------- | -----------
-step_id | String | The ID of the new step, unique to the form
+step_id | String | The ID of the new step to create, unique to the form
 template_step_id | String | The ID of the step to copy from the original form
-origin | Boolean | Is this the first step of the form
-images | Array<Obj> | Images on this step
-progress_bars | Array<Obj> | Progress bars on this step
-texts | Array<Obj> | Text elements on this step
-buttons | Array<Obj> | Buttons on this step
-fields | Array<Obj> | Fields on this step
+origin | Boolean | `true` if this step is the first of the form
+images | Array<Obj> | Image elements to edit on this step
+progress_bars | Array<Obj> | Progress bar elements to edit on this step
+texts | Array<Obj> | Text elements to edit on this step
+buttons | Array<Obj> | Button elements to edit on this step
+fields | Array<Obj> | Field elements to edit on this step
 
 Each `image` object contains the following parameters.
 
 Parameter | Type | Description
 --------- | --------- | -----------
-id | String | The ID of the image you'd like to override from the original step
-source_url | String | A new source_url to take the image from
+id | String | The ID of the image to edit from the original step
+source_url | String | A new image URL
 
 Each `progress_bar` object contains the following parameters.
 
 Parameter | Type | Description
 --------- | --------- | -----------
-id | String | The ID of the progress bar you'd like to override from the original step
-progress | Integer | A specific amount of progress you'd like to display on your new step between 0 and 100
+id | String | The ID of the progress bar to edit from the original step
+progress | Integer | The percentage of progress to display between 0 and 100
 
 Each `text` object contains the following parameters.
 
 Parameter | Type | Description
 --------- | --------- | -----------
-id | String | The ID of the text you'd like to override from the original step
-text | String | The new text you'd like to display
+id | String | The ID of the text element to edit from the original step
+text | String | The new text to display
 
 Each `button` object contains the following parameters.
 
 Parameter | Type | Description
 --------- | --------- | -----------
-id | String | The ID of the button you'd like to override from the original step
-text | String | Text you'd like to display on your new button
+id | String | The ID of the button to edit from the original step
+text | String | Text to display on the new button
 
 Each `field` object may contain the following parameters, depending on what type of field you are copying or changing.
 
 Parameter | Type | Description
 --------- | --------- | -----------
-id | String | The ID of the field you'd like to override from the original step
-field_id | String | The ID of the field value you'd like to connect to this field
-type | String | The type of value you'd like to use the field for (determines what you may need to override)
-max_length | Integer | Maximum length of the value you'd like to store
-min_length | Integer | Minimum length of the value you'd like to store
-placeholder | String | Placeholder text for the field value
-tooltipText | String | Tooltip text for the field value
-submit_trigger | String | Submit trigger for the field (values can be Automatic or None)
-metadata | Dict | may contain options array, other, or file_types array
+id | String | The ID of the field to edit from the original step
+field_id | Optional String | The ID to set for the field on the new step. If this ID references an existing field, it will automatically link to the field's properties and user data. If field_id isn't specified, it will link to the field being copied from.
+type | Optional String | The new field type
+max_length | Optional Integer | Maximum length of the field value
+min_length | Optional Integer | Minimum length of the field value 
+placeholder | Optional String | New placeholder text for the field
+tooltipText | Optional String | New tooltip text for the field
+submit_trigger | Optional String | Does filling out the field trigger submission of the current step? Options are "auto" or "none"
+metadata | Optional Object | Specifies field options and file types
 
-Here is a table of what overrides are useful for each field type. If an override is noted as required for a type of field, you must use that override if you're not using the field directly as copied from the template.
+Below we specify which parameters apply to which field type. They are only required if you aren't linking from an existing field.
 
-Overrides | Valid Field Types | Required
+Parameter | Field Types | Required
 --------- | --------- | -----------
 max_length, min_length | text_field, text_area, integer_field, select, multiselect, email | Optional
 max_length | pin_input | Required
@@ -473,25 +472,28 @@ metadata.other | select, multiselect, dropdown | Required
 metadata.options | button_group, select, multiselect, dropdown | Required
 metadata.field_types | rich_file_upload, rich_multi_file_upload | Required
 
-Each `navigation_rules` object contains the following parameters.
+Each `navigation_rules` object controls how the user navigates between 2 steps. 
+For example, one navigation rule might specify that clicking the button `Next` on `Step 1` leads to `Step 2`.
+
+Navigation rules contain the following parameters.
 
 Parameter | Type | Description
 --------- | --------- | -----------
-previous_step_id | String | The ID of the step you'd like to override from the original step
-next_step_id | String | Progress bars on this step
-trigger | String | How to trigger navigation - Choices are click, change, and load
-element_type | String | What type of element triggers navigation - Choices are button, field, and text
-element_id | String | ID of the element from the original form step that you'd like to trigger navigation in your templated form
-rules | Array<Obj> | The rules to match for navigation to occur
+previous_step_id | String | The step the user is coming from.
+next_step_id | String | The step the user is going to.
+trigger | String Enum | How navigation is trigger - "click", "change", or "load"
+element_type | String Enum | What type of element triggers navigation - "button", "field", or "text"
+element_id | String | The ID of the element on the previous step that triggers navigation. 
+rules | Array<Obj> | The conditions that must be fulfilled for navigation to occur
 
 
 Each `rules` object contains the following parameters.
 
 Parameter | Type | Description
 --------- | --------- | -----------
-comparison | String | Comparison type (gt, lt, equal)
-field_key | String | The field whose value you want to navigate based on
-value | String | The value you need to compare the value of that field to 
+comparison | String | Comparison - "equal", "not_equal"
+field_key | String | The ID of the field whose value is being used for this comparison
+value | String | The value to compare the field value against
 
 # Users
 
