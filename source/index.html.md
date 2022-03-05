@@ -557,6 +557,59 @@ name | String (Optional) | Your human-friendly user name
 created_at | Datetime | When this user was created
 updated_at | Datetime | When this user was last updated
 
+## Get User Session Data
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/user/<user_id>/session/<form_key>/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/user/<user_id>/session/<form_key>/" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/user/<user_id>/session/<form_key>/";
+const options = { headers: { Authorization: "Token <API KEY>" } };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "current_step_key": "Step_3",
+  "auth_id": "identity-code",
+  "auth_email": "identity-email",
+  "auth_phone": "identity-phone-number"
+}
+
+```
+
+Get session data for a form user.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/user/<user_id>/session/<form_key>/`
+
+### Response Parameters
+
+The response will be an object with the following parameters.
+
+Parameter | Type | Description
+--------- | --------- | -----------
+current_step_key | String | ID of the step the user most recently visited
+auth_id | String (Optional) | Identity provider ID
+auth_email | String (Optional) | Identity provider email
+auth_phone | String (Optional) | Identity provider phone number
+
 ## Create and Fetch a User
 
 ```python
