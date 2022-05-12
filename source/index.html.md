@@ -413,6 +413,7 @@ step_id | String | The ID of the new step to create, unique to the form
 template_step_id | String | The ID of the step to copy from the original form
 origin | Boolean | `true` if this step is the first of the form
 images | Array<Obj> | Image elements to edit on this step
+videos | Array<Obj> | Video elements to edit on this step
 progress_bars | Array<Obj> | Progress bar elements to edit on this step
 texts | Array<Obj> | Text elements to edit on this step
 buttons | Array<Obj> | Button elements to edit on this step
@@ -424,6 +425,13 @@ Parameter | Type | Description
 --------- | --------- | -----------
 id | String | The ID of the image to edit from the original step
 source_url | String | A new image URL
+
+Each `video` object contains the following parameters.
+
+Parameter | Type | Description
+--------- | --------- | -----------
+id | String | The ID of the video to edit from the original step
+source_url | String | A new video URL
 
 Each `progress_bar` object contains the following parameters.
 
@@ -452,7 +460,7 @@ Parameter | Type | Description
 --------- | --------- | -----------
 id | String | The ID of the field to edit from the original step
 field_id | Optional String | The ID to set for the field on the new step. If this ID references an existing field, it will automatically link to the field's properties and user data. If field_id isn't specified, it will link to the field being copied from.
-type | Optional String | The new field type
+type | Optional String | The new [field type](https://docs.feathery.io/platform/components/fields/button-group#example)
 max_length | Optional Integer | Maximum length of the field value
 min_length | Optional Integer | Minimum length of the field value 
 placeholder | Optional String | New placeholder text for the field
@@ -462,15 +470,15 @@ metadata | Optional Object | Specifies field options and file types
 
 Below we specify which parameters apply to which field type. They are only required if you aren't linking from an existing field.
 
-Parameter | Field Types | Required
+Parameter | [Field Types](https://docs.feathery.io/platform/components/fields/button-group#example) | Required
 --------- | --------- | -----------
 max_length, min_length | text_field, text_area, integer_field, select, multiselect, email | Optional
 max_length | pin_input | Required
 placeholder, toolTipText | dropdown, email, login, phone_number, gmap_line_1, gmap_line_2, gmap_city, gmap_state, gmap_zip, integer_field, ssn, text_field, text_area, url | Optional
-submit_trigger | button_group, file_upload, rich_file_upload, dropdown, gmap_state, pin_input, select, hex_color, login, phone_number, ssn | Optional
+submit_trigger | button_group, file_upload, dropdown, gmap_state, pin_input, select, hex_color, login, phone_number, ssn | Optional
 metadata.other | select, multiselect, dropdown | Required
 metadata.options | button_group, select, multiselect, dropdown | Required
-metadata.field_types | rich_file_upload, rich_multi_file_upload | Required
+metadata.file_types | file_upload | Required
 
 Each `navigation_rules` object controls how the user navigates between 2 steps. 
 For example, one navigation rule might specify that clicking the button `Next` on `Step 1` leads to `Step 2`.
@@ -808,7 +816,7 @@ The response will be an array of objects with the following parameters.
 Parameter | Type | Description
 --------- | --------- | -----------
 id | String | Your unique field ID
-type | String Enum | The field type (e.g. text_area, dropdown, etc.)
+type | String Enum | The [field type](https://docs.feathery.io/platform/components/fields/button-group#example)
 display_text | String (Optional) | Human-friendly text to display for this field
 value | Polymorphic (Optional) | Submitted value of the user whose key was passed in.
 created_at | Datetime | When this field was created
