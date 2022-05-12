@@ -425,6 +425,7 @@ Parameter | Type | Description
 --------- | --------- | -----------
 id | String | The ID of the image to edit from the original step
 source_url | String | A new image URL
+asset | Optional String | The name of the image asset to inherit from. This asset must belong to the template form's theme.
 
 Each `video` object contains the following parameters.
 
@@ -432,6 +433,7 @@ Parameter | Type | Description
 --------- | --------- | -----------
 id | String | The ID of the video to edit from the original step
 source_url | String | A new video URL
+asset | Optional String | The name of the video asset to inherit from. This asset must belong to the template form's theme.
 
 Each `progress_bar` object contains the following parameters.
 
@@ -439,6 +441,7 @@ Parameter | Type | Description
 --------- | --------- | -----------
 id | String | The ID of the progress bar to edit from the original step
 progress | Integer | The percentage of progress to display between 0 and 100
+asset | Optional String | The name of the progress bar asset to inherit from. This asset must belong to the template form's theme.
 
 Each `text` object contains the following parameters.
 
@@ -446,6 +449,7 @@ Parameter | Type | Description
 --------- | --------- | -----------
 id | String | The ID of the text element to edit from the original step
 text | String | The new text to display
+asset | Optional String | The name of the text asset to inherit from. This asset must belong to the template form's theme.
 
 Each `button` object contains the following parameters.
 
@@ -453,6 +457,7 @@ Parameter | Type | Description
 --------- | --------- | -----------
 id | String | The ID of the button to edit from the original step
 text | String | Text to display on the new button
+asset | Optional String | The name of the button asset to inherit from. This asset must belong to the template form's theme.
 
 Each `field` object may contain the following parameters, depending on what type of field you are copying or changing.
 
@@ -467,6 +472,7 @@ placeholder | Optional String | New placeholder text for the field
 tooltipText | Optional String | New tooltip text for the field
 submit_trigger | Optional String | Does filling out the field trigger submission of the current step? Options are "auto" or "none"
 metadata | Optional Object | Specifies field options and file types
+asset | Optional String | The name of the field asset to inherit from. This asset must belong to the template form's theme.
 
 Below we specify which parameters apply to which field type. They are only required if you aren't linking from an existing field.
 
