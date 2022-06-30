@@ -463,7 +463,7 @@ Each `field` object may contain the following parameters, depending on what type
 
 Parameter | Type | Description
 --------- | --------- | -----------
-id | String | The ID of the field to edit. If `template_step_id` is specified, it must be from that step.
+id | String | The ID of the field to copy. If `template_step_id` is specified, it must be from that step.
 field_id | Optional String | The ID to set for the field on the new step. If this ID references an existing field, it will automatically link to the field's properties and user data. If field_id isn't specified, it will be automatically generated.
 type | Optional String | The new [field type](https://docs.feathery.io/platform/components/fields/button-group#example)
 max_length | Optional Integer | Maximum length of the field value
