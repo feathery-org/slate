@@ -21,12 +21,12 @@ code_clipboard: true
 
 The Feathery API is organized around REST. Our API has predictable resource-oriented URLs, accepts form-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.
 
-You can use our API to access and modify your forms, fields, and users. Our [React library](https://github.com/feathery-org/feathery-react) wraps many of these endpoints.
+You can use our API to access and modify your forms, fields, and users. You can leverage our [React library](https://github.com/feathery-org/feathery-react) for much of th same functionality.
 
 # Authentication
 
-Provide an admin-level API key to authenticate access.
-You can register a new API key after joining our [waitlist](https://feathery.io). 
+Provide your Feathery admin API key to authenticate access.
+You can get an API key by creating an [account](https://app.feathery.io). 
 
 API keys are environment-specific (production, development, etc.), which allows you to
 separate real from test data. All API keys have access to the same fields and forms,
@@ -107,6 +107,7 @@ fetch(url, options)
       "id": "Step 2",
       "origin": false,
       "images": [],
+      "videos": [],
       "progress_bars": [],
       "texts": [],
       "buttons": [],
@@ -142,6 +143,7 @@ Parameter | Type | Description
 id | String | The ID of the step, unique to the form
 origin | Boolean | Is this the first step of the form
 images | Array<Obj> | Images on this step
+videos | Array<Obj> | Videos on this step
 progress_bars | Array<Obj> | Progress bars on this step
 texts | Array<Obj> | Text elements on this step
 buttons | Array<Obj> | Buttons on this step
@@ -151,7 +153,7 @@ next_conditions | Array<Obj> | Navigation rules that connect the current step to
 created_at | Datetime | When this step was created
 updated_at | Datetime | When this step was last updated
 
-Each form element (images, progress_bars, texts, buttons, fields) has a common `id` parameter that uniquely identifies it.
+Each form element (images, videos, progress_bars, texts, buttons, fields) has a common `id` parameter that uniquely identifies it.
 
 
 ## Create a form
