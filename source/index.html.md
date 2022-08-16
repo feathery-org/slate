@@ -805,7 +805,7 @@ fetch(url, options)
 ```
 
 
-List all of your fields in Feathery and their values for a specific user
+For a specific user, list all of their form and hidden fields and values
 
 ### HTTP Request
 
@@ -821,14 +821,15 @@ id | String (Optional) | Your unique user ID
 
 The response will be an array of objects with the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-id | String | Your unique field ID
-type | String Enum | The [field type](https://docs.feathery.io/platform/components/fields/button-group#example)
-display_text | String (Optional) | Human-friendly text to display for this field
+Parameter | Type                   | Description
+--------- |------------------------| -----------
+id | String                 | Your unique field ID
+hidden | Boolean                | If true, this is a hidden field. Otherwise, it's a form field.
+type | String Enum (Optional) | The [form field type](https://docs.feathery.io/platform/components/fields/button-group#example). Not present for hidden fields.
+display_text | String (Optional)      | Human-friendly text to display for this field
 value | Polymorphic (Optional) | Submitted value of the user whose key was passed in.
-created_at | Datetime | When this field was created
-updated_at | Datetime | When this field was last updated
+created_at | Datetime               | When this field was created
+updated_at | Datetime               | When this field was last updated
 
 ## Create Field Value for User
 
