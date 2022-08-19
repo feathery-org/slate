@@ -40,6 +40,52 @@ Include your API key as a request header that looks like the following:
 You must replace <code>&lt;API KEY&gt;</code> with your personal API key.
 </aside>
 
+# Account
+
+## Retrieve your account information
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/account/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/account/" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/account/";
+const options = { headers: { Authorization: "Token <API KEY>" } };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{"team": "my-team-name"}
+```
+
+Retrieve your Feathery account information.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/account/`
+
+### Response Parameters
+
+The response will be an object containing the following parameters.
+
+Parameter | Type | Description
+--------- | --------- | -----------
+team | String | The name of your team in Feathery
+
 # Forms
 
 ## Retrieve a form schema
