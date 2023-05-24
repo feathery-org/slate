@@ -128,6 +128,7 @@ fetch(url, options)
       "fields": [
         {
           "id": "field_key",
+          "internal_id": "46d1ba89-0dcc-42cd-839c-a12ce6668347",
           "icon_url": "",
           "placeholder": "",
           "tooltipText": "",
