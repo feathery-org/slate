@@ -885,7 +885,7 @@ updated_at | Datetime               | When this field was last updated
 import requests
 
 url = "https://api.feathery.io/api/field/alice@feathery.io/";
-data = {"field_id": "age", "value": 21}
+data = {"fields": {"age": 21}}
 headers = {
     "Authorization": "Token <API KEY>",
     "Content-Type": "application/json",
@@ -897,14 +897,14 @@ print(result.json())
 ```shell
 curl "https://api.feathery.io/api/field/alice@feathery.io/" \
     -X POST \
-    -d "{'field_id': 'age', 'value': 21}" \
+    -d "{'fields': {'age': 21}}" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json" \
 ```
 
 ```javascript
 const url = "https://api.feathery.io/api/field/alice@feathery.io/";
-const data = {field_id: "age", value: 21}
+const data = {"fields": {"age": 21}}
 const headers = {
     Authorization: "Token <API KEY>",
     "Content-Type": "application/json"
@@ -923,10 +923,7 @@ fetch(url, options)
 
 ```json
 {
-  "field_id": "age",
-  "value":  21,
-  "created_at": "2020-06-01T00:00:00Z",
-  "updated_at": "2020-06-03T00:00:00Z"
+  "fields": {"age": 21},
 }
 ```
 
@@ -946,14 +943,10 @@ id | Your unique user ID
 
 Parameter | Type | Description
 --------- | --------- | -----------
-field_id | String | Your unique field ID
-value | Polymorphic | Field value to associate with the specified user
+fields | Object | A mapping from unique field IDs to field values to create for them
 
 ### Response Parameters
 
 Parameter | Type | Description
 --------- | --------- | -----------
-field_id | String | Your unique field ID
-value | Polymorphic (Optional) | Field value associated with the specified user
-created_at | Datetime | When this value was created
-updated_at | Datetime | When this value was last updated
+fields | Object | A mapping from unique field IDs to field values to create for them
