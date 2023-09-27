@@ -591,13 +591,11 @@ fetch(url, options)
 [
   {
     "id": "alice@feathery.io",
-    "name": "Alice",
     "created_at": "2020-06-01T00:00:00Z",
     "updated_at": "2020-06-02T00:00:00Z"
   },
   {
     "id": "bob@feathery.io",
-    "name": "Bob",
     "created_at": "2020-06-03T00:00:00Z",
     "updated_at": "2020-06-04T00:00:00Z"
   }
@@ -617,7 +615,6 @@ The response will be an array of objects with the following parameters.
 Parameter | Type | Description
 --------- | --------- | -----------
 id | String | Your unique user ID
-name | String (Optional) | Your human-friendly user name
 created_at | Datetime | When this user was created
 updated_at | Datetime | When this user was last updated
 
@@ -680,7 +677,7 @@ auth_phone | String (Optional) | Identity provider phone number
 import requests
 
 url = "https://api.feathery.io/api/user/";
-data = {"id": "alice@feathery.io", "name": "Alice 2.0"}
+data = {"id": "alice@feathery.io"}
 headers = {
     "Authorization": "Token <API KEY>",
     "Content-Type": "application/json",
@@ -692,14 +689,14 @@ print(result.json())
 ```shell
 curl "https://api.feathery.io/api/user/" \
     -X POST \
-    -d "{'id': 'alice@feathery.io', 'name': 'Alice 2.0'}" \
+    -d "{'id': 'alice@feathery.io'}" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json" \
 ```
 
 ```javascript
 const url = "https://api.feathery.io/api/user/";
-const data = {id: "alice@feathery.io", name: "Alice 2.0"}
+const data = {id: "alice@feathery.io"}
 const headers = {
     Authorization: "Token <API KEY>",
     "Content-Type": "application/json"
@@ -720,7 +717,6 @@ fetch(url, options)
 {
   "api_key": "b8629a53-b1ba-49c1-99bc-0117cf12fd98",
   "id": "alice@feathery.io",
-  "name": "Alice 2.0",
   "created_at": "2020-06-03T00:00:00Z",
   "updated_at": "2020-06-04T00:00:00Z"
 }
@@ -744,7 +740,6 @@ our React library for displaying forms.
 Parameter | Type | Description
 --------- | --------- | -----------
 id | String | Your unique user ID
-name | String (Optional) | Your human-friendly user name.
 
 ### Response Parameters
 
@@ -752,7 +747,6 @@ Parameter | Type | Description
 --------- | --------- | -----------
 api_key | String | This user's API key
 id | String | Your unique user ID
-name | String (Optional) | Your human-friendly user name
 created_at | Datetime | When this user was created
 updated_at | Datetime | When this user was last updated
 
