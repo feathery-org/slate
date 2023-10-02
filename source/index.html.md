@@ -180,7 +180,7 @@ The response will be an object containing the following parameters.
 
 Parameter | Type | Description
 --------- | --------- | -----------
-form_id | String | Your unique form ID
+form_id | String | The name of your form
 steps | Array<Obj> | An array of step objects
 
 Each `steps` object contains the following parameters.
