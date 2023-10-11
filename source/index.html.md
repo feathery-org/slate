@@ -715,7 +715,7 @@ fetch(url, options)
 
 ```json
 {
-  "api_key": "b8629a53-b1ba-49c1-99bc-0117cf12fd98",
+  "sdk_key": "b8629a53-b1ba-49c1-99bc-0117cf12fd98",
   "id": "alice@feathery.io",
   "created_at": "2020-06-03T00:00:00Z",
   "updated_at": "2020-06-04T00:00:00Z"
@@ -745,7 +745,7 @@ id | String | Your unique user ID
 
 Parameter | Type | Description
 --------- | --------- | -----------
-api_key | String | This user's API key
+sdk_key | String | This user's API key
 id | String | Your unique user ID
 created_at | Datetime | When this user was created
 updated_at | Datetime | When this user was last updated
