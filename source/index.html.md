@@ -447,8 +447,8 @@ Create a form based off an existing template form.
 
 Parameter | Type | Description
 --------- | --------- | -----------
-form_id | String | The ID of the new form being created (must be unique)
-template_form_id | String | The ID of the template form to copy from
+form_id | String | The name of the new form being created (must be unique)
+template_form_id | String | The name of the template form to copy from
 steps | Array<Obj> | An array of steps to create
 navigation_rules | Array<Obj> | An array of navigation rule connecting steps to be created
 
