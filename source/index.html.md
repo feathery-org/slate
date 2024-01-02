@@ -86,6 +86,66 @@ Parameter | Type | Description
 --------- | --------- | -----------
 team | String | The name of your team in Feathery
 
+# Documents
+
+## Fill a PDF Document template 
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/document/fill/";
+headers = {"Authorization": "Token <API KEY>"}
+data = {"document": <DOCUMENT ID>, "field_values": {<FIELD ID>: <FIELD VALUE>}}
+result = requests.post(url, json=headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/document/fill/" \
+    -X POST \
+    -d "{'document': <DOCUMENT ID>, 'field_values': {<FIELD ID>: <FIELD VALUE>}" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/document/fill/";
+const data = {document: '<DOCUMENT ID>', field_values: {'<FIELD ID>': '<FIELD VALUE>'}}
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = {
+    headers, 
+    method: 'POST',
+    body: JSON.stringify(data)
+};
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{"file_url": "URL TO FILE"}
+```
+
+Pass in data to fill out a PDF document template that you've 
+uploaded and mapped in your Feathery account.
+
+### HTTP Request
+
+`POST https://api.feathery.io/api/document/fill/`
+
+### Response Parameters
+
+The response will be an object containing the following parameters.
+
+Parameter | Type | Description
+--------- | --------- | -----------
+file_url | String | The URL to the filled out PDF document
+
 # Forms
 
 ## Retrieve a form schema
