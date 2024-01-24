@@ -788,8 +788,8 @@ If the user belonging to the key you specify doesn't exist, they'll be created
 based on the request body parameters. Otherwise, the user will be updated based
 on those parameters.
 
-The user API key will also be returned, which can be used for authenticating
-our React library for displaying forms.
+The user SDK key will also be returned, which can be used for authenticating
+the React library for displaying forms.
 
 ### HTTP Request
 
@@ -805,7 +805,7 @@ id | String | Your unique user ID
 
 Parameter | Type | Description
 --------- | --------- | -----------
-sdk_key | String | This user's API key
+sdk_key | String | This user's SDK key
 id | String | Your unique user ID
 created_at | Datetime | When this user was created
 updated_at | Datetime | When this user was last updated
