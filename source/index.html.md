@@ -42,7 +42,7 @@ You must replace <code>&lt;API KEY&gt;</code> with your personal API key.
 
 # Account
 
-## Retrieve your account information
+## Retrieve Account Information
 
 ```python
 import requests
@@ -88,7 +88,7 @@ team | String | The name of your team in Feathery
 
 # Documents
 
-## Fill a PDF Document template 
+## Fill a PDF Document Template 
 
 ```python
 import requests
@@ -148,7 +148,7 @@ file_url | String | The URL to the filled out PDF document
 
 # Forms
 
-## Retrieve a form schema
+## Retrieve a Form Schema
 
 ```python
 import requests
@@ -263,7 +263,7 @@ updated_at | Datetime | When this step was last updated
 Each form element (images, videos, progress_bars, texts, buttons, fields) has a common `id` parameter that uniquely identifies it.
 
 
-## Create a form
+## Create a Form
 
 ```python
 import requests
@@ -619,6 +619,73 @@ comparison | String | Comparison - "equal", "not_equal"
 field_key | String | The ID of the field whose value is being used for this comparison
 value | String | The value to compare the field value against
 
+## Create Form Submissions
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/form/submission/";
+data = {"fields": {"age": 21}, "user_id": "alice@feathery.io", "forms": ["My Form"]}
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+result = requests.post(url, data=data, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/form/submission/" \
+    -X POST \
+    -d "{'fields': {'age': 21}, 'user_id': 'alice@feathery.io', 'forms': ['My Form']}" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/form/submission/";
+const data = {"fields": {"age": 21}, "user_id": "alice@feathery.io", "forms": ["My Form"]}
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = {
+    headers, 
+    method: 'POST',
+    body: JSON.stringify(data)
+};
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "fields": {"age": 21},
+  "user_id": "alice@feathery.io",
+  "forms": ["My Form"]
+}
+```
+
+Set field values for a user and initialize form submissions
+
+### HTTP Request
+
+`POST https://api.feathery.io/api/form/submission/`
+
+### Request Body Parameters
+
+Parameter | Type | Description
+--------- | --------- | -----------
+fields | Object | A mapping from unique field IDs to field values to create for them
+user_id | string | A unique user ID
+forms | optional string[] | An array of names of forms to initialize submissions for
+
+### Response Parameters
+Same as request body parameters
+
 # Users
 
 ## List All Users
@@ -677,6 +744,79 @@ Parameter | Type | Description
 id | String | Your unique user ID
 created_at | Datetime | When this user was created
 updated_at | Datetime | When this user was last updated
+
+## List All Fields for a User
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/field/?id=alice@feathery.io";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/field/?id=alice@feathery.io" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/field/?id=alice@feathery.io";
+const options = { headers: { Authorization: "Token <API KEY>" } };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+[
+  {
+    "id": "name",
+    "type": "text_field",
+    "display_text": "What is your name?",
+    "value": "Alice Smith",
+    "created_at": "2020-06-01T00:00:00Z",
+    "updated_at": "2020-06-02T00:00:00Z"
+  },
+  {
+    "id": "age",
+    "type": "integer_field",
+    "display_text": "How old are you?",
+    "value": null,
+    "created_at": "2020-06-01T00:00:00Z",
+    "updated_at": "2020-06-02T00:00:00Z"
+  }
+]
+```
+
+For a specific user, list all of their form and hidden fields and values
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/field/`
+
+### Request Query Parameters
+
+Parameter | Type | Description
+--------- | --------- | -----------
+id | String (Optional) | Your unique user ID
+
+### Response Parameters
+
+The response will be an array of objects with the following parameters.
+
+Parameter | Type                   | Description
+--------- |------------------------| -----------
+id | String                 | Your unique field ID
+hidden | Boolean                | If true, this is a hidden field. Otherwise, it's a form field.
+type | String Enum (Optional) | The [form field type](https://docs.feathery.io/platform/components/fields/button-group#example). Not present for hidden fields.
+display_text | String (Optional)      | Human-friendly text to display for this field
+value | Polymorphic (Optional) | Submitted value of the user whose key was passed in.
+created_at | Datetime               | When this field was created
+updated_at | Datetime               | When this field was last updated
 
 ## Get User Session Data
 
@@ -751,7 +891,7 @@ curl "https://api.feathery.io/api/user/" \
     -X POST \
     -d "{'id': 'alice@feathery.io'}" \
     -H "Authorization: Token <API KEY>" \
-    -H "Content-Type: application/json" \
+    -H "Content-Type: application/json"
 ```
 
 ```javascript
@@ -829,7 +969,7 @@ curl "https://api.feathery.io/api/user/alice@feathery.io/" \
     -X DELETE \
     -d "{'key': 'alice@feathery.io'}" \
     -H "Authorization: Token <API KEY>" \
-    -H "Content-Type: application/json" \
+    -H "Content-Type: application/json"
 ```
 
 ```javascript
@@ -855,152 +995,3 @@ Delete a specific user.
 Parameter | Description
 --------- | -----------
 id | The ID of the user to delete
-
-
-# Fields
-
-## List All Fields for a User 
-
-```python
-import requests
-
-url = "https://api.feathery.io/api/field/?id=alice@feathery.io";
-headers = {"Authorization": "Token <API KEY>"}
-result = requests.get(url, headers=headers)
-print(result.json())
-```
-
-```shell
-curl "https://api.feathery.io/api/field/?id=alice@feathery.io" \
-    -H "Authorization: Token <API KEY>"
-```
-
-```javascript
-const url = "https://api.feathery.io/api/field/?id=alice@feathery.io";
-const options = { headers: { Authorization: "Token <API KEY>" } };
-fetch(url, options)
-    .then((response) => response.json())
-    .then(result => console.log(result));
-```
-
-> The above command outputs JSON structured like this:
-
-```json
-[
-  {
-    "id": "name",
-    "type": "text_field",
-    "display_text": "What is your name?",
-    "value": "Alice Smith",
-    "created_at": "2020-06-01T00:00:00Z",
-    "updated_at": "2020-06-02T00:00:00Z"
-  },
-  {
-    "id": "age",
-    "type": "integer_field",
-    "display_text": "How old are you?",
-    "value": null,
-    "created_at": "2020-06-01T00:00:00Z",
-    "updated_at": "2020-06-02T00:00:00Z"
-  }
-]
-```
-
-
-For a specific user, list all of their form and hidden fields and values
-
-### HTTP Request
-
-`GET https://api.feathery.io/api/field/`
-
-### Request Query Parameters
-
-Parameter | Type | Description
---------- | --------- | -----------
-id | String (Optional) | Your unique user ID
-
-### Response Parameters
-
-The response will be an array of objects with the following parameters.
-
-Parameter | Type                   | Description
---------- |------------------------| -----------
-id | String                 | Your unique field ID
-hidden | Boolean                | If true, this is a hidden field. Otherwise, it's a form field.
-type | String Enum (Optional) | The [form field type](https://docs.feathery.io/platform/components/fields/button-group#example). Not present for hidden fields.
-display_text | String (Optional)      | Human-friendly text to display for this field
-value | Polymorphic (Optional) | Submitted value of the user whose key was passed in.
-created_at | Datetime               | When this field was created
-updated_at | Datetime               | When this field was last updated
-
-## Create Field Value for User
-
-```python
-import requests
-
-url = "https://api.feathery.io/api/field/alice@feathery.io/";
-data = {"fields": {"age": 21}}
-headers = {
-    "Authorization": "Token <API KEY>",
-    "Content-Type": "application/json",
-}
-result = requests.post(url, data=data, headers=headers)
-print(result.json())
-```
-
-```shell
-curl "https://api.feathery.io/api/field/alice@feathery.io/" \
-    -X POST \
-    -d "{'fields': {'age': 21}}" \
-    -H "Authorization: Token <API KEY>" \
-    -H "Content-Type: application/json" \
-```
-
-```javascript
-const url = "https://api.feathery.io/api/field/alice@feathery.io/";
-const data = {"fields": {"age": 21}}
-const headers = {
-    Authorization: "Token <API KEY>",
-    "Content-Type": "application/json"
-};
-const options = {
-    headers, 
-    method: 'POST',
-    body: JSON.stringify(data)
-};
-fetch(url, options)
-    .then((response) => response.json())
-    .then(result => console.log(result));
-```
-
-> The above command outputs JSON structured like this:
-
-```json
-{
-  "fields": {"age": 21},
-}
-```
-
-Create or update the value of a field for a specific user
-
-### HTTP Request
-
-`POST https://api.feathery.io/api/field/<id>/`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-id | Your unique user ID
-
-### Request Body Parameters
-
-Parameter | Type | Description
---------- | --------- | -----------
-fields | Object | A mapping from unique field IDs to field values to create for them
-
-### Response Parameters
-
-Parameter | Type | Description
---------- | --------- | -----------
-fields | Object | A mapping from unique field IDs to field values to create for them
