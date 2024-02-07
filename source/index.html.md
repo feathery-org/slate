@@ -686,6 +686,57 @@ forms | optional string[] | An array of names of forms to initialize submissions
 ### Response Parameters
 Same as request body parameters
 
+## Retrieve All Form Submissions
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/field/batch/TestForm/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/field/batch/TestForm/" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/field/batch/TestForm/";
+const headers = { Authorization: "Token <API KEY>" };
+fetch(url, { headers })
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+[{
+  "user_id": "alice@feathery.io",
+  "last_submitted": "2020-06-01T00:00:00Z",
+  "Field1": "Test",
+  "Field2": "Test 2",
+}]
+```
+
+Fetch all submission data for a particular form
+
+### HTTP Request
+
+`POST https://api.feathery.io/api/field/batch/<FORM NAME>/`
+
+### Request Query Parameters
+
+Parameter | Type                | Description
+--------- |---------------------| -----------
+start_time | Datetime (Optional) | Fetch submissions from after this start time
+end_time | Datetime (Optional) | Fetch submissions from before this end time
+
+### Response Parameters
+An array of submission entries
+
 # Users
 
 ## List All Users
@@ -729,7 +780,7 @@ fetch(url, options)
 ]
 ```
 
-List all of your users in Feathery.
+List all of your users (corresponding to form submissions) in Feathery.
 
 ### HTTP Request
 
@@ -745,7 +796,7 @@ id | String | Your unique user ID
 created_at | Datetime | When this user was created
 updated_at | Datetime | When this user was last updated
 
-## List All Fields for a User
+## List All Data for a User
 
 ```python
 import requests
@@ -792,7 +843,7 @@ fetch(url, options)
 ]
 ```
 
-For a specific user, list all of their form and hidden fields and values
+For a specific user, list all of their field data
 
 ### HTTP Request
 
@@ -854,7 +905,7 @@ fetch(url, options)
 
 ```
 
-Get session data for a form user.
+Get session data for a user on a specific form.
 
 ### HTTP Request
 
@@ -924,7 +975,7 @@ fetch(url, options)
 
 Create, update, or retrieve the information of a specific user.
 
-If the user belonging to the key you specify doesn't exist, they'll be created
+If the user corresponding to the ID you specify doesn't exist, they'll be created
 based on the request body parameters. Otherwise, the user will be updated based
 on those parameters.
 
