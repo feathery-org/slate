@@ -725,7 +725,7 @@ Fetch all submission data for a particular form
 
 ### HTTP Request
 
-`POST https://api.feathery.io/api/field/batch/<FORM NAME>/`
+`GET https://api.feathery.io/api/field/batch/<FORM NAME>/`
 
 ### Request Query Parameters
 
