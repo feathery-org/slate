@@ -680,8 +680,8 @@ Set field values for a user and initialize form submissions
 Parameter | Type | Description
 --------- | --------- | -----------
 fields | Object | A mapping from unique field IDs to field values to create for them
-user_id | string | A unique user ID
-forms | optional string[] | An array of names of forms to initialize submissions for
+user_id | Optional String | A unique user ID. If not provided a random user ID will be generated and returned
+forms | Optional String[] | An array of names of forms to initialize submissions for
 
 ### Response Parameters
 Same as request body parameters
