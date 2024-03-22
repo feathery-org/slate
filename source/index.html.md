@@ -625,7 +625,7 @@ value | String | The value to compare the field value against
 import requests
 
 url = "https://api.feathery.io/api/form/submission/";
-data = {"fields": {"age": 21}, "user_id": "alice@feathery.io", "forms": ["My Form"]}
+data = {"fields": {"age": 21}, "user_id": "alice@feathery.io", "forms": ["My Form"], "complete": True}
 headers = {
     "Authorization": "Token <API KEY>",
     "Content-Type": "application/json",
@@ -637,14 +637,14 @@ print(result.json())
 ```shell
 curl "https://api.feathery.io/api/form/submission/" \
     -X POST \
-    -d "{'fields': {'age': 21}, 'user_id': 'alice@feathery.io', 'forms': ['My Form']}" \
+    -d "{'fields': {'age': 21}, 'user_id': 'alice@feathery.io', 'forms': ['My Form'], 'complete': True}" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
 
 ```javascript
 const url = "https://api.feathery.io/api/form/submission/";
-const data = {"fields": {"age": 21}, "user_id": "alice@feathery.io", "forms": ["My Form"]}
+const data = {"fields": {"age": 21}, "user_id": "alice@feathery.io", "forms": ["My Form"], "complete": true}
 const headers = {
     Authorization: "Token <API KEY>",
     "Content-Type": "application/json"
@@ -665,7 +665,8 @@ fetch(url, options)
 {
   "fields": {"age": 21},
   "user_id": "alice@feathery.io",
-  "forms": ["My Form"]
+  "forms": ["My Form"],
+  "complete": true
 }
 ```
 
@@ -682,6 +683,7 @@ Parameter | Type | Description
 fields | Object | A mapping from unique field IDs to field values to create for them
 user_id | Optional String | A unique user ID. If not provided a random user ID will be generated and returned
 forms | Optional String[] | An array of names of forms to initialize submissions for
+complete | Optional Boolean | A boolean value to indicate if this  submission will be set as a form completion. Default to false if not provided 
 
 ### Response Parameters
 Same as request body parameters
