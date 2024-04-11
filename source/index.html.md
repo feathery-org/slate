@@ -575,6 +575,7 @@ Parameter | Type | Description
 id | String | The ID of the field to copy. If `template_step_id` is specified, it must be from that step.
 field_id | Optional String | The ID to set for the field on the new step. If this ID references an existing field, it will automatically link to the field's properties and user data. If field_id isn't specified, it will be automatically generated.
 type | Optional String | The new [field type](https://docs.feathery.io/platform/components/fields/button-group#example)
+description | Optional String | The label / description of the field
 required | Optional Boolean | Does the user need to fill out this field before submitting the step? Defaults to `true`
 max_length | Optional Integer | Maximum length of the field value
 min_length | Optional Integer | Minimum length of the field value 
