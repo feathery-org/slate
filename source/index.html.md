@@ -34,7 +34,7 @@ but users are environment-specific.
 
 Include your API key as a request header that looks like the following:
 
-`Authorization: <API KEY>`
+`Authorization: Token <API KEY>`
 
 <aside class="notice">
 You must replace <code>&lt;API KEY&gt;</code> with your personal API key.
