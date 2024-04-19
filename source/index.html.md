@@ -877,19 +877,19 @@ updated_at | Datetime               | When this field was last updated
 ```python
 import requests
 
-url = "https://api.feathery.io/api/user/<user_id>/session/<form_key>/";
+url = "https://api.feathery.io/api/user/<user_id>/session/";
 headers = {"Authorization": "Token <API KEY>"}
 result = requests.get(url, headers=headers)
 print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/user/<user_id>/session/<form_key>/" \
+curl "https://api.feathery.io/api/user/<user_id>/session/" \
     -H "Authorization: Token <API KEY>"
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/user/<user_id>/session/<form_key>/";
+const url = "https://api.feathery.io/api/user/<user_id>/session/";
 const options = { headers: { Authorization: "Token <API KEY>" } };
 fetch(url, options)
     .then((response) => response.json())
@@ -900,19 +900,30 @@ fetch(url, options)
 
 ```json
 {
-  "current_step_key": "Step_3",
   "auth_id": "identity-code",
-  "auth_email": "identity-email",
-  "auth_phone": "identity-phone-number"
+  "internal_id": "user-id",
+  "forms": [
+    {
+      "current_step_id": "step 1",
+      "completed_at": null,
+      "name": "My form",
+      "track_location": false
+    },
+    {
+      "current_step_id": null,
+      "completed_at": "2024-04-17T23:10:45.992617Z",
+      "name": "My other form",
+      "track_location": false
+    }
+  ]
 }
-
 ```
 
-Get session data for a user on a specific form.
+Get session data for a user, including all forms and their progress
 
 ### HTTP Request
 
-`GET https://api.feathery.io/api/user/<user_id>/session/<form_key>/`
+`GET https://api.feathery.io/api/user/<user_id>/session/`
 
 ### Response Parameters
 
@@ -920,10 +931,19 @@ The response will be an object with the following parameters.
 
 Parameter | Type | Description
 --------- | --------- | -----------
-current_step_key | String | ID of the step the user most recently visited
 auth_id | String (Optional) | Identity provider ID
-auth_email | String (Optional) | Identity provider email
-auth_phone | String (Optional) | Identity provider phone number
+internal_id | String | Unique User ID
+forms | Array | List of forms the user is working on
+
+Each form object will have the following parameters:
+
+Parameter | Type | Description
+--------- | --------- | -----------
+current_step_id | String | ID of the step the user most recently visited
+completed_at | String or Null | Timestamp of when the user completed the form - null if not complete
+name | String | Name of the form
+track_location | Boolean | Whether the user's location was tracked
+
 
 ## Create and Fetch a User
 
