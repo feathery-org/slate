@@ -834,19 +834,11 @@ fetch(url, options)
     "value": "Alice Smith",
     "created_at": "2020-06-01T00:00:00Z",
     "updated_at": "2020-06-02T00:00:00Z"
-  },
-  {
-    "id": "age",
-    "type": "integer_field",
-    "display_text": "How old are you?",
-    "value": null,
-    "created_at": "2020-06-01T00:00:00Z",
-    "updated_at": "2020-06-02T00:00:00Z"
   }
 ]
 ```
 
-For a specific user, list all of their field data
+For a specific user, list all of the field data they submitted
 
 ### HTTP Request
 
