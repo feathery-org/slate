@@ -942,7 +942,7 @@ Parameter | Type | Description
 current_step_id | String | ID of the step the user most recently visited
 completed_at | String or Null | Timestamp of when the user completed the form - null if not complete
 name | String | Name of the form
-track_location | Boolean | Whether the user's location was tracked
+track_location | Boolean | Whether the form remembers the user's location
 
 
 ## Create and Fetch a User
