@@ -940,7 +940,7 @@ Each form object will have the following parameters:
 Parameter | Type | Description
 --------- | --------- | -----------
 current_step_id | String | ID of the step the user most recently visited
-completed_at | String or Null | Timestamp of when the user completed the form - null if not complete
+completed_at | String | Timestamp of when the user completed the form - null if not complete
 name | String | Name of the form
 track_location | Boolean | Whether the form remembers the user's location
 
