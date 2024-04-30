@@ -21,7 +21,7 @@ code_clipboard: true
 
 The Feathery API is organized around REST. Our API has predictable resource-oriented URLs, accepts form-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.
 
-You can use our API to access and modify your forms, fields, and users. You can leverage our [React library](https://github.com/feathery-org/feathery-react) for much of th same functionality.
+You can use our API to access and modify your forms, fields, and users. You can leverage our [React library](https://github.com/feathery-org/feathery-react) for much of the same functionality.
 
 # Authentication
 
@@ -240,7 +240,7 @@ The response will be an object containing the following parameters.
 
 Parameter | Type | Description
 --------- | --------- | -----------
-form_id | String | The name of your form
+form_id | String | Your form's ID
 steps | Array<Obj> | An array of step objects
 
 Each `steps` object contains the following parameters.
@@ -683,7 +683,7 @@ Parameter | Type | Description
 --------- | --------- | -----------
 fields | Object | A mapping from unique field IDs to field values to create for them
 user_id | Optional String | A unique user ID. If not provided a random user ID will be generated and returned
-forms | Optional String[] | An array of names of forms to initialize submissions for
+forms | Optional String[] | An array of form IDs to initialize submissions for
 complete | Optional Boolean | A boolean value to indicate if this  submission will be set as a form completion. Default to false if not provided 
 
 ### Response Parameters
@@ -728,7 +728,7 @@ Fetch all submission data for a particular form
 
 ### HTTP Request
 
-`GET https://api.feathery.io/api/field/batch/<FORM NAME>/`
+`GET https://api.feathery.io/api/field/batch/<FORM ID>/`
 
 ### Request Query Parameters
 
@@ -931,6 +931,7 @@ Each form object will have the following parameters:
 
 Parameter | Type | Description
 --------- | --------- | -----------
+id | String | Form's ID
 current_step_id | String | ID of the step the user most recently visited
 completed_at | String | Timestamp of when the user completed the form - null if not complete
 name | String | Name of the form
