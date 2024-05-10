@@ -176,7 +176,8 @@ fetch(url, options)
 
 ```json
             {
-  "form_id": "my_form",
+  "form_id": "aSdsa5",
+  "form_name": "My Form",
   "steps": [
     {
       "id": "Step 1",
@@ -241,6 +242,7 @@ The response will be an object containing the following parameters.
 Parameter | Type | Description
 --------- | --------- | -----------
 form_id | String | Your form's ID
+form_name | String | Your form's name
 steps | Array<Obj> | An array of step objects
 
 Each `steps` object contains the following parameters.
