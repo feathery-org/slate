@@ -499,7 +499,7 @@ fetch(url, options)
 
 > The above command returns a 201 status on success
 
-Create a form based off an existing template form.
+Create a form based off an existing template form. Any integrations on the template form will be copied over as well.
 
 ### HTTP Request
 
