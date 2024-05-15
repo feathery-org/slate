@@ -791,6 +791,13 @@ List all of your users (corresponding to form submissions) in Feathery.
 
 `GET https://api.feathery.io/api/user/`
 
+### Request Query Parameters
+
+Parameter | Type | Description
+--------- | --------- | -----------
+filter_field_id | String (Optional) | The ID of a form or hidden field to filter users by.
+filter_field_value | String (Optional) | The value of the field to filter on. Paired with `filter_field_id` to only return users who have this field value.
+
 ### Response Parameters
 
 The response will be an array of objects with the following parameters.
