@@ -86,6 +86,75 @@ Parameter | Type | Description
 --------- | --------- | -----------
 team | String | The name of your team in Feathery
 
+## Invite Accounts
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/account/invite/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.post(url, headers=headers, json=[{"email": "new@invite.com"}])
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/account/invite/" \
+    -X POST \
+    -d "[{'email': 'new@invite.com'}]" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/account/invite/";
+const options = { headers: { Authorization: "Token <API KEY>" } };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+const url = "https://api.feathery.io/api/account/invite/";
+const data = [{email: 'new@invite.com'}];
+const headers = {
+  Authorization: "Token <API KEY>",
+  "Content-Type": "application/json"
+};
+const options = {
+  headers,
+  method: 'POST',
+  body: JSON.stringify(data)
+};
+fetch(url, options)
+  .then((response) => response.json())
+  .then(result => console.log(result));
+```
+
+Invite new users to your Feathery account.
+
+### HTTP Request
+
+`POST https://api.feathery.io/api/account/invite/`
+
+### Request Body Parameters
+An array of objects with the following parameters, where each object is a new
+user to invite:
+
+Parameter | Type               | Description
+--------- |--------------------| -----------
+email | string             | The email of the new user to invite 
+role | string (optional)  | Either 'admin', 'editor', or 'viewer'. Defaults to 'admin'.
+permission_edit_form_results | boolean (optional) | If 'editor', if they're allowed to edit form results. Defaults to true.
+permission_invite_collaborators | boolean (optional) | If 'editor', if they're allowed to invite form collaborators. Defaults to true.
+permission_edit_collaborator_template | boolean (optional) | If 'editor', if they're allowed to edit form collaborator settings. Defaults to true.
+permission_edit_logic | boolean (optional) | If 'editor', if they're allowed to edit form custom logic rules. Defaults to true.
+permission_edit_theme | boolean (optional) | If 'editor', if they're allowed to edit form themes. Defaults to true.
+
+### Response Parameters
+
+The response will be an object containing the following parameters.
+
+Parameter | Type | Description
+--------- | --------- | -----------
+team | String | The name of your team in Feathery
+
 # Documents
 
 ## Fill a PDF Document Template 
