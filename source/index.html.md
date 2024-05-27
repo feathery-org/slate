@@ -342,8 +342,8 @@ import requests
 url = "https://api.feathery.io/api/form/";
 headers = {"Authorization": "Token <API KEY>"}
 data = {
-    "form_id": "new_form_id",
-    "template_form_id": "id_of_form_to_copy",
+    "form_name": "My New Form",
+    "template_form_id": "aaaaaa",
     "steps": [
         {
             "step_id": "name_of_new_step",
@@ -415,8 +415,8 @@ print(result.json())
 curl "https://api.feathery.io/api/form/" \
     -X POST \
     -d "{
-        'form_id': 'new_form_id',
-        'template_form_id': 'id_of_form_to_copy',
+        'form_name': 'My New Form',
+        'template_form_id': 'aaaaaa',
         'steps': [
             {
                 'step_id': 'name_of_new_step',
@@ -487,8 +487,8 @@ curl "https://api.feathery.io/api/form/" \
 ```javascript
 const url = "https://api.feathery.io/api/form/";
 const data = {
-  "form_id": "new_form_id",
-  "template_form_id": "id_of_form_to_copy",
+  "form_name": "My New Form",
+  "template_form_id": "aaaaaa",
   "steps": [
     {
       "step_id": "name_of_new_step",
@@ -578,8 +578,8 @@ Create a form based off an existing template form. Any integrations on the templ
 
 Parameter | Type | Description
 --------- | --------- | -----------
-form_id | String | The name of the new form being created (must be unique)
-template_form_id | String | The name of the template form to copy from
+form_name | String | The name of the new form being created (must be unique)
+template_form_id | String | The ID of the template form to copy from
 steps | Array<Obj> | An array of steps to create
 navigation_rules | Array<Obj> | An array of navigation rule connecting steps to be created
 
