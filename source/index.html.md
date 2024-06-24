@@ -334,6 +334,62 @@ updated_at | Datetime | When this step was last updated
 Each form element (images, videos, progress_bars, texts, buttons, fields) has a common `id` parameter that uniquely identifies it.
 
 
+## List Forms
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/form/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/form/" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/form/";
+const options = { headers: { Authorization: "Token <API KEY>" } };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+[
+  {
+    "id": "aSdsa5",
+    "name": "My Form",
+    "active": true, 
+    "created_at": "2020-06-01T00:00:00Z",
+    "updated_at": "2020-06-01T00:00:00Z"
+  }
+]
+```
+
+List all of your forms in Feathery.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/form/`
+
+### Response Parameters
+
+The response will be an array of objects containing the following parameters.
+
+Parameter | Type | Description
+--------- | --------- | -----------
+id | String | The form ID
+name | String | The form name
+active | Boolean | Is the form turned on
+created_at | Datetime | When this form was created
+updated_at | Datetime | When this form was last updated
+
 ## Create a Form
 
 ```python
