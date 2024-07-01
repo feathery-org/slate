@@ -78,7 +78,7 @@ Retrieve your Feathery account information.
 
 `GET https://api.feathery.io/api/account/`
 
-### Response Parameters
+### Response Body
 
 The response will be an object containing the following parameters.
 
@@ -147,7 +147,7 @@ permission_edit_collaborator_template | boolean (optional) | If 'editor', if the
 permission_edit_logic | boolean (optional) | If 'editor', if they're allowed to edit form custom logic rules. Defaults to true.
 permission_edit_theme | boolean (optional) | If 'editor', if they're allowed to edit form themes. Defaults to true.
 
-### Response Parameters
+### Response Body
 
 The response will be an object containing the following parameters.
 
@@ -200,14 +200,22 @@ fetch(url, options)
 {"file_url": "URL TO FILE"}
 ```
 
-Pass in data to fill out a document template that you've 
+Fill out and/or sign a document that you've 
 uploaded and mapped in your Feathery account.
 
 ### HTTP Request
 
 `POST https://api.feathery.io/api/document/fill/`
 
-### Response Parameters
+### Request Body Parameters
+
+Parameter | Type              | Description
+--------- |-------------------| -----------
+document | UUID String       | The ID of the document to fill
+field_values | Object (optional) | A mapping of field ID to field value to fill the document
+signer_email | String (optional) | The document will route to the specified email for signature after being filled
+
+### Response Body
 
 The response will be an object containing the following parameters.
 
@@ -304,7 +312,7 @@ Retrieve the schema of a form created in Feathery.
 
 `GET https://api.feathery.io/api/form/<form_id>/`
 
-### Response Parameters
+### Response Body
 
 The response will be an object containing the following parameters.
 
@@ -378,7 +386,7 @@ List all of your forms in Feathery.
 
 `GET https://api.feathery.io/api/form/`
 
-### Response Parameters
+### Response Body
 
 The response will be an array of objects containing the following parameters.
 
@@ -813,7 +821,7 @@ user_id | Optional String | A unique user ID. If not provided, a random user ID 
 forms | Optional String[] | An array of form IDs to initialize submissions for
 complete | Optional Boolean | A boolean value to indicate if this  submission will be set as a form completion. Default to false if not provided 
 
-### Response Parameters
+### Response Body
 Same as request body parameters
 
 ## Retrieve All Form Submissions
@@ -864,7 +872,7 @@ Parameter | Type                | Description
 start_time | Datetime (Optional) | Fetch submissions from after this start time
 end_time | Datetime (Optional) | Fetch submissions from before this end time
 
-### Response Parameters
+### Response Body
 An array of submission entries
 
 # Users
@@ -923,7 +931,7 @@ Parameter | Type | Description
 filter_field_id | String (Optional) | The ID of a form or hidden field to filter users by.
 filter_field_value | String (Optional) | The value of the field to filter on. Paired with `filter_field_id` to only return users who have this field value.
 
-### Response Parameters
+### Response Body
 
 The response will be an array of objects with the following parameters.
 
@@ -984,7 +992,7 @@ Parameter | Type | Description
 --------- | --------- | -----------
 id | String (Optional) | Your unique user ID
 
-### Response Parameters
+### Response Body
 
 The response will be an array of objects with the following parameters.
 
@@ -1051,7 +1059,7 @@ Get session data for a user, including all forms and their progress
 
 `GET https://api.feathery.io/api/user/<user_id>/session/`
 
-### Response Parameters
+### Response Body
 
 The response will be an object with the following parameters.
 
@@ -1142,7 +1150,7 @@ Parameter | Type | Description
 --------- | --------- | -----------
 id | String | Your unique user ID
 
-### Response Parameters
+### Response Body
 
 Parameter | Type | Description
 --------- | --------- | -----------
