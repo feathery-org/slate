@@ -157,14 +157,14 @@ team | String | The name of your team in Feathery
 
 # Documents
 
-## Fill a Document Template 
+## Fill or Sign a Document Template 
 
 ```python
 import requests
 
 url = "https://api.feathery.io/api/document/fill/";
 headers = {"Authorization": "Token <API KEY>"}
-data = {"document": <DOCUMENT ID>, "field_values": {<FIELD ID>: <FIELD VALUE>}}
+data = {"document": <DOCUMENT ID>, "field_values": {<FIELD ID>: <FIELD VALUE>}, "signer_email": "signer@company.com"}
 result = requests.post(url, json=headers=headers)
 print(result.json())
 ```
@@ -172,14 +172,14 @@ print(result.json())
 ```shell
 curl "https://api.feathery.io/api/document/fill/" \
     -X POST \
-    -d "{'document': <DOCUMENT ID>, 'field_values': {<FIELD ID>: <FIELD VALUE>}" \
+    -d "{'document': <DOCUMENT ID>, 'field_values': {<FIELD ID>: <FIELD VALUE>}, 'signer_email': 'signer@company.com'" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
 
 ```javascript
 const url = "https://api.feathery.io/api/document/fill/";
-const data = {document: '<DOCUMENT ID>', field_values: {'<FIELD ID>': '<FIELD VALUE>'}}
+const data = {document: '<DOCUMENT ID>', field_values: {'<FIELD ID>': '<FIELD VALUE>'}, signer_email: 'signer@company.com'}
 const headers = {
     Authorization: "Token <API KEY>",
     "Content-Type": "application/json"
