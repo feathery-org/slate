@@ -157,7 +157,7 @@ team | String | The name of your team in Feathery
 
 # Documents
 
-## Fill a PDF Document Template 
+## Fill a Document Template 
 
 ```python
 import requests
@@ -200,7 +200,7 @@ fetch(url, options)
 {"file_url": "URL TO FILE"}
 ```
 
-Pass in data to fill out a PDF document template that you've 
+Pass in data to fill out a document template that you've 
 uploaded and mapped in your Feathery account.
 
 ### HTTP Request
@@ -213,7 +213,7 @@ The response will be an object containing the following parameters.
 
 Parameter | Type | Description
 --------- | --------- | -----------
-file_url | String | The URL to the filled out PDF document
+file_url | String | The URL to the filled out document
 
 # Forms
 
