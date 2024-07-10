@@ -223,7 +223,7 @@ Parameter | Type | Description
 --------- | --------- | -----------
 file_url | String | The URL to the filled out document
 
-## List Filled Document Envelopes
+## List Document Envelopes
 
 ```python
 import requests
