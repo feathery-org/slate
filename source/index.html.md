@@ -165,7 +165,7 @@ import requests
 url = "https://api.feathery.io/api/document/fill/";
 headers = {"Authorization": "Token <API KEY>"}
 data = {"document": <DOCUMENT ID>, "field_values": {<FIELD ID>: <FIELD VALUE>}, "signer_email": "signer@company.com"}
-result = requests.post(url, json=headers=headers)
+result = requests.post(url, json=data, headers=headers)
 print(result.json())
 ```
 
@@ -222,6 +222,83 @@ The response will be an object containing the following parameters.
 Parameter | Type | Description
 --------- | --------- | -----------
 file_url | String | The URL to the filled out document
+
+## List Filled Document Envelopes
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/document/list/";
+headers = {"Authorization": "Token <API KEY>"}
+params = {"type": "document", "id": <DOCUMENT ID>}
+result = requests.get(url, params=params, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/document/list/?type=document&id=<DOCUMENT ID>" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/document/list/?type=document&id=<DOCUMENT ID>";
+const headers = { Authorization: "Token <API KEY>" };
+const options = { headers };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+[{
+  "id": "<ENVELOPE ID>",
+  "document": "<DOCUMENT ID>",
+  "user": "<FEATHERY USER ID>",
+  "signer": "signer@mail.com",
+  "sender": "sender@mail.com",
+  "file": "https://link-to-filled-file.com",
+  "type": "pdf",
+  "viewed": true,
+  "signed": true,
+  "tags": ["document-tag"],
+  "created_at": "2020-06-03T00:00:00Z"
+}]
+```
+
+List document envelopes that your users have filled out in Feathery.
+You can find the envelopes corresponding to either a particular document template
+or a particular submission.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/document/list/`
+
+### Request Query Parameters
+
+Parameter | Type              | Description
+--------- |-------------------| -----------
+method | String            | Either `document` or `user`, specifying how to look up envelopes of interest.
+id | String            | If method is `document`, this is the document ID. If method is `user`, this is the user ID.
+
+### Response Body
+
+The response will be an array of objects containing the following parameters.
+
+Parameter | Type | Description
+--------- | --------- | -----------
+id | String | The ID of the envelope
+document | String (Optional) | The ID of the document template this envelope was generated from
+user | String (Optional) | The ID of the Feathery user that filled out this envelope
+signer | String (Optional) | The email of the envelope signer
+sender | String (Optional) | The email of the envelope sender
+file | URL | The URL to the file associated with this envelope
+type | String Enum | The type of document - `pdf`, `docx`, `xlsx`
+viewed | Boolean | If envelope was routed for signature, if the signer has viewed it
+signed | Boolean | If envelope was routed for signature, if the signer has signed it
+tags | String[] | An array of tags that contain metadata about the envelope
+created_at | Datetime | When this envelope was created
 
 # Forms
 
