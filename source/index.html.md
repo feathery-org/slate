@@ -832,7 +832,7 @@ comparison | String | Comparison - "equal", "not_equal"
 field_key | String | The ID of the field whose value is being used for this comparison
 value | String | The value to compare the field value against
 
-## Create Form Submissions
+## Create or Update Form Submissions
 
 ```python
 import requests
@@ -894,7 +894,7 @@ Set field values for a user and initialize form submissions
 Parameter | Type | Description
 --------- | --------- | -----------
 fields | Object | A mapping from field IDs to associated field values to create. For a signature field, pass `{"file": <base64 string>, "name": <file name>}`
-user_id | Optional String | A unique user ID. If not provided, a random user ID will be generated and returned
+user_id | Optional String | A new or existing user ID. If not provided, a random ID will be generated and returned.
 forms | Optional String[] | An array of form IDs to initialize submissions for
 complete | Optional Boolean | A boolean value to indicate if this  submission will be set as a form completion. Default to false if not provided 
 
