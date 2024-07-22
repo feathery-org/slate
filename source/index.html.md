@@ -146,6 +146,7 @@ permission_invite_collaborators | boolean (optional) | If 'editor', if they're a
 permission_edit_collaborator_template | boolean (optional) | If 'editor', if they're allowed to edit form collaborator settings. Defaults to true.
 permission_edit_logic | boolean (optional) | If 'editor', if they're allowed to edit form custom logic rules. Defaults to true.
 permission_edit_theme | boolean (optional) | If 'editor', if they're allowed to edit form themes. Defaults to true.
+user_groups | string[] (optional) | An array of user group names to add the invited account to
 
 ### Response Body
 
