@@ -237,12 +237,12 @@ print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/document/list/?type=document&id=<DOCUMENT ID>" \
+curl "https://api.feathery.io/api/document/envelope/list/?type=document&id=<DOCUMENT ID>" \
     -H "Authorization: Token <API KEY>"
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/document/list/?type=document&id=<DOCUMENT ID>";
+const url = "https://api.feathery.io/api/document/envelope/list/?type=document&id=<DOCUMENT ID>";
 const headers = { Authorization: "Token <API KEY>" };
 const options = { headers };
 fetch(url, options)
@@ -274,7 +274,7 @@ or a particular submission.
 
 ### HTTP Request
 
-`GET https://api.feathery.io/api/document/list/`
+`GET https://api.feathery.io/api/document/envelope/list/`
 
 ### Request Query Parameters
 
