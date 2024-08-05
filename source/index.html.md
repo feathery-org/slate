@@ -229,7 +229,7 @@ file_url | String | The URL to the filled out document
 ```python
 import requests
 
-url = "https://api.feathery.io/api/document/list/";
+url = "https://api.feathery.io/api/document/envelope/list/";
 headers = {"Authorization": "Token <API KEY>"}
 params = {"type": "document", "id": <DOCUMENT ID>}
 result = requests.get(url, params=params, headers=headers)
@@ -280,7 +280,7 @@ or a particular submission.
 
 Parameter | Type              | Description
 --------- |-------------------| -----------
-method | String            | Either `document` or `user`, specifying how to look up envelopes of interest.
+type | String            | Either `document` or `user`, specifying how to look up envelopes of interest.
 id | String            | If method is `document`, this is the document ID. If method is `user`, this is the user ID.
 
 ### Response Body
