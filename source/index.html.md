@@ -949,6 +949,7 @@ Parameter | Type                | Description
 --------- |---------------------| -----------
 start_time | Datetime (Optional) | Fetch submissions from after this start time
 end_time | Datetime (Optional) | Fetch submissions from before this end time
+no_field_values | Boolean (Optional) | Don't return field data. If this is enabled, you may fetch more records and the endpoint is more performant.
 
 ### Response Body
 An array of submission entries
