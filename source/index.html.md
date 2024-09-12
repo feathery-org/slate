@@ -907,19 +907,19 @@ Same as request body parameters
 ```python
 import requests
 
-url = "https://api.feathery.io/api/field/batch/TestForm/";
+url = "https://api.feathery.io/api/form/submission/batch/abcdef/";
 headers = {"Authorization": "Token <API KEY>"}
 result = requests.get(url, headers=headers)
 print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/field/batch/TestForm/" \
+curl "https://api.feathery.io/api/form/submission/batch/abcdef/" \
     -H "Authorization: Token <API KEY>"
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/field/batch/TestForm/";
+const url = "https://api.feathery.io/api/form/submission/batch/abcdef/";
 const headers = { Authorization: "Token <API KEY>" };
 fetch(url, { headers })
     .then((response) => response.json())
@@ -941,7 +941,7 @@ Fetch all submission data for a particular form
 
 ### HTTP Request
 
-`GET https://api.feathery.io/api/field/batch/<FORM ID>/`
+`GET https://api.feathery.io/api/form/submission/batch/<FORM ID>/`
 
 ### Request Query Parameters
 
