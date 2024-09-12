@@ -954,6 +954,72 @@ no_field_values | Boolean (Optional) | Don't return field data. If this is enabl
 ### Response Body
 An array of submission entries
 
+## Export Form Submission PDF
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/form/submission/pdf/";
+data = {"form_id": "abcdef", "user_id": "alice@feathery.io"}
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+result = requests.post(url, data=data, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/form/submission/pdf/" \
+    -X POST \
+    -d "{'form_id': 'abcdef, 'user_id': 'alice@feathery.io'}" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/form/submission/pdf/";
+const data = {"form_id": "abcdef", "user_id": "alice@feathery.io"}
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = {
+    headers, 
+    method: 'POST',
+    body: JSON.stringify(data)
+};
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{"pdf_url": "<PDF URL>"}
+```
+
+Create a PDF export for a specific form submission. The returned URL points to the generated PDF, with a few caveats:
+* The PDF may not be immediately available. We recommend polling the URL up to 5 times, once per second, to ensure availability.
+* Once a given submission is completed, the exported PDF will no longer be updated for it even if requested multiple times.
+
+### HTTP Request
+
+`POST https://api.feathery.io/api/form/submission/pdf/`
+
+### Request Body Parameters
+
+Parameter | Type   | Description
+--------- |--------| -----------
+form_id | String | The unique ID of the form whose submission you want to export.
+user_id | String | The unique ID corresponding to a Feathery submission / user who you want to export.
+
+### Response Body
+Parameter | Type | Description
+--------- |------| -----------
+pdf_url | URL  | A URL where the PDF export can be downloaded from. The file may not be immediately available. 
+
 # Users
 
 ## List All Users
