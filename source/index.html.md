@@ -949,6 +949,7 @@ Parameter | Type                | Description
 --------- |---------------------| -----------
 start_time | Datetime (Optional) | Fetch submissions from after this start time
 end_time | Datetime (Optional) | Fetch submissions from before this end time
+completed | Boolean (Optional) | If specified, only fetch submissions that are either completed or incomplete
 no_field_values | Boolean (Optional) | Don't return field data. If this is enabled, you may fetch more records and the endpoint is more performant.
 sort | String (Optional) | If "layout", the returned values will be sorted in the way fields are laid out in the form. Otherwise, values will be sorted by field ID alphabetically.
 
