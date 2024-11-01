@@ -839,7 +839,10 @@ value | String | The value to compare the field value against
 import requests
 
 url = "https://api.feathery.io/api/form/submission/";
-data = {"fields": {"age": 21}, "user_id": "alice@feathery.io", "forms": ["My Form"], "complete": True}
+
+# Using field name or internal ID
+data = {"fields": {"NumberField1": 21, "ef5ed054-73de-4463-ba61-82c36aca5afc": "test"}, "user_id": "alice@feathery.io", "forms": ["My Form"], "complete": True}
+
 headers = {
     "Authorization": "Token <API KEY>",
     "Content-Type": "application/json",
@@ -851,14 +854,14 @@ print(result.json())
 ```shell
 curl "https://api.feathery.io/api/form/submission/" \
     -X POST \
-    -d "{'fields': {'age': 21}, 'user_id': 'alice@feathery.io', 'forms': ['My Form'], 'complete': True}" \
+    -d "{'fields': {'NumberField1': 21, 'ef5ed054-73de-4463-ba61-82c36aca5afc': 'test'}, 'user_id': 'alice@feathery.io', 'forms': ['My Form'], 'complete': True}" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
 
 ```javascript
 const url = "https://api.feathery.io/api/form/submission/";
-const data = {"fields": {"age": 21}, "user_id": "alice@feathery.io", "forms": ["My Form"], "complete": true}
+const data = {"fields": {"NumberField1": 21, "ef5ed054-73de-4463-ba61-82c36aca5afc": "test"}, "user_id": "alice@feathery.io", "forms": ["My Form"], "complete": true}
 const headers = {
     Authorization: "Token <API KEY>",
     "Content-Type": "application/json"
@@ -877,7 +880,7 @@ fetch(url, options)
 
 ```json
 {
-  "fields": {"age": 21},
+  "fields": {"NumberField1": 21, "ef5ed054-73de-4463-ba61-82c36aca5afc": "test"},
   "user_id": "alice@feathery.io",
   "forms": ["My Form"],
   "complete": true
@@ -894,7 +897,7 @@ Set field values for a user and initialize form submissions
 
 Parameter | Type | Description
 --------- | --------- | -----------
-fields | Object | A mapping from field IDs to associated field values to create. For a signature field, pass `{"file": <base64 string>, "name": <file name>}`
+fields | Object | A mapping from field identifier (Name or Internal ID) to associated field values to create. For a signature field, pass `{"file": <base64 string>, "name": <file name>}`
 user_id | Optional String | A new or existing user ID. If not provided, a random ID will be generated and returned.
 forms | Optional String[] | An array of form IDs to initialize submissions for
 complete | Optional Boolean | A boolean value to indicate if this  submission will be set as a form completion. Default to false if not provided 
@@ -1128,12 +1131,13 @@ fetch(url, options)
 ```json
 [
   {
-    "id": "name",
+    "id": "TextField1",
     "type": "text_field",
+    "internal_id": "50c15c23-7558-4d51-810a-1a02dlf0bf58",
     "display_text": "What is your name?",
     "value": "Alice Smith",
     "created_at": "2020-06-01T00:00:00Z",
-    "updated_at": "2020-06-02T00:00:00Z"
+    "updated_at": "2020-06-02T00:00:00Z",
   }
 ]
 ```
@@ -1159,6 +1163,7 @@ Parameter | Type                   | Description
 id | String                 | Your unique field ID
 hidden | Boolean                | If true, this is a hidden field. Otherwise, it's a form field.
 type | String Enum (Optional) | The [form field type](https://docs.feathery.io/platform/components/fields/button-group#example). Not present for hidden fields.
+internal_id | String                 | Internal UUID of your field
 display_text | String (Optional)      | Human-friendly text to display for this field
 value | Polymorphic (Optional) | Submitted value of the user whose key was passed in.
 created_at | Datetime               | When this field was created
