@@ -840,13 +840,14 @@ import requests
 
 url = "https://api.feathery.io/api/form/submission/";
 
-# Using field name or internal ID
-data = {"fields": {"NumberField1": 21, "ef5ed054-73de-4463-ba61-82c36aca5afc": "Test Value"}, "user_id": "alice@feathery.io", "forms": ["My Form"], "complete": True}
+# Using field ID or internal ID
+data = {"fields": {"age": 21}, "user_id": "alice@feathery.io", "forms": ["My Form"], "complete": True}
 
 headers = {
     "Authorization": "Token <API KEY>",
     "Content-Type": "application/json",
 }
+
 result = requests.post(url, data=data, headers=headers)
 print(result.json())
 ```
@@ -854,14 +855,14 @@ print(result.json())
 ```shell
 curl "https://api.feathery.io/api/form/submission/" \
     -X POST \
-    -d "{'fields': {'NumberField1': 21, 'ef5ed054-73de-4463-ba61-82c36aca5afc': 'Test Value'}, 'user_id': 'alice@feathery.io', 'forms': ['My Form'], 'complete': True}" \
+    -d "{'fields': {'NumberField1': 21}, 'user_id': 'alice@feathery.io', 'forms': ['My Form'], 'complete': True}" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
 
 ```javascript
 const url = "https://api.feathery.io/api/form/submission/";
-const data = {"fields": {"NumberField1": 21, "ef5ed054-73de-4463-ba61-82c36aca5afc": "Test Value"}, "user_id": "alice@feathery.io", "forms": ["My Form"], "complete": true}
+const data = {"fields": {"age": 21}, "user_id": "alice@feathery.io", "forms": ["My Form"], "complete": true}
 const headers = {
     Authorization: "Token <API KEY>",
     "Content-Type": "application/json"
@@ -897,7 +898,7 @@ Set field values for a user and initialize form submissions
 
 Parameter | Type | Description
 --------- | --------- | -----------
-fields | Object | A mapping from field identifier (Name or Internal ID) to associated field values to create. For a signature field, pass `{"file": <base64 string>, "name": <file name>}`
+fields | Object | A mapping from field identifier (ID or Internal ID) to associated field values to create. For a signature field, pass `{"file": <base64 string>, "name": <file name>}`
 user_id | Optional String | A new or existing user ID. If not provided, a random ID will be generated and returned.
 forms | Optional String[] | An array of form IDs to initialize submissions for
 complete | Optional Boolean | A boolean value to indicate if this  submission will be set as a form completion. Default to false if not provided 
@@ -1167,7 +1168,7 @@ display_text | String (Optional)      | Human-friendly text to display for this 
 value | Polymorphic (Optional) | Submitted value of the user whose key was passed in.
 created_at | Datetime               | When this field was created
 updated_at | Datetime               | When this field was last updated
-internal_id | String                 | Internal UUID of your field
+internal_id | String                 | Feathery-internal identifier of your field. Always static
 
 ## Get User Session Data
 
