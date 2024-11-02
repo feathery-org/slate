@@ -839,11 +839,15 @@ value | String | The value to compare the field value against
 import requests
 
 url = "https://api.feathery.io/api/form/submission/";
+
+# Using field ID or internal ID
 data = {"fields": {"age": 21}, "user_id": "alice@feathery.io", "forms": ["My Form"], "complete": True}
+
 headers = {
     "Authorization": "Token <API KEY>",
     "Content-Type": "application/json",
 }
+
 result = requests.post(url, data=data, headers=headers)
 print(result.json())
 ```
@@ -894,7 +898,7 @@ Set field values for a user and initialize form submissions
 
 Parameter | Type | Description
 --------- | --------- | -----------
-fields | Object | A mapping from field IDs to associated field values to create. For a signature field, pass `{"file": <base64 string>, "name": <file name>}`
+fields | Object | A mapping from field identifier (ID or Internal ID) to associated field values to create. For a signature field, pass `{"file": <base64 string>, "name": <file name>}`
 user_id | Optional String | A new or existing user ID. If not provided, a random ID will be generated and returned.
 forms | Optional String[] | An array of form IDs to initialize submissions for
 complete | Optional Boolean | A boolean value to indicate if this  submission will be set as a form completion. Default to false if not provided 
@@ -930,10 +934,21 @@ fetch(url, { headers })
 
 ```json
 [{
-  "user_id": "alice@feathery.io",
-  "last_submitted": "2020-06-01T00:00:00Z",
-  "Field1": "Test",
-  "Field2": "Test 2",
+  "values": [
+    {
+      "id": "TestField",
+      "type": "text_field",
+      "created_at": "2024-10-28T07:56:09.391398Z",
+      "updated_at": "2024-10-28T16:39:32.577794Z",
+      "value": "Test Value",
+      "hidden": false,
+      "display_text": "",
+      "internal_id": "ef5ed054-73de-4463-ba61-82c36aca5afc",
+    }
+  ],
+    "user_id": "131e7132-dg6d-4a8c-9d70-cgd493c2a368",
+    "submission_start": "2024-10-30T02:07:32Z",
+    "last_submitted": "2024-10-30T02:07:32Z",
 }]
 ```
 
@@ -1117,12 +1132,13 @@ fetch(url, options)
 ```json
 [
   {
-    "id": "name",
+    "id": "TextField1",
     "type": "text_field",
     "display_text": "What is your name?",
     "value": "Alice Smith",
     "created_at": "2020-06-01T00:00:00Z",
-    "updated_at": "2020-06-02T00:00:00Z"
+    "updated_at": "2020-06-02T00:00:00Z",
+    "internal_id": "50c15c23-7558-4d51-810a-1a02dlf0bf58",
   }
 ]
 ```
@@ -1152,6 +1168,7 @@ display_text | String (Optional)      | Human-friendly text to display for this 
 value | Polymorphic (Optional) | Submitted value of the user whose key was passed in.
 created_at | Datetime               | When this field was created
 updated_at | Datetime               | When this field was last updated
+internal_id | String                 | Feathery-internal identifier of your field. Always static
 
 ## Get User Session Data
 
