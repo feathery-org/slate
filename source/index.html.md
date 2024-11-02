@@ -841,7 +841,7 @@ import requests
 url = "https://api.feathery.io/api/form/submission/";
 
 # Using field name or internal ID
-data = {"fields": {"NumberField1": 21, "ef5ed054-73de-4463-ba61-82c36aca5afc": "test"}, "user_id": "alice@feathery.io", "forms": ["My Form"], "complete": True}
+data = {"fields": {"NumberField1": 21, "ef5ed054-73de-4463-ba61-82c36aca5afc": "Test Value"}, "user_id": "alice@feathery.io", "forms": ["My Form"], "complete": True}
 
 headers = {
     "Authorization": "Token <API KEY>",
@@ -854,14 +854,14 @@ print(result.json())
 ```shell
 curl "https://api.feathery.io/api/form/submission/" \
     -X POST \
-    -d "{'fields': {'NumberField1': 21, 'ef5ed054-73de-4463-ba61-82c36aca5afc': 'test'}, 'user_id': 'alice@feathery.io', 'forms': ['My Form'], 'complete': True}" \
+    -d "{'fields': {'NumberField1': 21, 'ef5ed054-73de-4463-ba61-82c36aca5afc': 'Test Value'}, 'user_id': 'alice@feathery.io', 'forms': ['My Form'], 'complete': True}" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
 
 ```javascript
 const url = "https://api.feathery.io/api/form/submission/";
-const data = {"fields": {"NumberField1": 21, "ef5ed054-73de-4463-ba61-82c36aca5afc": "test"}, "user_id": "alice@feathery.io", "forms": ["My Form"], "complete": true}
+const data = {"fields": {"NumberField1": 21, "ef5ed054-73de-4463-ba61-82c36aca5afc": "Test Value"}, "user_id": "alice@feathery.io", "forms": ["My Form"], "complete": true}
 const headers = {
     Authorization: "Token <API KEY>",
     "Content-Type": "application/json"
@@ -880,7 +880,7 @@ fetch(url, options)
 
 ```json
 {
-  "fields": {"NumberField1": 21, "ef5ed054-73de-4463-ba61-82c36aca5afc": "test"},
+  "fields": {"NumberField1": 21, "ef5ed054-73de-4463-ba61-82c36aca5afc": "Test Value"},
   "user_id": "alice@feathery.io",
   "forms": ["My Form"],
   "complete": true
@@ -936,18 +936,18 @@ fetch(url, { headers })
   "values": [
     {
       "id": "TestField",
-      "internal_id": "ef5ed054-73de-4463-ba61-82c36aca5afc",
       "type": "text_field",
       "created_at": "2024-10-28T07:56:09.391398Z",
       "updated_at": "2024-10-28T16:39:32.577794Z",
-      "value": "Test",
+      "value": "Test Value",
       "hidden": false,
       "display_text": "",
+      "internal_id": "ef5ed054-73de-4463-ba61-82c36aca5afc",
     }
   ],
-  "user_id": "alice@feathery.io",
-  "submission_start": "2024-10-30T02:07:32Z",
-  "last_submitted": "2024-10-30T02:07:32Z"
+    "user_id": "131e7132-dg6d-4a8c-9d70-cgd493c2a368",
+    "submission_start": "2024-10-30T02:07:32Z",
+    "last_submitted": "2024-10-30T02:07:32Z",
 }]
 ```
 
@@ -1133,11 +1133,11 @@ fetch(url, options)
   {
     "id": "TextField1",
     "type": "text_field",
-    "internal_id": "50c15c23-7558-4d51-810a-1a02dlf0bf58",
     "display_text": "What is your name?",
     "value": "Alice Smith",
     "created_at": "2020-06-01T00:00:00Z",
     "updated_at": "2020-06-02T00:00:00Z",
+    "internal_id": "50c15c23-7558-4d51-810a-1a02dlf0bf58",
   }
 ]
 ```
@@ -1163,11 +1163,11 @@ Parameter | Type                   | Description
 id | String                 | Your unique field ID
 hidden | Boolean                | If true, this is a hidden field. Otherwise, it's a form field.
 type | String Enum (Optional) | The [form field type](https://docs.feathery.io/platform/components/fields/button-group#example). Not present for hidden fields.
-internal_id | String                 | Internal UUID of your field
 display_text | String (Optional)      | Human-friendly text to display for this field
 value | Polymorphic (Optional) | Submitted value of the user whose key was passed in.
 created_at | Datetime               | When this field was created
 updated_at | Datetime               | When this field was last updated
+internal_id | String                 | Internal UUID of your field
 
 ## Get User Session Data
 
