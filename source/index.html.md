@@ -855,7 +855,7 @@ print(result.json())
 ```shell
 curl "https://api.feathery.io/api/form/submission/" \
     -X POST \
-    -d "{'fields': {'NumberField1': 21}, 'user_id': 'alice@feathery.io', 'forms': ['My Form'], 'complete': True}" \
+    -d "{'fields': {'age': 21}, 'user_id': 'alice@feathery.io', 'forms': ['My Form'], 'complete': True}" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
@@ -881,7 +881,7 @@ fetch(url, options)
 
 ```json
 {
-  "fields": {"NumberField1": 21, "ef5ed054-73de-4463-ba61-82c36aca5afc": "Test Value"},
+  "fields": {"age": 21},
   "user_id": "alice@feathery.io",
   "forms": ["My Form"],
   "complete": true
