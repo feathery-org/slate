@@ -163,19 +163,19 @@ team | String | The name of your team in Feathery
 ```python
 import requests
 
-url = "https://api.feathery.io/api/ai/submission/batch/<extraction_id>/";
+url = "https://api.feathery.io/api/ai/run/batch/<extraction_id>/";
 headers = {"Authorization": "Token <API KEY>"}
 result = requests.get(url, headers=headers)
 print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/ai/submission/batch/<extraction_id>/" \
+curl "https://api.feathery.io/api/ai/run/batch/<extraction_id>/" \
     -H "Authorization: Token <API KEY>"
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/ai/submission/batch/<extraction_id>/";
+const url = "https://api.feathery.io/api/ai/run/batch/<extraction_id>/";
 const headers = { Authorization: "Token <API KEY>" };
 fetch(url, { headers })
     .then((response) => response.json())
@@ -203,7 +203,7 @@ List runs for a particular AI document extraction
 
 ### HTTP Request
 
-`GET https://api.feathery.io/api/ai/submission/batch/<FORM ID>/`
+`GET https://api.feathery.io/api/ai/run/batch/<EXTRACTION ID>/`
 
 ### Request Query Parameters
 
