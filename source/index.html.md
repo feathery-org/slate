@@ -156,7 +156,7 @@ Parameter | Type | Description
 --------- | --------- | -----------
 team | String | The name of your team in Feathery
 
-# Documents
+# Document Autofill & Signatures
 
 ## Fill or Sign a Document Template 
 
@@ -300,6 +300,65 @@ viewed | Boolean | If envelope was routed for signature, if the signer has viewe
 signed | Boolean | If envelope was routed for signature, if the signer has signed it
 tags | String[] | An array of tags that contain metadata about the envelope
 created_at | Datetime | When this envelope was created
+
+# Document Intelligence
+
+## List Extraction Runs
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/ai/submission/batch/<extraction_id>/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/ai/submission/batch/<extraction_id>/" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/ai/submission/batch/<extraction_id>/";
+const headers = { Authorization: "Token <API KEY>" };
+fetch(url, { headers })
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+[{
+  "id": "<RunId>",
+  "success": true,
+  "approved": true,
+  "approver": "reviewer@mail.com",
+  "error_message": "",
+  "display_pdf": null,
+  "created_at": "2020-06-01T00:00:00Z",
+  "email_extracted_at": "2020-06-02T00:00:00Z",
+  "document_extracted_at": "2020-06-03T00:00:00Z",
+  "updated_at": "2020-06-04T00:00:00Z",
+}]
+```
+
+List runs for a particular AI document extraction
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/ai/submission/batch/<FORM ID>/`
+
+### Request Query Parameters
+
+Parameter | Type                | Description
+--------- |---------------------| -----------
+start_time | Datetime (Optional) | Fetch runs that started after this start time
+end_time | Datetime (Optional) | Fetch runs that started before this end time
+
+### Response Body
+An array of extraction run entries
 
 # Forms
 
@@ -906,7 +965,7 @@ complete | Optional Boolean | A boolean value to indicate if this  submission wi
 ### Response Body
 Same as request body parameters
 
-## Retrieve All Form Submissions
+## List Form Submissions
 
 ```python
 import requests
@@ -952,7 +1011,7 @@ fetch(url, { headers })
 }]
 ```
 
-Fetch all submission data for a particular form
+List submission data for a particular form
 
 ### HTTP Request
 
