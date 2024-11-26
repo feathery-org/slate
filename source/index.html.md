@@ -156,7 +156,7 @@ Parameter | Type | Description
 --------- | --------- | -----------
 team | String | The name of your team in Feathery
 
-# Document Autofill & Signatures
+# Document Templates
 
 ## Fill or Sign a Document Template 
 
