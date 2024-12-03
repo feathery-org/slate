@@ -1463,6 +1463,7 @@ fetch(url, options)
     "name": "Workspace 1",
     "logo": "https://url-to-logo.com",
     "brand_color": "ffffff",
+    "brand_name": "Brand 1",
     "accounts": [{"email": "user@mail.com", "role": "admin"}]
   }
 ]
@@ -1484,6 +1485,7 @@ id | UUID                            | Your unique workspace ID
 name | String                          | The human-readable name of the workspace, e.g. "Company 1"
 logo | URL                             | A URL to the logo to display in this workspace
 brand_color | String                          | The six-digit hex color code that corresponds to the primary color of this workspace
+brand_name | String | The name of the white label brand
 accounts | {email: string; role: string}[] | A list of accounts in this workspace
 
 ## Create a Workspace
@@ -1534,6 +1536,7 @@ fetch(url, options)
   "name": "Workspace 1",
   "logo": "https://url-to-logo.com",
   "brand_color": "ffffff",
+  "brand_name": "Brand 1",
   "accounts": [{"email": "user@mail.com", "role": "admin"}]
 }
 ```
@@ -1551,6 +1554,7 @@ Parameter | Type                       | Description
 name | String                     | The human-readable name of the workspace, e.g. "Company 1"
 logo | URL (Optional)             | A URL to the logo to display in this workspace
 brand_color | String (Optional)   | The six-digit hex color code that corresponds to the primary color of this workspace
+brand_name | String (Optional) | The name of the white label brand
 
 ### Response Body
 Parameter | Type                            | Description
@@ -1559,6 +1563,7 @@ id | UUID                            | Your unique workspace ID
 name | String                          | The human-readable name of the workspace, e.g. "Company 1"
 logo | URL                             | A URL to the logo to display in this workspace
 brand_color | String                          | The six-digit hex color code that corresponds to the primary color of this workspace
+brand_name | String | The name of the white label brand
 
 ## Update a Workspace
 
@@ -1608,6 +1613,7 @@ fetch(url, options)
   "name": "Workspace 1",
   "logo": "https://url-to-logo.com",
   "brand_color": "ffffff",
+  "brand_name": "Brand 1",
   "accounts": [{"email": "user@mail.com", "role": "admin"}]
 }
 ```
@@ -1625,6 +1631,7 @@ Parameter | Type              | Description
 name | String (Optional) | The human-readable name of the workspace, e.g. "Company 1"
 logo | URL (Optional)    | A URL to the logo to display in this workspace
 brand_color | String (Optional) | The six-digit hex color code that corresponds to the primary color of this workspace
+brand_name | String (Optional) | The name of the white label brand
 
 ### Response Body
 Parameter | Type                            | Description
@@ -1633,6 +1640,7 @@ id | UUID                            | Your unique workspace ID
 name | String                          | The human-readable name of the workspace, e.g. "Company 1"
 logo | URL                             | A URL to the logo to display in this workspace
 brand_color | String                          | The six-digit hex color code that corresponds to the primary color of this workspace
+brand_name | String | The name of the white label brand
 
 ## Delete a Workspace
 
