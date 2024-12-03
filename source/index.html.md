@@ -1427,3 +1427,254 @@ Delete a specific user.
 Parameter | Description
 --------- | -----------
 id | The ID of the user to delete
+
+# Workspaces
+
+## List All Workspaces
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/workspace/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/workspace/" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/workspace/";
+const options = { headers: { Authorization: "Token <API KEY>" } };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+[
+  {
+    "id": "<WORKSPACE UUID>",
+    "name": "Workspace 1",
+    "logo": "https://url-to-logo.com",
+    "brand_color": "ffffff",
+    "accounts": [{"email": "user@mail.com", "role": "admin"}]
+  }
+]
+```
+
+List all of the Feathery workspaces connected to your main account. This is only available for Feathery's white label product.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/workspace/`
+
+### Response Body
+
+The response will be an array of objects with the following parameters.
+
+Parameter | Type                            | Description
+--------- |---------------------------------| -----------
+id | UUID                            | Your unique workspace ID
+name | String                          | The human-readable name of the workspace, e.g. "Company 1"
+logo | URL                             | A URL to the logo to display in this workspace
+brand_color | String                          | The six-digit hex color code that corresponds to the primary color of this workspace
+accounts | {email: string; role: string}[] | A list of accounts in this workspace
+
+## Create a Workspace
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/workspace/";
+data = {"name": "New Workspace"}
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+result = requests.post(url, data=data, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/workspace/" \
+    -X POST \
+    -d "{'name': 'New Workspace'}" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/workspace/";
+const data = {name: "New Workspace"}
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = {
+    headers, 
+    method: 'POST',
+    body: JSON.stringify(data)
+};
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+  {
+  "id": "<WORKSPACE UUID>",
+  "name": "Workspace 1",
+  "logo": "https://url-to-logo.com",
+  "brand_color": "ffffff",
+  "accounts": [{"email": "user@mail.com", "role": "admin"}]
+}
+```
+
+Create a new workspace connected to your main account.
+
+### HTTP Request
+
+`POST https://api.feathery.io/api/workspace/`
+
+### Body Parameters
+
+Parameter | Type                       | Description
+--------- |----------------------------| -----------
+name | String                     | The human-readable name of the workspace, e.g. "Company 1"
+logo | URL (Optional)             | A URL to the logo to display in this workspace
+brand_color | String (Optional)   | The six-digit hex color code that corresponds to the primary color of this workspace
+
+### Response Body
+Parameter | Type                            | Description
+--------- |---------------------------------| -----------
+id | UUID                            | Your unique workspace ID
+name | String                          | The human-readable name of the workspace, e.g. "Company 1"
+logo | URL                             | A URL to the logo to display in this workspace
+brand_color | String                          | The six-digit hex color code that corresponds to the primary color of this workspace
+
+## Update a Workspace
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/workspace/<workspace_id>/";
+data = {"brand_color": "ffffff"}
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+result = requests.post(url, data=data, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/workspace/<workspace_id>/" \
+    -X POST \
+    -d "{'brand_color': 'ffffff'}" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/workspace/<workspace_id>/";
+const data = {brand_color: "ffffff"}
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = {
+    headers, 
+    method: 'POST',
+    body: JSON.stringify(data)
+};
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+  {
+  "id": "<WORKSPACE UUID>",
+  "name": "Workspace 1",
+  "logo": "https://url-to-logo.com",
+  "brand_color": "ffffff",
+  "accounts": [{"email": "user@mail.com", "role": "admin"}]
+}
+```
+
+Update an existing workspace connected to your main account.
+
+### HTTP Request
+
+`POST https://api.feathery.io/api/workspace/<workspace_id>/`
+
+### Body Parameters
+
+Parameter | Type              | Description
+--------- |-------------------| -----------
+name | String (Optional) | The human-readable name of the workspace, e.g. "Company 1"
+logo | URL (Optional)    | A URL to the logo to display in this workspace
+brand_color | String (Optional) | The six-digit hex color code that corresponds to the primary color of this workspace
+
+### Response Body
+Parameter | Type                            | Description
+--------- |---------------------------------| -----------
+id | UUID                            | Your unique workspace ID
+name | String                          | The human-readable name of the workspace, e.g. "Company 1"
+logo | URL                             | A URL to the logo to display in this workspace
+brand_color | String                          | The six-digit hex color code that corresponds to the primary color of this workspace
+
+## Delete a WOrkspace
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/workspace/<workspace_id>/";
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+result = requests.delete(url, headers=headers)
+print(result.status_code)
+```
+
+```shell
+curl "https://api.feathery.io/api/workspace/<workspace_id>/" \
+    -X DELETE \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/workspace/<workspace_id>/";
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = { headers, method: 'DELETE' };
+fetch(url, options).then((response) => console.log(response.status))
+```
+
+> The above command does not return a response body
+
+Delete a workspace connected to your main Feathery account.
+
+### HTTP Request
+
+`DELETE https://api.feathery.io/api/workspace/<workspace_id>/`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+workspace_id | The ID of the workspace to delete
