@@ -1462,7 +1462,7 @@ fetch(url, options)
     "id": "<WORKSPACE UUID>",
     "name": "Workspace 1",
     "logo": "https://url-to-logo.com",
-    "brand_color": "ffffff",
+    "brand_url": "https://feathery.io",
     "brand_name": "Brand 1",
     "accounts": [{"email": "user@mail.com", "role": "admin"}]
   }
@@ -1484,8 +1484,8 @@ Parameter | Type                            | Description
 id | UUID                            | Your unique workspace ID
 name | String                          | The human-readable name of the workspace, e.g. "Company 1"
 logo | URL                             | A URL to the logo to display in this workspace
-brand_color | String                          | The six-digit hex color code that corresponds to the primary color of this workspace
-brand_name | String | The name of the white label brand
+brand_url | URL                               | A link to the brand website
+brand_name | String                          | The name of the white label brand
 accounts | {email: string; role: string}[] | A list of accounts in this workspace
 
 ## Create a Workspace
@@ -1535,7 +1535,7 @@ fetch(url, options)
   "id": "<WORKSPACE UUID>",
   "name": "Workspace 1",
   "logo": "https://url-to-logo.com",
-  "brand_color": "ffffff",
+  "brand_url": "https://feathery.io",
   "brand_name": "Brand 1",
   "accounts": [{"email": "user@mail.com", "role": "admin"}]
 }
@@ -1549,20 +1549,20 @@ Create a new workspace connected to your main account.
 
 ### Body Parameters
 
-Parameter | Type                       | Description
---------- |----------------------------| -----------
-name | String                     | The human-readable name of the workspace, e.g. "Company 1"
-logo | URL (Optional)             | A URL to the logo to display in this workspace
-brand_color | String (Optional)   | The six-digit hex color code that corresponds to the primary color of this workspace
+Parameter | Type              | Description
+--------- |-------------------| -----------
+name | String            | The human-readable name of the workspace, e.g. "Company 1"
+logo | URL (Optional)    | A URL to the logo to display in this workspace
+brand_url | URL (Optional)    | A link to the brand website
 brand_name | String (Optional) | The name of the white label brand
 
 ### Response Body
-Parameter | Type                            | Description
---------- |---------------------------------| -----------
-id | UUID                            | Your unique workspace ID
-name | String                          | The human-readable name of the workspace, e.g. "Company 1"
-logo | URL                             | A URL to the logo to display in this workspace
-brand_color | String                          | The six-digit hex color code that corresponds to the primary color of this workspace
+Parameter | Type                  | Description
+--------- |-----------------------| -----------
+id | UUID                  | Your unique workspace ID
+name | String                | The human-readable name of the workspace, e.g. "Company 1"
+logo | URL                   | A URL to the logo to display in this workspace
+brand_url | URL    | A link to the brand website
 brand_name | String | The name of the white label brand
 
 ## Update a Workspace
@@ -1571,7 +1571,7 @@ brand_name | String | The name of the white label brand
 import requests
 
 url = "https://api.feathery.io/api/workspace/<workspace_id>/";
-data = {"brand_color": "ffffff"}
+data = {"brand_url": "https://feathery.io"}
 headers = {
     "Authorization": "Token <API KEY>",
     "Content-Type": "application/json",
@@ -1583,14 +1583,14 @@ print(result.json())
 ```shell
 curl "https://api.feathery.io/api/workspace/<workspace_id>/" \
     -X POST \
-    -d "{'brand_color': 'ffffff'}" \
+    -d "{'brand_url': 'https://feathery.io'}" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
 
 ```javascript
 const url = "https://api.feathery.io/api/workspace/<workspace_id>/";
-const data = {brand_color: "ffffff"}
+const data = {brand_url: "https://feathery.io"}
 const headers = {
     Authorization: "Token <API KEY>",
     "Content-Type": "application/json"
@@ -1612,7 +1612,7 @@ fetch(url, options)
   "id": "<WORKSPACE UUID>",
   "name": "Workspace 1",
   "logo": "https://url-to-logo.com",
-  "brand_color": "ffffff",
+  "brand_url": "https://feathery.io",
   "brand_name": "Brand 1",
   "accounts": [{"email": "user@mail.com", "role": "admin"}]
 }
@@ -1630,16 +1630,16 @@ Parameter | Type              | Description
 --------- |-------------------| -----------
 name | String (Optional) | The human-readable name of the workspace, e.g. "Company 1"
 logo | URL (Optional)    | A URL to the logo to display in this workspace
-brand_color | String (Optional) | The six-digit hex color code that corresponds to the primary color of this workspace
+brand_url | URL (Optional)    | A link to the brand website
 brand_name | String (Optional) | The name of the white label brand
 
 ### Response Body
-Parameter | Type                            | Description
---------- |---------------------------------| -----------
-id | UUID                            | Your unique workspace ID
-name | String                          | The human-readable name of the workspace, e.g. "Company 1"
-logo | URL                             | A URL to the logo to display in this workspace
-brand_color | String                          | The six-digit hex color code that corresponds to the primary color of this workspace
+Parameter | Type   | Description
+--------- |--------| -----------
+id | UUID   | Your unique workspace ID
+name | String | The human-readable name of the workspace, e.g. "Company 1"
+logo | URL    | A URL to the logo to display in this workspace
+brand_url | URL    | A link to the brand website
 brand_name | String | The name of the white label brand
 
 ## Delete a Workspace
