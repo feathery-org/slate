@@ -1634,7 +1634,7 @@ name | String                          | The human-readable name of the workspac
 logo | URL                             | A URL to the logo to display in this workspace
 brand_color | String                          | The six-digit hex color code that corresponds to the primary color of this workspace
 
-## Delete a WOrkspace
+## Delete a Workspace
 
 ```python
 import requests
