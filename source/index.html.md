@@ -442,7 +442,6 @@ fetch(url, options)
   ],
   "rules": [
     {
-      "id": "<RULE ID>",
       "name": "Rule 1",
       "description": "Rule description",
       "trigger_event": "form_complete",
@@ -499,7 +498,6 @@ Each `rule` object contains the following parameters.
 
 Parameter | Type   | Description
 --------- |--------| -----------
-id | String | The unique ID of the rule
 name | String | The user-friendly name of the rule
 description | String | Description of the rule
 trigger_event | Enum   | On what event the rule runs
