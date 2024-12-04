@@ -439,6 +439,23 @@ fetch(url, options)
       "created_at": "2020-06-01T00:00:00Z",
       "updated_at": "2020-06-01T00:00:00Z"
     }
+  ],
+  "rules": [
+    {
+      "id": "<RULE ID>",
+      "name": "Rule 1",
+      "description": "Rule description",
+      "trigger_event": "form_complete",
+      "index": 0,
+      "steps": [],
+      "code": "code",
+      "elements": [],
+      "enabled": true,
+      "valid": true,
+      "mode": "code_editor",
+      "created_at": "2020-06-01T00:00:00Z",
+      "updated_at": "2020-06-01T00:00:00Z"
+    }  
   ]
 }
 ```
@@ -478,6 +495,22 @@ updated_at | Datetime | When this step was last updated
 
 Each form element (images, videos, progress_bars, texts, buttons, fields) has a common `id` parameter that uniquely identifies it.
 
+Each `rule` object contains the following parameters.
+
+Parameter | Type   | Description
+--------- |--------| -----------
+id | String | The unique ID of the rule
+name | String | The user-friendly name of the rule
+description | String | Description of the rule
+trigger_event | Enum   | On what event the rule runs
+index | Number | The ordering of this rule when executing
+steps | Array  | A list of step IDs corresponding to the steps that the rule runs on
+elements | Array  | A list of element IDs that trigger the rule
+enabled | Boolean | Is this rule runnable
+valid | Boolean | Is the rule configuration in a valid state
+mode | Enum | Is the rule defined via the code editor or no-code logic
+created_at | Datetime | When the rule was created
+updated_at | Datetime | When the rule was last updated
 
 ## List Forms
 
