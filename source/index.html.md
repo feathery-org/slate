@@ -21,7 +21,7 @@ code_clipboard: true
 
 The Feathery API is organized around REST. Our API has predictable resource-oriented URLs, accepts form-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.
 
-You can use our API to access and modify your forms, fields, and users. You can leverage our [React library](https://github.com/feathery-org/feathery-react) for much of the same functionality.
+You can use our API to access and modify your Feathery resources - forms, fields, documents, and more.
 
 # Authentication
 
@@ -107,11 +107,6 @@ curl "https://api.feathery.io/api/account/invite/" \
 
 ```javascript
 const url = "https://api.feathery.io/api/account/invite/";
-const options = { headers: { Authorization: "Token <API KEY>" } };
-fetch(url, options)
-    .then((response) => response.json())
-    .then(result => console.log(result));
-const url = "https://api.feathery.io/api/account/invite/";
 const data = [{email: 'new@invite.com'}];
 const headers = {
   Authorization: "Token <API KEY>",
@@ -155,6 +150,54 @@ The response will be an object containing the following parameters.
 Parameter | Type | Description
 --------- | --------- | -----------
 team | String | The name of your team in Feathery
+
+## Remove Account
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/account/uninvite/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.patch(url, headers=headers, json=[{"email": "new@invite.com"}])
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/account/uninvite/" \
+    -X PATCH \
+    -d "[{'email': 'new@invite.com'}]" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/account/uninvite/";
+const data = [{email: 'new@invite.com'}];
+const headers = {
+  Authorization: "Token <API KEY>",
+  "Content-Type": "application/json"
+};
+const options = {
+  headers,
+  method: 'PATCH',
+  body: JSON.stringify(data)
+};
+fetch(url, options)
+  .then((response) => response.json())
+  .then(result => console.log(result));
+```
+
+Remove user from your Feathery team.
+
+### HTTP Request
+
+`PATCH https://api.feathery.io/api/account/uninvite/`
+
+### Request Body Parameters
+
+Parameter | Type               | Description
+--------- |--------------------| -----------
+email | string             | The email of the user to remove
 
 # Document Intelligence
 
@@ -1596,6 +1639,66 @@ name | String                | The human-readable name of the workspace, e.g. "C
 logo | URL                   | A URL to the logo to display in this workspace
 brand_url | URL    | A link to the brand website
 brand_name | String | The name of the white label brand
+
+## Retrieve a Workspace
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/workspace/<workspace_id>/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/workspace/<workspace_id>/" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/workspace/<workspace_id>/";
+const options = { headers: { Authorization: "Token <API KEY>" } };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "id": "<WORKSPACE UUID>",
+  "name": "Workspace 1",
+  "logo": "https://url-to-logo.com",
+  "brand_url": "https://feathery.io",
+  "brand_name": "Brand 1",
+  "live_api_key": "<LIVE API KEY>",
+  "test_api_key": "<TEST API KEY>",
+  "accounts": [{"email": "user@mail.com", "role": "admin"}]
+}
+```
+
+Retrieve a specific Feathery workspace connected to your main account. This is only available for Feathery's white label product.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/workspace/`
+
+### Response Body
+
+The response will be an array of objects with the following parameters.
+
+Parameter | Type                            | Description
+--------- |---------------------------------| -----------
+id | UUID                            | Your unique workspace ID
+name | String                          | The human-readable name of the workspace, e.g. "Company 1"
+logo | URL                             | A URL to the logo to display in this workspace
+brand_url | URL                               | A link to the brand website
+brand_name | String                          | The name of the white label brand
+live_api_key | String | The live API key of the workspace which can be used to perform operations on it
+test_api_key | String | The test API key of the workspace which can be used to perform operations on it
+accounts | {email: string; role: string}[] | A list of accounts in this workspace
 
 ## Update a Workspace
 
