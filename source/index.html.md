@@ -474,6 +474,7 @@ Parameter | Type | Description
 form_id | String | Your form's ID
 form_name | String | Your form's name
 steps | Array<Obj> | An array of step objects
+rules | Array<Obj> | An array of rule objects
 
 Each `steps` object contains the following parameters.
 
