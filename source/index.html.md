@@ -127,7 +127,7 @@ fetch(url, options)
   .then(result => console.log(result));
 ```
 
-Invite new users to your Feathery account.
+Invite new users to your Feathery team.
 
 ### HTTP Request
 
