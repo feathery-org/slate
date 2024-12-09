@@ -858,6 +858,7 @@ form_name | String | The name of the new form being created (must be unique)
 template_form_id | String | The ID of the template form to copy from
 steps | Array<Obj> | An array of steps to create
 navigation_rules | Array<Obj> | An array of navigation rule connecting steps to be created
+enabled | Boolean (Optional) | If the created form should be enabled or disabled. If not specified, will inherit the status of the template form.
 
 Each `steps` object contains the following parameters.
 The form element arrays allow you to edit attributes from the elements in the copied step.
@@ -966,6 +967,72 @@ Parameter | Type | Description
 comparison | String | Comparison - "equal", "not_equal"
 field_key | String | The ID of the field whose value is being used for this comparison
 value | String | The value to compare the field value against
+
+## Update a Form
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/form/<form_id>/";
+
+data = {"enabled": False}
+
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+
+result = requests.patch(url, data=data, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/form/<form_id>/" \
+    -X PATCH \
+    -d "{'enabled': false}" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/form/<form_id>/";
+const data = {"enabled": false}
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = {
+    headers, 
+    method: 'PATCH',
+    body: JSON.stringify(data)
+};
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "enabled": false
+}
+```
+
+Update a form's properties, including its status.
+
+### HTTP Request
+
+`POST https://api.feathery.io/api/form/<form_id>/`
+
+### Request Body Parameters
+
+Parameter | Type | Description
+--------- | --------- | -----------
+enabled | Boolean | Whether the form should be enabled or disabled
+
+### Response Body
+Same as request body parameters
 
 ## Create or Update Form Submissions
 
