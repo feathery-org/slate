@@ -201,6 +201,79 @@ email | string             | The email of the user to remove
 
 # Document Intelligence
 
+## Extract Data from Documents
+```python
+import requests
+
+url = "https://api.feathery.io/api/ai/run/<extraction_id>/";
+headers = {"Authorization": "Token <API KEY>"}
+files = [
+    ('files', ('file1.txt', document_1, 'text/plain')),
+    ('files', ('file2.txt', document_2, 'text/plain'))
+]
+data = {"files": files}
+result = requests.post(url, files=data, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/ai/run/<extraction_id>/" \
+    -X POST \
+    -F "files=@file1.txt" \
+    -F "files=@file2.txt" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/ai/run/<extraction_id>/";
+const formData = new FormData();
+formData.append('files', fs.createReadStream('file1.txt'));
+formData.append('files', fs.createReadStream('file2.txt'));
+const headers = { Authorization: "Token <API KEY>" };
+const options = {
+    headers, 
+    method: 'POST',
+    body: formData
+};
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{"user_id": "<USER ID>"}
+```
+Extract data from documents you send to Feathery via API. 
+The extraction must already be defined in your Feathery account, 
+and you must have document intelligence enabled.
+
+### HTTP Request
+
+`POST https://api.feathery.io/api/ai/run/<extraction_id>/`
+
+### URL Parameters
+
+Parameter | Type              | Description
+--------- |-------------------| -----------
+extraction_id | String | The ID of the extraction to run, which is configured in your Feathery dashboard.
+
+### Request Body Parameters
+Note that this needs to be formatted as a multipart/form-data request.
+
+Parameter | Type              | Description
+--------- |-------------------| -----------
+files | File Array        | An array of files that will be parsed by the extraction for data.
+
+### Response Body
+
+The response will be an object containing the following parameters.
+
+Parameter | Type | Description
+--------- | --------- | -----------
+user_id | String | The new Feathery user / submission who the extracted data is stored under.
+
 ## List Extraction Runs
 
 ```python
