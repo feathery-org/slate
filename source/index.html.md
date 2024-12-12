@@ -1694,14 +1694,14 @@ List all of the Feathery workspaces connected to your main account. This is only
 
 The response will be an array of objects with the following parameters.
 
-Parameter | Type                            | Description
---------- |---------------------------------| -----------
-id | UUID                            | Your unique workspace ID
-name | String                          | The human-readable name of the workspace, e.g. "Company 1"
-logo | URL                             | A URL to the logo to display in this workspace
-brand_url | URL                               | A link to the brand website
-brand_name | String                          | The name of the white label brand
-accounts | {email: string; role: string}[] | A list of accounts in this workspace
+Parameter | Type                                        | Description
+--------- |---------------------------------------------| -----------
+id | UUID                                        | Your unique workspace ID
+name | String                                      | The human-readable name of the workspace, e.g. "Company 1"
+logo | URL                                         | A URL to the logo to display in this workspace
+brand_url | URL                                         | A link to the brand website
+brand_name | String                                      | The name of the white label brand
+accounts | {id: string; email: string; role: string}[] | A list of accounts in this workspace
 
 ## Create a Workspace
 
@@ -1819,26 +1819,32 @@ fetch(url, options)
 }
 ```
 
-Retrieve a specific Feathery workspace connected to your main account. This is only available for Feathery's white label product.
+Retrieve a specific Feathery workspace connected to your main account, including its API keys. This is only available for Feathery's white label product.
 
 ### HTTP Request
 
-`GET https://api.feathery.io/api/workspace/`
+`GET https://api.feathery.io/api/workspace/<workspace_id>/`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+workspace_id | The ID of the workspace to retrieve
 
 ### Response Body
 
 The response will be an array of objects with the following parameters.
 
-Parameter | Type                            | Description
---------- |---------------------------------| -----------
-id | UUID                            | Your unique workspace ID
-name | String                          | The human-readable name of the workspace, e.g. "Company 1"
-logo | URL                             | A URL to the logo to display in this workspace
-brand_url | URL                               | A link to the brand website
-brand_name | String                          | The name of the white label brand
-live_api_key | String | The live API key of the workspace which can be used to perform operations on it
-test_api_key | String | The test API key of the workspace which can be used to perform operations on it
-accounts | {email: string; role: string}[] | A list of accounts in this workspace
+Parameter | Type                                        | Description
+--------- |---------------------------------------------| -----------
+id | UUID                                        | Your unique workspace ID
+name | String                                      | The human-readable name of the workspace, e.g. "Company 1"
+logo | URL                                         | A URL to the logo to display in this workspace
+brand_url | URL                                         | A link to the brand website
+brand_name | String                                      | The name of the white label brand
+live_api_key | String                                      | The live API key of the workspace which can be used to perform operations on it
+test_api_key | String                                      | The test API key of the workspace which can be used to perform operations on it
+accounts | {id: string; email: string; role: string}[] | A list of accounts in this workspace
 
 ## Update a Workspace
 
@@ -1898,6 +1904,12 @@ Update an existing workspace connected to your main account.
 ### HTTP Request
 
 `POST https://api.feathery.io/api/workspace/<workspace_id>/`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+workspace_id | The ID of the workspace to update
 
 ### Body Parameters
 
@@ -1961,3 +1973,77 @@ Delete a workspace connected to your main Feathery account.
 Parameter | Description
 --------- | -----------
 workspace_id | The ID of the workspace to delete
+
+## Generate a Workspace Login Token
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/workspace/<workspace_id>/auth/";
+data = {"account_id": "<ACCOUNT_ID>"}
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+result = requests.post(url, data=data, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/workspace/<workspace_id>/auth/" \
+    -X POST \
+    -d "{'account_id': '<ACCOUNT_ID>'}" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/workspace/<workspace_id>/auth/";
+const data = {account_id: "<ACCOUNT_ID>"}
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = {
+    headers, 
+    method: 'POST',
+    body: JSON.stringify(data)
+};
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "account_id": "<ACCOUNT ID>",
+  "token": "<JWT TOKEN>",
+}
+```
+
+Generate a login JWT token corresponding to an account in one of your workspaces.
+This token can be used to automatically log the user into the Feathery application.
+
+### HTTP Request
+
+`POST https://api.feathery.io/api/workspace/<workspace_id>/auth/`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+workspace_id | The ID of the workspace that the account token belongs to.
+
+### Body Parameters
+
+Parameter | Type          | Description
+--------- |---------------| -----------
+account_id | String (UUID) | The unique ID of the account to generate a login token for.
+
+### Response Body
+Parameter | Type          | Description
+--------- |---------------| -----------
+account_id | String (UUID) | The unique ID of the account
+token | String        | A JWT token that can be passed to the Feathery dashboard to automatically log the account in,
