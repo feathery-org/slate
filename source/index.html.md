@@ -1679,6 +1679,9 @@ fetch(url, options)
     "logo": "https://url-to-logo.com",
     "brand_url": "https://feathery.io",
     "brand_name": "Brand 1",
+    "brand_primary_color": "FFFFFF",
+    "brand_secondary_color": "FFFFFF",
+    "metadata": {"tag1": "value"},
     "accounts": [{"email": "user@mail.com", "role": "admin"}]
   }
 ]
@@ -1701,6 +1704,9 @@ name | String                                      | The human-readable name of 
 logo | URL                                         | A URL to the logo to display in this workspace
 brand_url | URL                                         | A link to the brand website
 brand_name | String                                      | The name of the white label brand
+brand_primary_color | Hex Color | 6-digit hex code of the primary color of the brand
+brand_secondary_color | Hex Color | 6-digit hex code of the secondary color of the brand
+metadata | Object | Key-value pairs of arbitrary metadata to configure and identify this workspace
 accounts | {id: string; email: string; role: string}[] | A list of accounts in this workspace
 
 ## Create a Workspace
@@ -1752,6 +1758,9 @@ fetch(url, options)
   "logo": "https://url-to-logo.com",
   "brand_url": "https://feathery.io",
   "brand_name": "Brand 1",
+  "brand_primary_color": "FFFFFF",
+  "brand_secondary_color": "FFFFFF",
+  "metadata": {"tag1": "value"},
   "accounts": [{"email": "user@mail.com", "role": "admin"}]
 }
 ```
@@ -1770,15 +1779,16 @@ name | String            | The human-readable name of the workspace, e.g. "Compa
 logo | URL (Optional)    | A URL to the logo to display in this workspace
 brand_url | URL (Optional)    | A link to the brand website
 brand_name | String (Optional) | The name of the white label brand
+brand_primary_color | Hex Color | 6-digit hex code of the primary color of the brand
+brand_secondary_color | Hex Color | 6-digit hex code of the secondary color of the brand
+metadata | Object | Key-value pairs of arbitrary metadata to configure and identify this workspace
 
 ### Response Body
 Parameter | Type                  | Description
 --------- |-----------------------| -----------
 id | UUID                  | Your unique workspace ID
-name | String                | The human-readable name of the workspace, e.g. "Company 1"
-logo | URL                   | A URL to the logo to display in this workspace
-brand_url | URL    | A link to the brand website
-brand_name | String | The name of the white label brand
+
+Request parameters are returned as well in the response.
 
 ## Retrieve a Workspace
 
@@ -1813,8 +1823,13 @@ fetch(url, options)
   "logo": "https://url-to-logo.com",
   "brand_url": "https://feathery.io",
   "brand_name": "Brand 1",
+  "brand_primary_color": "FFFFFF",
+  "brand_secondary_color": "FFFFFF",
+  "metadata": {"tag1": "value"},
   "live_api_key": "<LIVE API KEY>",
   "test_api_key": "<TEST API KEY>",
+  "live_sdk_key": "<LIVE SDK KEY>",
+  "test_sdk_key": "<TEST SDK KEY>",
   "accounts": [{"email": "user@mail.com", "role": "admin"}]
 }
 ```
@@ -1842,8 +1857,13 @@ name | String                                      | The human-readable name of 
 logo | URL                                         | A URL to the logo to display in this workspace
 brand_url | URL                                         | A link to the brand website
 brand_name | String                                      | The name of the white label brand
-live_api_key | String                                      | The live API key of the workspace which can be used to perform operations on it
-test_api_key | String                                      | The test API key of the workspace which can be used to perform operations on it
+brand_primary_color | Hex Color | 6-digit hex code of the primary color of the brand
+brand_secondary_color | Hex Color | 6-digit hex code of the secondary color of the brand
+metadata | Object | Key-value pairs of arbitrary metadata to configure and identify this workspace
+live_api_key | String                                      | The live API key of the workspace which can be used to call APIs on its behalf.
+test_api_key | String                                      | The test API key of the workspace which can be used to call APIs on its behalf.
+live_sdk_key | String                                      | The live SDK key of the workspace which can be used to embed workspace forms.
+test_sdk_key | String                                      | The test API key of the workspace which can be used to embed workspace forms.
 accounts | {id: string; email: string; role: string}[] | A list of accounts in this workspace
 
 ## Update a Workspace
@@ -1895,6 +1915,9 @@ fetch(url, options)
   "logo": "https://url-to-logo.com",
   "brand_url": "https://feathery.io",
   "brand_name": "Brand 1",
+  "brand_primary_color": "FFFFFF",
+  "brand_secondary_color": "FFFFFF",
+  "metadata": {"tag1": "value"},
   "accounts": [{"email": "user@mail.com", "role": "admin"}]
 }
 ```
@@ -1919,15 +1942,16 @@ name | String (Optional) | The human-readable name of the workspace, e.g. "Compa
 logo | URL (Optional)    | A URL to the logo to display in this workspace
 brand_url | URL (Optional)    | A link to the brand website
 brand_name | String (Optional) | The name of the white label brand
+brand_primary_color | Hex Color | 6-digit hex code of the primary color of the brand
+brand_secondary_color | Hex Color | 6-digit hex code of the secondary color of the brand
+metadata | Object | Key-value pairs of arbitrary metadata to configure and identify this workspace
 
 ### Response Body
 Parameter | Type   | Description
 --------- |--------| -----------
 id | UUID   | Your unique workspace ID
-name | String | The human-readable name of the workspace, e.g. "Company 1"
-logo | URL    | A URL to the logo to display in this workspace
-brand_url | URL    | A link to the brand website
-brand_name | String | The name of the white label brand
+
+Request parameters are returned as well in the response.
 
 ## Delete a Workspace
 
