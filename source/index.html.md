@@ -304,6 +304,7 @@ fetch(url, { headers })
 [{
   "id": "<Run Id>",
   "user_id": "<User Id>",
+  "file_name": "document.pdf",
   "success": true,
   "approved": true,
   "approver": "reviewer@mail.com",
@@ -335,6 +336,7 @@ Parameter | Type                | Description
 --------- |---------------------| -----------
 id | String              | The unique ID of the extraction run
 user_id | String              | The unique ID of the user who the extraction run is associated with
+file_name | String | The name of the document that was processed
 success | Boolean             | If the run was successful
 approved | Boolean             | If the run required review and was approved
 approver | Email               | The email of the account who approved the run
