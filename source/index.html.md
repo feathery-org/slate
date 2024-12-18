@@ -302,16 +302,15 @@ fetch(url, { headers })
 
 ```json
 [{
-  "id": "<RunId>",
+  "id": "<Run Id>",
+  "user_id": "<User Id>",
   "success": true,
   "approved": true,
   "approver": "reviewer@mail.com",
-  "error_message": "",
-  "display_pdf": null,
-  "created_at": "2020-06-01T00:00:00Z",
   "email_extracted_at": "2020-06-02T00:00:00Z",
   "document_extracted_at": "2020-06-03T00:00:00Z",
-  "updated_at": "2020-06-04T00:00:00Z",
+  "created_at": "2020-06-01T00:00:00Z",
+  "updated_at": "2020-06-04T00:00:00Z"
 }]
 ```
 
@@ -329,7 +328,20 @@ start_time | Datetime (Optional) | Fetch runs that started after this start time
 end_time | Datetime (Optional) | Fetch runs that started before this end time
 
 ### Response Body
-An array of extraction run entries
+
+The response is an array of extraction run entries with the following parameters.
+
+Parameter | Type                | Description
+--------- |---------------------| -----------
+id | String              | The unique ID of the extraction run
+user_id | String              | The unique ID of the user who the extraction run is associated with
+success | Boolean             | If the run was successful
+approved | Boolean             | If the run required review and was approved
+approver | Email               | The email of the account who approved the run
+email_extracted_at | Datetime (Optional) | If the inbox integration is turned on for this extraction, when the email associated with this run finished extracting
+document_extracted_at | Datetime | When the document associated with this run finished extracting
+created_at | Datetime | When this extraction run was created
+updated_at | Datetime | When this extraction run was last updated
 
 # Document Templates
 
