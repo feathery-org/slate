@@ -1444,7 +1444,7 @@ created_at | Datetime               | When this field was created
 updated_at | Datetime               | When this field was last updated
 internal_id | String                 | Feathery-internal identifier of your field. Always static
 
-## Get User Session Data
+## Get User Form Session
 
 ```python
 import requests
@@ -1491,7 +1491,7 @@ fetch(url, options)
 }
 ```
 
-Get session data for a user, including all forms and their progress
+Get form session data for a user, including all forms and their progress
 
 ### HTTP Request
 
