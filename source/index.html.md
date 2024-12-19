@@ -69,7 +69,16 @@ fetch(url, options)
 > The above command outputs JSON structured like this:
 
 ```json
-{"team": "my-team-name"}
+{
+  "team": "my-team-name",
+  "accounts": [
+    {
+      "email": "user@company.com",
+      "role": "admin",
+      "id": "<ACCOUNT ID>"
+    }
+  ]
+}
 ```
 
 Retrieve your Feathery account information.
@@ -85,6 +94,7 @@ The response will be an object containing the following parameters.
 Parameter | Type | Description
 --------- | --------- | -----------
 team | String | The name of your team in Feathery
+accounts | Array | List of accounts that belong to your team
 
 ## Invite Accounts
 
@@ -150,6 +160,7 @@ The response will be an object containing the following parameters.
 Parameter | Type | Description
 --------- | --------- | -----------
 team | String | The name of your team in Feathery
+accounts | Array | List of accounts that belong to your team
 
 ## Remove Account
 
@@ -198,6 +209,15 @@ Remove user from your Feathery team.
 Parameter | Type               | Description
 --------- |--------------------| -----------
 email | string             | The email of the user to remove
+
+### Response Body
+
+The response will be an object containing the following parameters.
+
+Parameter | Type | Description
+--------- | --------- | -----------
+team | String | The name of your team in Feathery
+accounts | Array | List of accounts that belong to your team
 
 # Document Intelligence
 
