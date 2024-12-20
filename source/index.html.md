@@ -1687,6 +1687,7 @@ id | UUID                                        | Your unique workspace ID
 name | String                                      | The human-readable name of the workspace, e.g. "Company 1"
 logo | URL                                         | A URL to the logo to display in this workspace
 brand_url | URL                                         | A link to the brand website
+brand_favicon | URL                                         | A link to the brand favicon to display
 brand_name | String                                      | The name of the white label brand
 brand_primary_color | Hex Color | 6-digit hex code of the primary color of the brand
 brand_secondary_color | Hex Color | 6-digit hex code of the secondary color of the brand
@@ -1727,6 +1728,7 @@ fetch(url, options)
     "name": "Workspace 1",
     "logo": "https://url-to-logo.com",
     "brand_url": "https://feathery.io",
+    "brand_favicon": "https://feathery.io/favicon.ico",
     "brand_name": "Brand 1",
     "brand_primary_color": "FFFFFF",
     "brand_secondary_color": "FFFFFF",
@@ -1806,6 +1808,7 @@ fetch(url, options)
   "name": "Workspace 1",
   "logo": "https://url-to-logo.com",
   "brand_url": "https://feathery.io",
+  "brand_favicon": "https://feathery.io/favicon.ico",
   "brand_name": "Brand 1",
   "brand_primary_color": "FFFFFF",
   "brand_secondary_color": "FFFFFF",
@@ -1828,10 +1831,11 @@ Parameter | Type              | Description
 name | String            | The human-readable name of the workspace, e.g. "Company 1"
 logo | URL (Optional)    | A URL to the logo to display in this workspace
 brand_url | URL (Optional)    | A link to the brand website
+brand_favicon | URL (Optional)    | A link to the brand favicon to display
 brand_name | String (Optional) | The name of the white label brand
-brand_primary_color | Hex Color | 6-digit hex code of the primary color of the brand
-brand_secondary_color | Hex Color | 6-digit hex code of the secondary color of the brand
-metadata | Object | Key-value pairs of arbitrary metadata to configure and identify this workspace
+brand_primary_color | Hex Color         | 6-digit hex code of the primary color of the brand
+brand_secondary_color | Hex Color         | 6-digit hex code of the secondary color of the brand
+metadata | Object            | Key-value pairs of arbitrary metadata to configure and identify this workspace
 
 ### Response Body
 Parameter | Type                  | Description
@@ -1870,6 +1874,7 @@ fetch(url, options)
   "name": "Workspace 1",
   "logo": "https://url-to-logo.com",
   "brand_url": "https://feathery.io",
+  "brand_favicon": "https://feathery.io/favicon.ico",
   "brand_name": "Brand 1",
   "brand_primary_color": "FFFFFF",
   "brand_secondary_color": "FFFFFF",
@@ -1962,6 +1967,7 @@ fetch(url, options)
   "name": "Workspace 1",
   "logo": "https://url-to-logo.com",
   "brand_url": "https://feathery.io",
+  "brand_favicon": "https://feathery.io/favicon.ico",
   "brand_name": "Brand 1",
   "brand_primary_color": "FFFFFF",
   "brand_secondary_color": "FFFFFF",
@@ -1990,10 +1996,11 @@ Parameter | Type              | Description
 name | String (Optional) | The human-readable name of the workspace, e.g. "Company 1"
 logo | URL (Optional)    | A URL to the logo to display in this workspace
 brand_url | URL (Optional)    | A link to the brand website
+brand_favicon | URL (Optional)    | A link to the brand favicon to display
 brand_name | String (Optional) | The name of the white label brand
-brand_primary_color | Hex Color | 6-digit hex code of the primary color of the brand
-brand_secondary_color | Hex Color | 6-digit hex code of the secondary color of the brand
-metadata | Object | Key-value pairs of arbitrary metadata to configure and identify this workspace
+brand_primary_color | Hex Color         | 6-digit hex code of the primary color of the brand
+brand_secondary_color | Hex Color         | 6-digit hex code of the secondary color of the brand
+metadata | Object            | Key-value pairs of arbitrary metadata to configure and identify this workspace
 
 ### Response Body
 Parameter | Type   | Description
