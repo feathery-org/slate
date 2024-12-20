@@ -1679,6 +1679,21 @@ id | The ID of the user to delete
 
 # Workspaces
 
+### Workspace Object
+
+Parameter | Type                                        | Description
+--------- |---------------------------------------------| -----------
+id | UUID                                        | Your unique workspace ID
+name | String                                      | The human-readable name of the workspace, e.g. "Company 1"
+logo | URL                                         | A URL to the logo to display in this workspace
+brand_url | URL                                         | A link to the brand website
+brand_name | String                                      | The name of the white label brand
+brand_primary_color | Hex Color | 6-digit hex code of the primary color of the brand
+brand_secondary_color | Hex Color | 6-digit hex code of the secondary color of the brand
+metadata | Object | Key-value pairs of arbitrary metadata to configure and identify this workspace
+accounts | {id: string; email: string; role: string}[] | A list of accounts in this workspace
+created_at | Datetime | When this workspace was created
+
 ## List All Workspaces
 
 ```python
@@ -1716,7 +1731,8 @@ fetch(url, options)
     "brand_primary_color": "FFFFFF",
     "brand_secondary_color": "FFFFFF",
     "metadata": {"tag1": "value"},
-    "accounts": [{"email": "user@mail.com", "role": "admin"}]
+    "accounts": [{"email": "user@mail.com", "role": "admin"}],
+    "created_at": "2020-06-01T00:00:00+00:00"
   }
 ]
 ```
@@ -1727,21 +1743,20 @@ List all of the Feathery workspaces connected to your main account. This is only
 
 `GET https://api.feathery.io/api/workspace/`
 
+### Request Query Parameters
+Parameter | Type               | Description
+--------- |--------------------| -----------
+submission_data | Boolean (Optional) | If set to true, each workspace's monthly submission data will be fetched as well.
+
 ### Response Body
 
-The response will be an array of objects with the following parameters.
+The response will be an array of workspace objects with the following parameters.
 
 Parameter | Type                                        | Description
 --------- |---------------------------------------------| -----------
-id | UUID                                        | Your unique workspace ID
-name | String                                      | The human-readable name of the workspace, e.g. "Company 1"
-logo | URL                                         | A URL to the logo to display in this workspace
-brand_url | URL                                         | A link to the brand website
-brand_name | String                                      | The name of the white label brand
-brand_primary_color | Hex Color | 6-digit hex code of the primary color of the brand
-brand_secondary_color | Hex Color | 6-digit hex code of the secondary color of the brand
-metadata | Object | Key-value pairs of arbitrary metadata to configure and identify this workspace
-accounts | {id: string; email: string; role: string}[] | A list of accounts in this workspace
+[Workspace Object](#workspace-object) | | Parameters from the Workspace Object definition
+monthly_submissions | Number (Optional) | If submission_data is requested, the number of submissions in the workspace on the current monthly billing cycle is returned.
+submission_cycle_start | Date (Optional) | If submission data is requested, the start date of the most recent billing cycle
 
 ## Create a Workspace
 
@@ -1795,7 +1810,8 @@ fetch(url, options)
   "brand_primary_color": "FFFFFF",
   "brand_secondary_color": "FFFFFF",
   "metadata": {"tag1": "value"},
-  "accounts": [{"email": "user@mail.com", "role": "admin"}]
+  "accounts": [{"email": "user@mail.com", "role": "admin"}],
+  "created_at": "2020-06-01T00:00:00+00:00"
 }
 ```
 
@@ -1820,9 +1836,7 @@ metadata | Object | Key-value pairs of arbitrary metadata to configure and ident
 ### Response Body
 Parameter | Type                  | Description
 --------- |-----------------------| -----------
-id | UUID                  | Your unique workspace ID
-
-Request parameters are returned as well in the response.
+[Workspace Object](#workspace-object) | | Parameters from the Workspace Object definition
 
 ## Retrieve a Workspace
 
@@ -1864,7 +1878,8 @@ fetch(url, options)
   "test_api_key": "<TEST API KEY>",
   "live_sdk_key": "<LIVE SDK KEY>",
   "test_sdk_key": "<TEST SDK KEY>",
-  "accounts": [{"email": "user@mail.com", "role": "admin"}]
+  "accounts": [{"email": "user@mail.com", "role": "admin"}],
+  "created_at": "2020-06-01T00:00:00+00:00"
 }
 ```
 
@@ -1880,25 +1895,24 @@ Parameter | Description
 --------- | -----------
 workspace_id | The ID of the workspace to retrieve
 
+### Request Query Parameters
+Parameter | Type               | Description
+--------- |--------------------| -----------
+submission_data | Boolean (Optional) | If set to true, each workspace's monthly submission data will be fetched as well.
+
 ### Response Body
 
 The response will be an array of objects with the following parameters.
 
 Parameter | Type                                        | Description
 --------- |---------------------------------------------| -----------
-id | UUID                                        | Your unique workspace ID
-name | String                                      | The human-readable name of the workspace, e.g. "Company 1"
-logo | URL                                         | A URL to the logo to display in this workspace
-brand_url | URL                                         | A link to the brand website
-brand_name | String                                      | The name of the white label brand
-brand_primary_color | Hex Color | 6-digit hex code of the primary color of the brand
-brand_secondary_color | Hex Color | 6-digit hex code of the secondary color of the brand
-metadata | Object | Key-value pairs of arbitrary metadata to configure and identify this workspace
+[Workspace Object](#workspace-object) | | Parameters from the Workspace Object definition
 live_api_key | String                                      | The live API key of the workspace which can be used to call APIs on its behalf.
 test_api_key | String                                      | The test API key of the workspace which can be used to call APIs on its behalf.
 live_sdk_key | String                                      | The live SDK key of the workspace which can be used to embed workspace forms.
 test_sdk_key | String                                      | The test API key of the workspace which can be used to embed workspace forms.
-accounts | {id: string; email: string; role: string}[] | A list of accounts in this workspace
+monthly_submissions | Number (Optional) | If submission_data is requested, the number of submissions in the workspace on the current monthly billing cycle is returned.
+submission_cycle_start | Date (Optional) | If submission data is requested, the start date of the most recent billing cycle
 
 ## Update a Workspace
 
@@ -1952,7 +1966,8 @@ fetch(url, options)
   "brand_primary_color": "FFFFFF",
   "brand_secondary_color": "FFFFFF",
   "metadata": {"tag1": "value"},
-  "accounts": [{"email": "user@mail.com", "role": "admin"}]
+  "accounts": [{"email": "user@mail.com", "role": "admin"}],
+  "created_at": "2020-06-01T00:00:00+00:00"
 }
 ```
 
@@ -1983,9 +1998,7 @@ metadata | Object | Key-value pairs of arbitrary metadata to configure and ident
 ### Response Body
 Parameter | Type   | Description
 --------- |--------| -----------
-id | UUID   | Your unique workspace ID
-
-Request parameters are returned as well in the response.
+[Workspace Object](#workspace-object) | | Parameters from the Workspace Object definition
 
 ## Delete a Workspace
 
