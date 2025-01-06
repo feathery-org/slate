@@ -1691,6 +1691,7 @@ brand_favicon | URL                                         | A link to the bran
 brand_name | String                                      | The name of the white label brand
 brand_primary_color | Hex Color | 6-digit hex code of the primary color of the brand
 brand_secondary_color | Hex Color | 6-digit hex code of the secondary color of the brand
+features | Object | Key-value pairs of account features. Available options are `live_forms` (# of live forms available) and `submissions` (# of monthly submissions available)
 metadata | Object | Key-value pairs of arbitrary metadata to configure and identify this workspace
 accounts | {id: string; email: string; role: string}[] | A list of accounts in this workspace
 created_at | Datetime | When this workspace was created
