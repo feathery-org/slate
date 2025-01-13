@@ -1694,6 +1694,7 @@ brand_secondary_color | Hex Color | 6-digit hex code of the secondary color of t
 features | Object | Key-value pairs of account features. Available options are `live_forms` (# of live forms available) and `submissions` (# of monthly submissions available)
 metadata | Object | Key-value pairs of arbitrary metadata to configure and identify this workspace
 accounts | {id: string; email: string; role: string}[] | A list of accounts in this workspace
+test | Boolean | Is this a test workspace (created via test API key)
 created_at | Datetime | When this workspace was created
 
 ## List All Workspaces
@@ -1740,7 +1741,7 @@ fetch(url, options)
 ]
 ```
 
-List all of the Feathery workspaces connected to your main account. This is only available for Feathery's white label product.
+List all of the Feathery workspaces connected to your main account. This is only available for Feathery's white label product. If querying with the test API key, will only return test workspaces.
 
 ### HTTP Request
 
@@ -1819,7 +1820,7 @@ fetch(url, options)
 }
 ```
 
-Create a new workspace connected to your main account.
+Create a new workspace connected to your main account. If querying with the test API key, will create a test workspace.
 
 ### HTTP Request
 
@@ -1889,7 +1890,7 @@ fetch(url, options)
 }
 ```
 
-Retrieve a specific Feathery workspace connected to your main account, including its API keys. This is only available for Feathery's white label product.
+Retrieve a specific Feathery workspace connected to your main account, including its API keys. This is only available for Feathery's white label product. If querying with the test API key, will only return test API keys.
 
 ### HTTP Request
 
