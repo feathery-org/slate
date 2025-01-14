@@ -40,6 +40,58 @@ Include your API key as a request header that looks like the following:
 You must replace <code>&lt;API KEY&gt;</code> with your personal API key.
 </aside>
 
+## Rotate API Key
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/account/rotate_key/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.patch(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/account/rotate_key/" \
+    -X PATCH \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/account/rotate_key/";
+const headers = {
+  Authorization: "Token <API KEY>",
+};
+const options = { headers, method: 'PATCH' };
+fetch(url, options)
+  .then((response) => response.json())
+  .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "old_api_key": "<API KEY>",
+  "new_api_key": "<API KEY>"
+}
+```
+
+Rotate your Feathery API key. The rotated key is the one used to authenticate the request.
+
+### HTTP Request
+
+`PATCH https://api.feathery.io/api/account/rotate_key/`
+
+### Response Body
+
+The response will be an object containing the following parameters.
+
+Parameter | Type   | Description
+--------- |--------| -----------
+old_api_key | String | The former API key that was rotated out
+new_api_key | String | The new API key that is in effect
+
 # Account
 
 ## Retrieve Account Information
