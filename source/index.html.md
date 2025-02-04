@@ -1733,25 +1733,25 @@ id | The ID of the user to delete
 
 ### Workspace Object
 
-Parameter | Type                                                                                                                           | Description
---------- |--------------------------------------------------------------------------------------------------------------------------------| -----------
-id | UUID                                                                                                                           | Your unique workspace ID
-name | String                                                                                                                         | The human-readable name of the workspace, e.g. "Company 1"
-logo | URL                                                                                                                            | A URL to the logo to display in this workspace
-brand_url | URL                                                                                                                            | A link to the brand website
-brand_favicon | URL                                                                                                                            | A link to the brand favicon to display
-brand_name | String                                                                                                                         | The name of the white label brand
-brand_primary_color | Hex Color                                                                                                                      | 6-digit hex code of the primary color of the brand
-brand_secondary_color | Hex Color                                                                                                                      | 6-digit hex code of the secondary color of the brand
-features | Object                                                                                                                         | Key-value pairs of account features. Available options are `live_forms` (# of live forms available) and `submissions` (# of monthly submissions available)
-disabled_global_tabs | ('themes' \| 'ab_tests' \| 'all_users')[]                                                                                      | Hide specific tabs from the global workspace dashboard.
-disabled_form_tabs | ('flow' \| 'integrations' \| 'results' \| 'settings')[]                                                                        | Hide specific tabs from the form editor.
-disabled_form_settings | ('form_properties' \| 'form_behavior' \| 'user_tracking' \| 'data_tracking' \| 'seo' \| 'international_support' \| 'delete')[] | Hide specific tabs from form settings.
-disabled_form_elements | ElementType[]                                                                                                                  | Hide specific elements from the form designer element selector. Element type enums can be found [here](https://docs.feathery.io/platform/build-forms/elements).
-metadata | Object                                                                                                                         | Key-value pairs of arbitrary metadata to configure and identify this workspace
-accounts | {id: string; email: string; role: string}[]                                                                                    | A list of accounts in this workspace
-test | Boolean                                                                                                                        | Is this a test workspace (created via test API key)
-created_at | Datetime                                                                                                                       | When this workspace was created
+Parameter | Type                                                                                                                     | Description                                                                                                                                                    
+--------- |--------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------
+id | UUID                                                                                                                     | Your unique workspace ID                                                                                                                                       
+name | String                                                                                                                   | The human-readable name of the workspace, e.g. "Company 1"                                                                                                     
+logo | URL                                                                                                                      | A URL to the logo to display in this workspace                                                                                                                 
+brand_url | URL                                                                                                                      | A link to the brand website                                                                                                                                    
+brand_favicon | URL                                                                                                                      | A link to the brand favicon to display                                                                                                                         
+brand_name | String                                                                                                                   | The name of the white label brand                                                                                                                              
+brand_primary_color | Hex Color                                                                                                                | 6-digit hex code of the primary color of the brand                                                                                                             
+brand_secondary_color | Hex Color                                                                                                                | 6-digit hex code of the secondary color of the brand                                                                                                           
+features | Object                                                                                                                   | Key-value pairs of account features. Available options are `live_forms` (# of live forms available) and `submissions` (# of monthly submissions available)     
+disabled_global_tabs | ('themes' &#124; 'ab_tests' &#124; 'all_users')[]                                                                              | Hide specific tabs from the global workspace dashboard.
+disabled_form_tabs | ('flow' &#124; 'integrations' &#124; 'results' &#124; 'settings')[]                                                                | Hide specific tabs from the form editor.                                                                                                                       
+disabled_form_settings | ('form_properties' &#124; 'form_behavior' &#124; 'user_tracking' &#124; 'data_tracking' &#124; 'seo' &#124; 'international_support' &#124; 'delete')[] | Hide specific tabs from form settings.                                                                                                                         
+disabled_form_elements | ElementType[]                                                                                                            | Hide specific elements from the form designer element selector. Element type enums can be found [here](https://docs.feathery.io/platform/build-forms/elements). 
+metadata | Object                                                                                                                   | Key-value pairs of arbitrary metadata to configure and identify this workspace                                                                                 
+accounts | {id: string; email: string; role: string}[]                                                                              | A list of accounts in this workspace                                                                                                                           
+test | Boolean                                                                                                                  | Is this a test workspace (created via test API key)                                                                                                            
+created_at | Datetime                                                                                                                 | When this workspace was created                                                                                                                                
 
 ## List All Workspaces
 
@@ -1894,21 +1894,21 @@ Create a new workspace connected to your main account. If querying with the test
 
 ### Body Parameters
 
-Parameter | Type                                                                                                                                      | Description
---------- |-------------------------------------------------------------------------------------------------------------------------------------------| -----------
-name | String                                                                                                                                    | The human-readable name of the workspace, e.g. "Company 1"
-logo | URL (Optional)                                                                                                                            | A URL to the logo to display in this workspace
-brand_url | URL (Optional)                                                                                                                            | A link to the brand website
-brand_favicon | URL (Optional)                                                                                                                            | A link to the brand favicon to display
-brand_name | String (Optional)                                                                                                                         | The name of the white label brand
-brand_primary_color | Hex Color (Optional)                                                                                                                      | 6-digit hex code of the primary color of the brand
-brand_secondary_color | Hex Color (Optional)                                                                                                                      | 6-digit hex code of the secondary color of the brand
-features | Object (Optional)                                                                                                                         | Key-value pairs of account features. Available options are `live_forms` (# of live forms available) and `submissions` (# of monthly submissions available)
-disabled_global_tabs | ('themes' \| 'ab_tests' \| 'all_users')[] (Optional)                                                                                      | Hide specific tabs from the global workspace dashboard.
-disabled_form_tabs | ('flow' \| 'integrations' \| 'results' \| 'settings')[] (Optional)                                                                        | Hide specific tabs from the form editor.
-disabled_form_settings | ('form_properties' \| 'form_behavior' \| 'user_tracking' \| 'data_tracking' \| 'seo' \| 'international_support' \| 'delete')[] (Optional) | Hide specific tabs from form settings.
-disabled_form_elements | ElementType[] (Optional)                                                                                                                  | Hide specific elements from the form designer element selector. Element type enums can be found [here](https://docs.feathery.io/platform/build-forms/elements).
-metadata | Object (Optional)                                                                                                                         | Key-value pairs of arbitrary metadata to configure and identify this workspace
+Parameter | Type                                                                                                                                  | Description
+--------- |---------------------------------------------------------------------------------------------------------------------------------------| -----------
+name | String                                                                                                                                | The human-readable name of the workspace, e.g. "Company 1"
+logo | URL (Optional)                                                                                                                        | A URL to the logo to display in this workspace
+brand_url | URL (Optional)                                                                                                                        | A link to the brand website
+brand_favicon | URL (Optional)                                                                                                                        | A link to the brand favicon to display
+brand_name | String (Optional)                                                                                                                     | The name of the white label brand
+brand_primary_color | Hex Color (Optional)                                                                                                                  | 6-digit hex code of the primary color of the brand
+brand_secondary_color | Hex Color (Optional)                                                                                                                  | 6-digit hex code of the secondary color of the brand
+features | Object (Optional)                                                                                                                     | Key-value pairs of account features. Available options are `live_forms` (# of live forms available) and `submissions` (# of monthly submissions available)
+disabled_global_tabs | ('themes' &#124; 'ab_tests' &#124; 'all_users')[] (Optional)                                                                                | Hide specific tabs from the global workspace dashboard.
+disabled_form_tabs | ('flow' &#124; 'integrations' &#124; 'results' &#124; 'settings')[] (Optional)                                                                  | Hide specific tabs from the form editor.
+disabled_form_settings | ('form_properties' &#124; 'form_behavior' &#124; 'user_tracking' &#124; 'data_tracking' &#124; 'seo' &#124; 'international_support' &#124; 'delete')[] (Optional) | Hide specific tabs from form settings.
+disabled_form_elements | ElementType[] (Optional)                                                                                                              | Hide specific elements from the form designer element selector. Element type enums can be found [here](https://docs.feathery.io/platform/build-forms/elements).
+metadata | Object (Optional)                                                                                                                     | Key-value pairs of arbitrary metadata to configure and identify this workspace
 
 ### Response Body
 Parameter | Type                  | Description
@@ -2074,21 +2074,21 @@ workspace_id | The ID of the workspace to update
 
 ### Body Parameters
 
-Parameter | Type                                                                                                                                      | Description
---------- |-------------------------------------------------------------------------------------------------------------------------------------------| -----------
-name | String (Optional)                                                                                                                         | The human-readable name of the workspace, e.g. "Company 1"
-logo | URL (Optional)                                                                                                                            | A URL to the logo to display in this workspace
-brand_url | URL (Optional)                                                                                                                            | A link to the brand website
-brand_favicon | URL (Optional)                                                                                                                            | A link to the brand favicon to display
-brand_name | String (Optional)                                                                                                                         | The name of the white label brand
-brand_primary_color | Hex Color (Optional)                                                                                                                      | 6-digit hex code of the primary color of the brand
-brand_secondary_color | Hex Color (Optional)                                                                                                                      | 6-digit hex code of the secondary color of the brand
-features | Object (Optional)                                                                                                                         | Key-value pairs of account features. Available options are `live_forms` (# of live forms available) and `submissions` (# of monthly submissions available)
-disabled_global_tabs | ('themes' \| 'ab_tests' \| 'all_users')[] (Optional)                                                                                      | Hide specific tabs from the global workspace dashboard.
-disabled_form_tabs | ('flow' \| 'integrations' \| 'results' \| 'settings')[] (Optional)                                                                        | Hide specific tabs from the form editor.
-disabled_form_settings | ('form_properties' \| 'form_behavior' \| 'user_tracking' \| 'data_tracking' \| 'seo' \| 'international_support' \| 'delete')[] (Optional) | Hide specific tabs from form settings.
-disabled_form_elements | ElementType[] (Optional)                                                                                                                  | Hide specific elements from the form designer element selector. Element type enums can be found [here](https://docs.feathery.io/platform/build-forms/elements).
-metadata | Object (Optional)                                                                                                                         | Key-value pairs of arbitrary metadata to configure and identify this workspace
+Parameter | Type                                                                                                                                  | Description
+--------- |---------------------------------------------------------------------------------------------------------------------------------------| -----------
+name | String (Optional)                                                                                                                     | The human-readable name of the workspace, e.g. "Company 1"
+logo | URL (Optional)                                                                                                                        | A URL to the logo to display in this workspace
+brand_url | URL (Optional)                                                                                                                        | A link to the brand website
+brand_favicon | URL (Optional)                                                                                                                        | A link to the brand favicon to display
+brand_name | String (Optional)                                                                                                                     | The name of the white label brand
+brand_primary_color | Hex Color (Optional)                                                                                                                  | 6-digit hex code of the primary color of the brand
+brand_secondary_color | Hex Color (Optional)                                                                                                                  | 6-digit hex code of the secondary color of the brand
+features | Object (Optional)                                                                                                                     | Key-value pairs of account features. Available options are `live_forms` (# of live forms available) and `submissions` (# of monthly submissions available)
+disabled_global_tabs | ('themes' &#124; 'ab_tests' &#124; 'all_users')[] (Optional)                                                                                | Hide specific tabs from the global workspace dashboard.
+disabled_form_tabs | ('flow' &#124; 'integrations' &#124; 'results' &#124; 'settings')[] (Optional)                                                                  | Hide specific tabs from the form editor.
+disabled_form_settings | ('form_properties' &#124; 'form_behavior' &#124; 'user_tracking' &#124; 'data_tracking' &#124; 'seo' &#124; 'international_support' &#124; 'delete')[] (Optional) | Hide specific tabs from form settings.
+disabled_form_elements | ElementType[] (Optional)                                                                                                              | Hide specific elements from the form designer element selector. Element type enums can be found [here](https://docs.feathery.io/platform/build-forms/elements).
+metadata | Object (Optional)                                                                                                                     | Key-value pairs of arbitrary metadata to configure and identify this workspace
 
 ### Response Body
 Parameter | Type   | Description
