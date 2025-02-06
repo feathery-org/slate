@@ -751,11 +751,17 @@ fetch(url, options)
 ]
 ```
 
-List all of your forms in Feathery.
+List your Feathery forms
 
 ### HTTP Request
 
 `GET https://api.feathery.io/api/form/`
+
+### Request Query Parameters
+
+Parameter | Type              | Description
+--------- |-------------------| -----------
+tags | String (Optional) | Only return forms that have all of these tags in a comma-separated list.
 
 ### Response Body
 
@@ -766,6 +772,7 @@ Parameter | Type | Description
 id | String | The form ID
 name | String | The form name
 active | Boolean | Is the form turned on
+tags | String[] | The tags on your form
 created_at | Datetime | When this form was created
 updated_at | Datetime | When this form was last updated
 
