@@ -1334,9 +1334,17 @@ end_time | Datetime (Optional) | Fetch submissions from before this end time
 completed | Boolean (Optional) | If specified, only fetch submissions that are either completed or incomplete
 no_field_values | Boolean (Optional) | Don't return field data. If this is enabled, you may fetch more records and the endpoint is more performant.
 sort | String (Optional) | If "layout", the returned values will be sorted in the way fields are laid out in the form. Otherwise, values will be sorted by field ID alphabetically.
+fuzzy_search | JSON (Optional) | Fuzzy search allows you to grab submissions whose field values are similar to search terms that you pass in. To leverage fuzzy search, pass in a stringified JSON object of the format described below. Fuzzy search is implemented via a trigram similarity score.
+
+### Fuzzy Search Parameters
+Parameter | Type                                                  | Description
+--------- |-------------------------------------------------------| -----------
+threshold | Number                                                | A number between 0 and 1. Only submissions with a score higher than the threshold will be returned.
+parameters | { field_id: string; term: string; weight: number; }[] | Each parameter specifies a field whose value will be compared against the included term. The weight is a number between 0 and 1 describing the importance of this parameter to the final score. The sum of all parameter weights must be 1.
+
 
 ### Response Body
-An array of submission entries
+An array of submission entries. The similarity score will be returned as well if fuzzy search is implemented.
 
 ## Export Form Submission PDF
 
