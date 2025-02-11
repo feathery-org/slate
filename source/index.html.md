@@ -1268,7 +1268,7 @@ Parameter | Type | Description
 fields | Object | A mapping from field identifier (ID or Internal ID) to associated field values to create. For a signature field, pass `{"file": <base64 string>, "name": <file name>}`
 user_id | Optional String | A new or existing user ID. If not provided, a random ID will be generated and returned.
 forms | Optional String[] | An array of form IDs to initialize submissions for
-complete | Optional Boolean | A boolean value to indicate if this  submission will be set as a form completion. Default to false if not provided 
+complete | Optional Boolean | If this submission is complete or incomplete. If the submission already exists and this flag is not specified, the completion status will not be changed.
 
 ### Response Body
 Same as request body parameters
