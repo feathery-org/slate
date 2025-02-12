@@ -194,16 +194,16 @@ Invite new users to your Feathery team.
 An array of objects with the following parameters, where each object is a new
 user to invite:
 
-Parameter | Type               | Description
---------- |--------------------| -----------
-email | string             | The email of the new user to invite 
-role | string (optional)  | Either 'admin', 'editor', or 'viewer'. Defaults to 'admin'.
-permission_edit_form_results | boolean (optional) | If 'editor', if they're allowed to edit form results. Defaults to true.
-permission_invite_collaborators | boolean (optional) | If 'editor', if they're allowed to invite form collaborators. Defaults to true.
-permission_edit_collaborator_template | boolean (optional) | If 'editor', if they're allowed to edit form collaborator settings. Defaults to true.
-permission_edit_logic | boolean (optional) | If 'editor', if they're allowed to edit form custom logic rules. Defaults to true.
-permission_edit_theme | boolean (optional) | If 'editor', if they're allowed to edit form themes. Defaults to true.
-user_groups | string[] (optional) | An array of user group names to add the invited account to
+Parameter | Type                  | Description
+--------- |-----------------------| -----------
+email | string                | The email of the new user to invite 
+role | string (optional)     | Either 'admin', 'editor', or 'viewer'. Defaults to 'admin'.
+permission_edit_form_results | boolean (optional)    | If 'editor', if they're allowed to edit form results. Defaults to true.
+permission_invite_collaborators | boolean (optional)    | If 'editor', if they're allowed to invite form collaborators. Defaults to true.
+permission_edit_collaborator_template | boolean (optional)    | If 'editor', if they're allowed to edit form collaborator settings. Defaults to true.
+permission_edit_logic | boolean (optional)    | If 'editor', if they're allowed to edit form custom logic rules. Defaults to true.
+permission_edit_theme | boolean (optional)    | If 'editor', if they're allowed to edit form themes. Defaults to true.
+user_groups | string\[\] (optional) | An array of user group names to add the invited account to
 
 ### Response Body
 
@@ -1911,21 +1911,21 @@ Create a new workspace connected to your main account. If querying with the test
 
 ### Body Parameters
 
-Parameter | Type                                                                                                                                  | Description
---------- |---------------------------------------------------------------------------------------------------------------------------------------| -----------
-name | String                                                                                                                                | The human-readable name of the workspace, e.g. "Company 1"
-logo | URL (Optional)                                                                                                                        | A URL to the logo to display in this workspace
-brand_url | URL (Optional)                                                                                                                        | A link to the brand website
-brand_favicon | URL (Optional)                                                                                                                        | A link to the brand favicon to display
-brand_name | String (Optional)                                                                                                                     | The name of the white label brand
-brand_primary_color | Hex Color (Optional)                                                                                                                  | 6-digit hex code of the primary color of the brand
-brand_secondary_color | Hex Color (Optional)                                                                                                                  | 6-digit hex code of the secondary color of the brand
-features | Object (Optional)                                                                                                                     | Key-value pairs of account features. Available options are `live_forms` (# of live forms available) and `submissions` (# of monthly submissions available)
-disabled_global_tabs | ('themes' &#124; 'ab_tests' &#124; 'all_users')[] (Optional)                                                                                | Hide specific tabs from the global workspace dashboard.
-disabled_form_tabs | ('flow' &#124; 'integrations' &#124; 'results' &#124; 'settings')[] (Optional)                                                                  | Hide specific tabs from the form editor.
-disabled_form_settings | ('form_properties' &#124; 'form_behavior' &#124; 'user_tracking' &#124; 'data_tracking' &#124; 'seo' &#124; 'international_support' &#124; 'delete')[] (Optional) | Hide specific tabs from form settings.
-disabled_form_elements | ElementType[] (Optional)                                                                                                              | Hide specific elements from the form designer element selector. Element type enums can be found [here](https://docs.feathery.io/platform/build-forms/elements).
-metadata | Object (Optional)                                                                                                                     | Key-value pairs of arbitrary metadata to configure and identify this workspace
+Parameter | Type                                                                                                                                                                | Description
+--------- |---------------------------------------------------------------------------------------------------------------------------------------------------------------------| -----------
+name | String                                                                                                                                                              | The human-readable name of the workspace, e.g. "Company 1"
+logo | URL (Optional)                                                                                                                                                      | A URL to the logo to display in this workspace
+brand_url | URL (Optional)                                                                                                                                                      | A link to the brand website
+brand_favicon | URL (Optional)                                                                                                                                                      | A link to the brand favicon to display
+brand_name | String (Optional)                                                                                                                                                   | The name of the white label brand
+brand_primary_color | Hex Color (Optional)                                                                                                                                                | 6-digit hex code of the primary color of the brand
+brand_secondary_color | Hex Color (Optional)                                                                                                                                                | 6-digit hex code of the secondary color of the brand
+features | Object (Optional)                                                                                                                                                   | Key-value pairs of account features. Available options are `live_forms` (# of live forms available) and `submissions` (# of monthly submissions available)
+disabled_global_tabs | ('themes' &#124; 'ab_tests' &#124; 'all_users')\[\] (Optional)                                                                                                      | Hide specific tabs from the global workspace dashboard.
+disabled_form_tabs | ('flow' &#124; 'integrations' &#124; 'results' &#124; 'settings')\[\] (Optional)                                                                                    | Hide specific tabs from the form editor.
+disabled_form_settings | ('form_properties' &#124; 'form_behavior' &#124; 'user_tracking' &#124; 'data_tracking' &#124; 'seo' &#124; 'international_support' &#124; 'delete')\[\] (Optional) | Hide specific tabs from form settings.
+disabled_form_elements | ElementType\[\] (Optional)                                                                                                                                          | Hide specific elements from the form designer element selector. Element type enums can be found [here](https://docs.feathery.io/platform/build-forms/elements).
+metadata | Object (Optional)                                                                                                                                                   | Key-value pairs of arbitrary metadata to configure and identify this workspace
 
 ### Response Body
 Parameter | Type                  | Description
@@ -2091,21 +2091,21 @@ workspace_id | The ID of the workspace to update
 
 ### Body Parameters
 
-Parameter | Type                                                                                                                                  | Description
---------- |---------------------------------------------------------------------------------------------------------------------------------------| -----------
-name | String (Optional)                                                                                                                     | The human-readable name of the workspace, e.g. "Company 1"
-logo | URL (Optional)                                                                                                                        | A URL to the logo to display in this workspace
-brand_url | URL (Optional)                                                                                                                        | A link to the brand website
-brand_favicon | URL (Optional)                                                                                                                        | A link to the brand favicon to display
-brand_name | String (Optional)                                                                                                                     | The name of the white label brand
-brand_primary_color | Hex Color (Optional)                                                                                                                  | 6-digit hex code of the primary color of the brand
-brand_secondary_color | Hex Color (Optional)                                                                                                                  | 6-digit hex code of the secondary color of the brand
-features | Object (Optional)                                                                                                                     | Key-value pairs of account features. Available options are `live_forms` (# of live forms available) and `submissions` (# of monthly submissions available)
-disabled_global_tabs | ('themes' &#124; 'ab_tests' &#124; 'all_users')[] (Optional)                                                                                | Hide specific tabs from the global workspace dashboard.
-disabled_form_tabs | ('flow' &#124; 'integrations' &#124; 'results' &#124; 'settings')[] (Optional)                                                                  | Hide specific tabs from the form editor.
-disabled_form_settings | ('form_properties' &#124; 'form_behavior' &#124; 'user_tracking' &#124; 'data_tracking' &#124; 'seo' &#124; 'international_support' &#124; 'delete')[] (Optional) | Hide specific tabs from form settings.
-disabled_form_elements | ElementType[] (Optional)                                                                                                              | Hide specific elements from the form designer element selector. Element type enums can be found [here](https://docs.feathery.io/platform/build-forms/elements).
-metadata | Object (Optional)                                                                                                                     | Key-value pairs of arbitrary metadata to configure and identify this workspace
+Parameter | Type                                                                                                                                                                | Description
+--------- |---------------------------------------------------------------------------------------------------------------------------------------------------------------------| -----------
+name | String (Optional)                                                                                                                                                   | The human-readable name of the workspace, e.g. "Company 1"
+logo | URL (Optional)                                                                                                                                                      | A URL to the logo to display in this workspace
+brand_url | URL (Optional)                                                                                                                                                      | A link to the brand website
+brand_favicon | URL (Optional)                                                                                                                                                      | A link to the brand favicon to display
+brand_name | String (Optional)                                                                                                                                                   | The name of the white label brand
+brand_primary_color | Hex Color (Optional)                                                                                                                                                | 6-digit hex code of the primary color of the brand
+brand_secondary_color | Hex Color (Optional)                                                                                                                                                | 6-digit hex code of the secondary color of the brand
+features | Object (Optional)                                                                                                                                                   | Key-value pairs of account features. Available options are `live_forms` (# of live forms available) and `submissions` (# of monthly submissions available)
+disabled_global_tabs | ('themes' &#124; 'ab_tests' &#124; 'all_users')\[\] (Optional)                                                                                                      | Hide specific tabs from the global workspace dashboard.
+disabled_form_tabs | ('flow' &#124; 'integrations' &#124; 'results' &#124; 'settings')\[\] (Optional)                                                                                    | Hide specific tabs from the form editor.
+disabled_form_settings | ('form_properties' &#124; 'form_behavior' &#124; 'user_tracking' &#124; 'data_tracking' &#124; 'seo' &#124; 'international_support' &#124; 'delete')\[\] (Optional) | Hide specific tabs from form settings.
+disabled_form_elements | ElementType\[\] (Optional)                                                                                                                                          | Hide specific elements from the form designer element selector. Element type enums can be found [here](https://docs.feathery.io/platform/build-forms/elements).
+metadata | Object (Optional)                                                                                                                                                   | Key-value pairs of arbitrary metadata to configure and identify this workspace
 
 ### Response Body
 Parameter | Type   | Description
