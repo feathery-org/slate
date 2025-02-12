@@ -1327,16 +1327,16 @@ List submission data for a particular form
 
 ### Request Query Parameters
 
-Parameter | Type                  | Description
---------- |-----------------------| -----------
-start_time | Datetime (Optional)   | Limit submissions to after this start time
-end_time | Datetime (Optional)   | Limit submissions to before this end time
-count | Number (Optional)     | Limit the number of returned submissions to the specified number (sorted by either last submission time or similarity if fuzzy search is leveraged).
-completed | Boolean (Optional)    | If specified, only fetch submissions that are either completed or incomplete
-fuzzy_search | JSON (Optional)       | Fuzzy search allows you to grab submissions whose field values are similar to search terms that you pass in. To leverage fuzzy search, pass in a stringified JSON object of the format described below. Fuzzy search is implemented via a trigram similarity score. Returned results will be sorted by similarity.
-fields | String\[\] (Optional) | If specified, limit returned data to the specified field IDs.
-no_field_values | Boolean (Optional)    | Don't return field data. If this is enabled, you may fetch more records and the endpoint is more performant.
-sort | String (Optional)     | If "layout", the returned field values will be sorted in the way fields are laid out in the form. Otherwise, values will be sorted by field ID alphabetically.
+Parameter | Type                | Description
+--------- |---------------------| -----------
+start_time | Datetime (Optional) | Limit submissions to after this start time
+end_time | Datetime (Optional) | Limit submissions to before this end time
+count | Number (Optional)   | Limit the number of returned submissions to the specified number (sorted by either last submission time or similarity if fuzzy search is leveraged).
+completed | Boolean (Optional)  | If specified, only fetch submissions that are either completed or incomplete
+fuzzy_search | JSON (Optional)     | Fuzzy search allows you to grab submissions whose field values are similar to search terms that you pass in. To leverage fuzzy search, pass in a stringified JSON object of the format described below. Fuzzy search is implemented via a trigram similarity score. Returned results will be sorted by similarity.
+fields | String (Optional)   | Comma-separated list of field IDs. If specified, limit returned data to the specified field IDs.
+no_field_values | Boolean (Optional)  | Don't return field data. If this is enabled, you may fetch more records and the endpoint is more performant.
+sort | String (Optional)   | If "layout", the returned field values will be sorted in the way fields are laid out in the form. Otherwise, values will be sorted by field ID alphabetically.
 
 ### Fuzzy Search Parameters
 Parameter | Type                                                  | Description
