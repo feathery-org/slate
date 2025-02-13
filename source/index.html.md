@@ -258,9 +258,10 @@ Remove user from your Feathery team.
 
 ### Request Body Parameters
 
-Parameter | Type               | Description
---------- |--------------------| -----------
-email | string             | The email of the user to remove
+Parameter | Type              | Description
+--------- |-------------------| -----------
+email | String (Optional) | The email of the user to remove. Either the account ID or the email needs to be specified.
+account_id | String (Optional) | The account ID of the user to remove. Either the account ID or the email needs to be specified.
 
 ### Response Body
 
