@@ -1415,6 +1415,132 @@ Parameter | Type | Description
 --------- |------| -----------
 pdf_url | URL  | A URL where the PDF export can be downloaded from. The file may not be immediately available. 
 
+# Logs
+
+## List Recent API Connector Errors
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/logs/api-connector/<Form ID>/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/logs/api-connector/<Form ID>/" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/logs/api-connector/<Form ID>/";
+const options = { headers: { Authorization: "Token <API KEY>" } };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+[
+  {
+    "url": "https://api.com",
+    "status_code": 401,
+    "request": "{'data': {'param1': ...",
+    "response": "{'response': 'My m....",
+    "created_at": "2020-06-03T00:00:00+00:00"
+  }
+]
+```
+
+List all recent response errors from API connector requests triggered from Feathery forms, up to the last week of data.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/logs/api-connector/<Form ID>/`
+
+### Request Query Parameters
+
+Parameter | Type                | Description
+--------- |---------------------| -----------
+start_time | Datetime (Optional) | Only return errors after this time.
+end_time | Datetime (Optional) | Only return errors before this time.
+
+### Response Body
+
+The response will be an array of objects with the following parameters.
+
+Parameter | Type        | Description
+--------- |-------------| -----------
+url | String      | The endpoint URL that returned an error
+status_code | Number      | The erroring status code returned
+request | JSON string | The API request parameters, truncated if above 400 characters
+response | JSON string | The API response, truncated if above 400 characters
+created_at | Datetime    | When this error was received.
+
+## List Recently Sent [Emails](https://feathery.io/integrations/email)
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/logs/email/<Form ID>/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/logs/email/<Form ID>/" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/logs/email/<Form ID>/";
+const options = { headers: { Authorization: "Token <API KEY>" } };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+[
+  {
+    "template_id": "alice@feathery.io",
+    "recipients": "2020-06-01T00:00:00Z",
+    "subject": "",
+    "created_at": "2020-06-02T00:00:00Z"
+  }
+]
+```
+
+List all recent emails sent via Feathery's [email integration](https://feathery.io/integrations/email), up to the last week of data.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/logs/email/<Form ID>/`
+
+### Request Query Parameters
+
+Parameter | Type                | Description
+--------- |---------------------| -----------
+start_time | Datetime (Optional) | Only return emails sent after this time.
+end_time | Datetime (Optional) | Only return emails sent before this time.
+
+### Response Body
+
+The response will be an array of objects with the following parameters.
+
+Parameter | Type | Description
+--------- | --------- | -----------
+template_id | String | The ID of the email template in the integration this email was based off of.
+recipients | Datetime | The recipient addresses this email was sent to.
+subject | Datetime | The subject of this email.
+created_at | Datetime | When this email was sent.
+
 # Users
 
 ## List All Users
