@@ -1480,7 +1480,7 @@ request | JSON string | The API request parameters, truncated if above 400 chara
 response | JSON string | The API response, truncated if above 400 characters
 created_at | Datetime    | When this error was received.
 
-## List Recently Sent [Emails](https://feathery.io/integrations/email)
+## List Recently Sent Emails
 
 ```python
 import requests
