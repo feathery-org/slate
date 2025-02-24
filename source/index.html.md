@@ -745,7 +745,7 @@ fetch(url, options)
   {
     "id": "aSdsa5",
     "name": "My Form",
-    "active": true, 
+    "active": true,
     "created_at": "2020-06-01T00:00:00Z",
     "updated_at": "2020-06-01T00:00:00Z"
   }
@@ -768,14 +768,15 @@ tags | String (Optional) | Only return forms that have all of these tags in a co
 
 The response will be an array of objects containing the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-id | String | The form ID
-name | String | The form name
-active | Boolean | Is the form turned on
-tags | String[] | The tags on your form
-created_at | Datetime | When this form was created
-updated_at | Datetime | When this form was last updated
+Parameter | Type            | Description
+--------- |-----------------| -----------
+id | String          | The form ID
+name | String          | The form name
+active | Boolean         | Is the form turned on
+tags | String[]        | The tags on your form
+internal_id | UUID (Optional) | Feathery-specific identifier for the form. Returned only for white label workspaces.
+created_at | Datetime        | When this form was created
+updated_at | Datetime        | When this form was last updated
 
 ## Create a Form
 
@@ -1134,6 +1135,16 @@ Parameter | Type | Description
 comparison | String | Comparison - "equal", "not_equal"
 field_key | String | The ID of the field whose value is being used for this comparison
 value | String | The value to compare the field value against
+
+### Response Body
+
+The response will be an object containing the following parameters.
+
+Parameter | Type | Description
+--------- | --------- | -----------
+id | String | The form ID
+name | String | The form name
+internal_id | UUID (Optional) | Feathery-specific identifier for the form. Returned only for white label workspaces.
 
 ## Update a Form
 
