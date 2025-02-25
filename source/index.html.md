@@ -696,7 +696,8 @@ next_conditions | Array<Obj> | Navigation rules that connect the current step to
 created_at | Datetime | When this step was created
 updated_at | Datetime | When this step was last updated
 
-Each form element (images, videos, progress_bars, texts, buttons, fields) has a common `id` parameter that uniquely identifies it.
+Each form element (images, videos, progress_bars, texts, buttons, fields) has a common `id` parameter that uniquely identifies it. 
+Each element also contains a `hide_rules` parameter that stores any conditions that would trigger the element to be hidden on the form.
 
 Each `rule` object contains the following parameters.
 
