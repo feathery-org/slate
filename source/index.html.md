@@ -198,11 +198,11 @@ Parameter | Type                  | Description
 --------- |-----------------------| -----------
 email | string                | The email of the new user to invite 
 role | string (optional)     | Either 'admin', 'editor', or 'viewer'. Defaults to 'admin'.
-permission_edit_form_results | boolean (optional)    | If 'editor', if they're allowed to edit form results. Defaults to true.
-permission_invite_collaborators | boolean (optional)    | If 'editor', if they're allowed to invite form collaborators. Defaults to true.
-permission_edit_collaborator_template | boolean (optional)    | If 'editor', if they're allowed to edit form collaborator settings. Defaults to true.
-permission_edit_logic | boolean (optional)    | If 'editor', if they're allowed to edit form custom logic rules. Defaults to true.
-permission_edit_theme | boolean (optional)    | If 'editor', if they're allowed to edit form themes. Defaults to true.
+permission_edit_form_results | boolean (optional)    | If they're allowed to edit form results. Defaults to true.
+permission_invite_collaborators | boolean (optional)    | If they're allowed to invite form collaborators. Defaults to true.
+permission_edit_collaborator_template | boolean (optional)    | If they're allowed to edit form collaborator settings. Defaults to true.
+permission_edit_logic | boolean (optional)    | If they're allowed to edit form custom logic rules. Defaults to true.
+permission_edit_theme | boolean (optional)    | If they're allowed to edit form themes. Defaults to true.
 user_groups | string\[\] (optional) | An array of user group names to add the invited account to
 
 ### Response Body
@@ -271,6 +271,66 @@ Parameter | Type | Description
 --------- | --------- | -----------
 team | String | The name of your team in Feathery
 accounts | Array | List of accounts that belong to your team
+
+## Edit Account
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/account/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.patch(url, headers=headers, json=[{"email": "user@invite.com", "role": "viewer"}])
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/account/invite/" \
+    -X PATCH \
+    -d "[{'email': 'user@invite.com', 'role': 'viewer'}]" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/account/invite/";
+const data = [{email: 'user@invite.com', role: 'viewer'}];
+const headers = {
+  Authorization: "Token <API KEY>",
+  "Content-Type": "application/json"
+};
+const options = {
+  headers,
+  method: 'PATCH',
+  body: JSON.stringify(data)
+};
+fetch(url, options)
+  .then((response) => response.json())
+  .then(result => console.log(result));
+```
+
+Edit a Feathery account.
+
+### HTTP Request
+
+`PATCH https://api.feathery.io/api/account/`
+
+### Request Body Parameters
+The following parameters can be specified in the request body.
+
+Parameter | Type                  | Description
+--------- |-----------------------| -----------
+email | string (optional)     | The email of the account to edit
+account_id | UUID (optional) | The ID of the account to edit. Either the account ID or the email must be specified.
+role | string (optional)     | Either 'admin', 'editor', or 'viewer'
+permission_edit_form_results | boolean (optional)    | If they're allowed to edit form results.
+permission_invite_collaborators | boolean (optional)    | If they're allowed to invite form collaborators.
+permission_edit_collaborator_template | boolean (optional)    | If they're allowed to edit form collaborator settings.
+permission_edit_logic | boolean (optional)    | If they're allowed to edit form custom logic rules.
+permission_edit_theme | boolean (optional)    | Iif they're allowed to edit form themes.
+
+### Response Body
+
+The response will be an object containing attributes of the account that was updated.
 
 # Document Intelligence
 
