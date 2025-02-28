@@ -551,7 +551,7 @@ file_url | String | The URL to the filled out document
 ```python
 import requests
 
-url = "https://api.feathery.io/api/document/envelope/list/";
+url = "https://api.feathery.io/api/document/envelope/";
 headers = {"Authorization": "Token <API KEY>"}
 params = {"type": "document", "id": <DOCUMENT ID>}
 result = requests.get(url, params=params, headers=headers)
@@ -559,12 +559,12 @@ print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/document/envelope/list/?type=document&id=<DOCUMENT ID>" \
+curl "https://api.feathery.io/api/document/envelope/?type=document&id=<DOCUMENT ID>" \
     -H "Authorization: Token <API KEY>"
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/document/envelope/list/?type=document&id=<DOCUMENT ID>";
+const url = "https://api.feathery.io/api/document/envelope/?type=document&id=<DOCUMENT ID>";
 const headers = { Authorization: "Token <API KEY>" };
 const options = { headers };
 fetch(url, options)
@@ -596,7 +596,7 @@ or a particular submission.
 
 ### HTTP Request
 
-`GET https://api.feathery.io/api/document/envelope/list/`
+`GET https://api.feathery.io/api/document/envelope/
 
 ### Request Query Parameters
 
@@ -622,6 +622,44 @@ viewed | Boolean | If envelope was routed for signature, if the signer has viewe
 signed | Boolean | If envelope was routed for signature, if the signer has signed it
 tags | String[] | An array of tags that contain metadata about the envelope
 created_at | Datetime | When this envelope was created
+
+## Delete Document Envelope
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/document/envelope/<ENVELOPE ID>/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.delete(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/document/envelope/<ENVELOPE ID>/" \
+    -X DELETE \
+    -H "Authorization: Token <API KEY>" 
+```
+
+```javascript
+const url = "https://api.feathery.io/api/document/envelope/<ENVELOPE ID>/";
+const headers = {
+  Authorization: "Token <API KEY>",
+};
+const options = { headers, method: 'DELETE' };
+fetch(url, options).then((response) => console.log(response.status))
+```
+
+Delete a specific Feathery document envelope.
+
+### HTTP Request
+
+`DELETE https://api.feathery.io/api/document/envelope/<ENVELOPE ID>/`
+
+### URL Parameters
+
+Parameter | Type   | Description
+--------- |--------| -----------
+envelope_id | UUID   | The ID of the envelope to delete.
 
 # Forms
 
