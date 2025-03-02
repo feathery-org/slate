@@ -214,64 +214,6 @@ Parameter | Type | Description
 team | String | The name of your team in Feathery
 accounts | Array | List of accounts that belong to your team
 
-## Remove Account
-
-```python
-import requests
-
-url = "https://api.feathery.io/api/account/uninvite/";
-headers = {"Authorization": "Token <API KEY>"}
-result = requests.patch(url, headers=headers, json=[{"email": "new@invite.com"}])
-print(result.json())
-```
-
-```shell
-curl "https://api.feathery.io/api/account/uninvite/" \
-    -X PATCH \
-    -d "[{'email': 'new@invite.com'}]" \
-    -H "Authorization: Token <API KEY>" \
-    -H "Content-Type: application/json"
-```
-
-```javascript
-const url = "https://api.feathery.io/api/account/uninvite/";
-const data = [{email: 'new@invite.com'}];
-const headers = {
-  Authorization: "Token <API KEY>",
-  "Content-Type": "application/json"
-};
-const options = {
-  headers,
-  method: 'PATCH',
-  body: JSON.stringify(data)
-};
-fetch(url, options)
-  .then((response) => response.json())
-  .then(result => console.log(result));
-```
-
-Remove user from your Feathery team.
-
-### HTTP Request
-
-`PATCH https://api.feathery.io/api/account/uninvite/`
-
-### Request Body Parameters
-
-Parameter | Type              | Description
---------- |-------------------| -----------
-email | String (Optional) | The email of the user to remove. Either the account ID or the email needs to be specified.
-account_id | String (Optional) | The account ID of the user to remove. Either the account ID or the email needs to be specified.
-
-### Response Body
-
-The response will be an object containing the following parameters.
-
-Parameter | Type | Description
---------- | --------- | -----------
-team | String | The name of your team in Feathery
-accounts | Array | List of accounts that belong to your team
-
 ## Edit Account
 
 ```python
@@ -331,6 +273,64 @@ permission_edit_theme | boolean (optional)    | Iif they're allowed to edit form
 ### Response Body
 
 The response will be an object containing attributes of the account that was updated.
+
+## Remove Account
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/account/uninvite/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.patch(url, headers=headers, json=[{"email": "new@invite.com"}])
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/account/uninvite/" \
+    -X PATCH \
+    -d "[{'email': 'new@invite.com'}]" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/account/uninvite/";
+const data = [{email: 'new@invite.com'}];
+const headers = {
+  Authorization: "Token <API KEY>",
+  "Content-Type": "application/json"
+};
+const options = {
+  headers,
+  method: 'PATCH',
+  body: JSON.stringify(data)
+};
+fetch(url, options)
+  .then((response) => response.json())
+  .then(result => console.log(result));
+```
+
+Remove user from your Feathery team.
+
+### HTTP Request
+
+`PATCH https://api.feathery.io/api/account/uninvite/`
+
+### Request Body Parameters
+
+Parameter | Type              | Description
+--------- |-------------------| -----------
+email | String (Optional) | The email of the user to remove. Either the account ID or the email needs to be specified.
+account_id | String (Optional) | The account ID of the user to remove. Either the account ID or the email needs to be specified.
+
+### Response Body
+
+The response will be an object containing the following parameters.
+
+Parameter | Type | Description
+--------- | --------- | -----------
+team | String | The name of your team in Feathery
+accounts | Array | List of accounts that belong to your team
 
 # Document Intelligence
 
