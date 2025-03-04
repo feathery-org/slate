@@ -2481,3 +2481,62 @@ Parameter | Type          | Description
 --------- |---------------| -----------
 account_id | String (UUID) | The unique ID of the account
 token | String        | A JWT token that can be passed to the Feathery dashboard to automatically log the account in,
+
+## Populate Workspace with Template Form
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/workspace/<workspace_id>/create-template-form/";
+data = {"template_id": "<TEMPLATE ID>", "form_name": "My new form"}
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+result = requests.post(url, data=data, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/workspace/<workspace_id>/create-template-form/" \
+    -X POST \
+    -d "{'template_id': '<TEMPLATE_ID>', 'form_name': 'My new form'}" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/workspace/<workspace_id>/create-template-form/";
+const data = {template_id: "<TEMPLATE_ID>", form_name: 'My new form'}
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = {
+    headers, 
+    method: 'POST',
+    body: JSON.stringify(data)
+};
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+Create a form in your workspace from one of your [custom templates](https://docs.feathery.io/platform/white-label-feathery/offer-custom-form-templates).
+
+### HTTP Request
+
+`POST https://api.feathery.io/api/workspace/<workspace_id>/create-template-form/`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+workspace_id | The ID of the workspace to create the form in.
+
+### Body Parameters
+
+Parameter | Type         | Description
+--------- |--------------| -----------
+form_name | String | The name of the new form to create.
+template_id | String (UUID) | The ID of the form template to populate in the workspace.
