@@ -1125,6 +1125,7 @@ form_name | String | The name of the new form being created (must be unique)
 template_form_id | String | The ID of the template form to copy from
 steps | Array<Obj> | An array of steps to create
 navigation_rules | Array<Obj> | An array of navigation rule connecting steps to be created
+logic_rules | Array<Obj> (Optional) | An array of advanced logic rules to associate with the form
 enabled | Boolean (Optional) | If the created form should be enabled or disabled. If not specified, will inherit the status of the template form.
 
 Each `steps` object contains the following parameters.
@@ -1227,13 +1228,26 @@ element_id | String | The ID of the element on the previous step that triggers n
 rules | Array<Obj> | The conditions that must be fulfilled for navigation to occur
 
 
-Each `rules` object contains the following parameters.
+Each `navigation_rules` `rules` object contains the following parameters.
 
 Parameter | Type | Description
 --------- | --------- | -----------
 comparison | String | Comparison - "equal", "not_equal"
 field_key | String | The ID of the field whose value is being used for this comparison
 value | String | The value to compare the field value against
+
+Each `logic_rules` object contains the following parameters:
+
+Parameter | Type                                                                                                       | Description                     
+--------- |------------------------------------------------------------------------------------------------------------|---------------------------------
+name | String                                                                                                     | The name of the logic rule
+code | String | The Javascript code to run in the logic rule
+trigger_event | 'change' &#124; 'load' &#124; 'form_complete' &#124; 'submit' &#124; 'error' &#124; 'view' &#124; 'action' | The event that triggers the logic rule to run
+steps | String\[\] (Optional)                                                                                      | If `trigger_event` is 'submit' or 'load', the step IDs that will trigger the rule to run.
+elements | String\[\] (Optional)                                                                                      | If `trigger_event` is 'change', 'error', 'view', 'or 'action', the elements that will trigger the rule to run.
+description | String (Optional)                                                                                          | A description of the logic rule
+index | Number (Optional) The execution order of the logic rule
+
 
 ### Response Body
 
