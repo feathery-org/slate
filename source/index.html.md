@@ -2540,3 +2540,13 @@ Parameter | Type         | Description
 --------- |--------------| -----------
 form_name | String | The name of the new form to create.
 template_id | String (UUID) | The ID of the form template to populate in the workspace.
+
+### Response Body
+
+The response will be an object containing the following parameters.
+
+Parameter | Type | Description
+--------- | --------- | -----------
+id | String | The form ID
+name | String | The form name
+internal_id | UUID (Optional) | Feathery-specific identifier for the form. Returned only for white label workspaces.
