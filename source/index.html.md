@@ -2549,4 +2549,4 @@ Parameter | Type | Description
 --------- | --------- | -----------
 id | String | The form ID
 name | String | The form name
-internal_id | UUID (Optional) | Feathery-specific identifier for the form. Returned only for white label workspaces.
+internal_id | UUID | Feathery-specific identifier for the form
