@@ -2480,7 +2480,7 @@ account_id | String (UUID) | The unique ID of the account to generate a login to
 Parameter | Type          | Description
 --------- |---------------| -----------
 account_id | String (UUID) | The unique ID of the account
-token | String        | A JWT token that can be passed to the Feathery dashboard to automatically log the account in,
+token | String        | A JWT token that can be passed to the Feathery dashboard to automatically log the account in.
 
 ## Populate Workspace with Template Form
 
