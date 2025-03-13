@@ -2522,7 +2522,7 @@ fetch(url, options)
     .then(result => console.log(result));
 ```
 
-Create a form in your workspace from one of your [custom templates](https://docs.feathery.io/platform/white-label-feathery/offer-custom-form-templates).
+Create a form in your workspace from one of your admin account forms or [custom templates](https://docs.feathery.io/platform/white-label-feathery/offer-custom-form-templates).
 
 ### HTTP Request
 
