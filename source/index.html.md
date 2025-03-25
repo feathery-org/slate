@@ -1473,6 +1473,72 @@ parameters | { field_id: string; term: string; weight: number; }[] | Each parame
 ### Response Body
 An array of submission entries. The similarity score will be returned as well if fuzzy search is implemented.
 
+## Create Hidden Field
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/form/hidden_field/";
+
+data = {"field_id": "NewField"}
+
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+
+result = requests.post(url, data=data, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/form/hidden_field/" \
+    -X POST \
+    -d "{'field_id': 'NewField'}" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/form/hidden_field/";
+const data = {"field_id": "NewField"}
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = {
+    headers, 
+    method: 'POST',
+    body: JSON.stringify(data)
+};
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "field_id": "NewField"
+}
+```
+
+Create a new hidden field in your Feathery account.
+
+### HTTP Request
+
+`POST https://api.feathery.io/api/form/hidden_field/`
+
+### Request Body Parameters
+
+Parameter | Type | Description
+--------- | --------- | -----------
+field_id | String | A new unique ID for the hidden field to create
+
+### Response Body
+Same as request body parameters
+
 ## Export Form Submission PDF
 
 ```python
