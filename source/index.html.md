@@ -1136,7 +1136,7 @@ Parameter | Type | Description
 --------- | --------- | -----------
 step_id | String | The ID of the new step to create, unique to the form
 template_step_id | Optional String | The ID of the step to copy from the original form. If not specified, a step will be auto-created with a single column layout.
-origin | Boolean | `true` if this step is the first of the form
+origin | Optional Boolean | `true` if this step is the first of the form. Defaults to `false`
 images | Array<Obj> | Image elements to edit on this step
 videos | Array<Obj> | Video elements to edit on this step
 progress_bars | Array<Obj> | Progress bar elements to edit on this step
