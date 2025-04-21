@@ -1731,6 +1731,69 @@ recipients | Datetime | The recipient addresses this email was sent to.
 subject | Datetime | The subject of this email.
 created_at | Datetime | When this email was sent.
 
+## List Recent Quik Requests
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/logs/quik/<Form ID>/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/logs/quik/<Form ID>/" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/logs/quik/<Form ID>/";
+const options = { headers: { Authorization: "Token <API KEY>" } };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+[
+  {
+    "url": "https://websvcs.quikforms.com/rest/quikformsengine/qfe/execute/html",
+    "status_code": 200,
+    "request": {"FormFields":  []},
+    "response": {"data": []},
+    "created_at": "2020-06-03T00:00:00+00:00"
+  }
+]
+```
+
+List all recent Quik integration requests and responses triggered from Feathery forms, up to the last week of data.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/logs/quik/<Form ID>/`
+
+### Request Query Parameters
+
+Parameter | Type                | Description
+--------- |---------------------| -----------
+start_time | Datetime (Optional) | Only return requests after this time.
+end_time | Datetime (Optional) | Only return errors before this time.
+
+### Response Body
+
+The response will be an array of objects with the following parameters.
+
+Parameter | Type        | Description
+--------- |-------------| -----------
+url | String      | The Quik API URL that returned an error
+status_code | Number      | The status code returned
+request | JSON string | The API request parameters
+response | JSON string | The API response
+created_at | Datetime    | When this request was made.
+
 # Users
 
 ## List All Users
