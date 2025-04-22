@@ -696,6 +696,7 @@ fetch(url, options)
   "steps": [
     {
       "id": "Step 1",
+      "internal_id": "46d1ba89-0dcc-42cd-839c-a12ce6668347",
       "origin": true,
       "images": [],
       "progress_bars": [],
@@ -728,6 +729,7 @@ fetch(url, options)
     },
     {
       "id": "Step 2",
+      "internal_id": "46d1ba89-0dcc-42cd-839c-a12ce6668347",
       "origin": false,
       "images": [],
       "videos": [],
@@ -782,6 +784,7 @@ Each `steps` object contains the following parameters.
 Parameter | Type | Description
 --------- | --------- | -----------
 id | String | The ID of the step, unique to the form
+internal_id | UUID | The internal ID of the step, globally unique
 origin | Boolean | Is this the first step of the form
 images | Array<Obj> | Images on this step
 videos | Array<Obj> | Videos on this step
