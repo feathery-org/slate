@@ -443,12 +443,13 @@ fetch(url, { headers })
   "approver": "reviewer@mail.com",
   "email_extracted_at": "2020-06-02T00:00:00Z",
   "document_extracted_at": "2020-06-03T00:00:00Z",
+  "data": [{"field_internal_id":  "<FIELD ID>", "value": ""}],
   "created_at": "2020-06-01T00:00:00Z",
   "updated_at": "2020-06-04T00:00:00Z"
 }]
 ```
 
-List runs for a particular AI document extraction
+List runs for a specific AI document extraction
 
 ### HTTP Request
 
@@ -471,6 +472,7 @@ id | String              | The unique ID of the extraction run
 user_id | String              | The unique ID of the user who the extraction run is associated with
 file_name | String | The name of the document that was processed
 success | Boolean             | If the run was successful
+data | {field_internal_id: string; value: any}[] | A list of datapoints extracted during this run
 approved | Boolean             | If the run required review and was approved
 approver | Email               | The email of the account who approved the run
 email_extracted_at | Datetime (Optional) | If the inbox integration is turned on for this extraction, when the email associated with this run finished extracting
@@ -1455,16 +1457,17 @@ List submission data for a particular form
 
 ### Request Query Parameters
 
-Parameter | Type                | Description
---------- |---------------------| -----------
-start_time | Datetime (Optional) | Limit submissions to after this start time
-end_time | Datetime (Optional) | Limit submissions to before this end time
-count | Number (Optional)   | Limit the number of returned submissions to the specified number (sorted by either last submission time or similarity if fuzzy search is leveraged).
-completed | Boolean (Optional)  | If specified, only fetch submissions that are either completed or incomplete
-fuzzy_search | JSON (Optional)     | Fuzzy search allows you to grab submissions whose field values are similar to search terms that you pass in. To leverage fuzzy search, pass in a stringified JSON object of the format described below. Fuzzy search is implemented via a trigram similarity score. Returned results will be sorted by similarity. There is a delay of a few seconds between when a field value is updated and when it is available to be fuzzy searched against.
-fields | String (Optional)   | Comma-separated list of field IDs. If specified, limit returned data to the specified field IDs.
-no_field_values | Boolean (Optional)  | Don't return field data. If this is enabled, you may fetch more records and the endpoint is more performant.
-sort | String (Optional)   | If "layout", the returned field values will be sorted in the way fields are laid out in the form. Otherwise, values will be sorted by field ID alphabetically.
+Parameter | Type                                        | Description
+--------- |---------------------------------------------| -----------
+start_time | Datetime (Optional)                         | Limit submissions to after this start time
+end_time | Datetime (Optional)                         | Limit submissions to before this end time
+count | Number (Optional)                           | Limit the number of returned submissions to the specified number (sorted by either last submission time or similarity if fuzzy search is leveraged).
+completed | Boolean (Optional)                          | If specified, only fetch submissions that are either completed or incomplete
+field_search | {field_id: string; value: any}[] (Optional) | Fetch submissions with specific field values. Pass in a stringified array of objects, where each object specifies the field ID and the value to matched against.
+fuzzy_search | JSON (Optional)                             | Fuzzy search allows you to fetch submissions whose field values are similar to search terms that you pass in. To leverage fuzzy search, pass in a stringified JSON object of the format described below. Fuzzy search is implemented via a trigram similarity score. Returned results will be sorted by similarity. There is a delay of a few seconds between when a field value is updated and when it is available to be fuzzy searched against.
+fields | String (Optional)                           | Comma-separated list of field IDs. If specified, limit returned data to the specified field IDs.
+no_field_values | Boolean (Optional)                          | Don't return field data. If this is enabled, you may fetch more records and the endpoint is more performant.
+sort | String (Optional)                           | If "layout", the returned field values will be sorted in the way fields are laid out in the form. Otherwise, values will be sorted by field ID alphabetically.
 
 ### Fuzzy Search Parameters
 Parameter | Type                                                  | Description
