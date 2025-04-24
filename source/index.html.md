@@ -539,6 +539,7 @@ Parameter | Type              | Description
 document | UUID String       | The ID of the document to fill
 field_values | Object (optional) | A mapping of field ID to field value to fill the document
 signer_email | String (optional) | The document will route to the specified email for signature after being filled
+user_id | String (Optional) | Associate an existing Feathery user with the generated document
 
 ### Response Body
 
