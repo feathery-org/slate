@@ -2225,6 +2225,7 @@ Parameter | Type                                        | Description
 --------- |---------------------------------------------| -----------
 [Workspace Object](#workspace-object) | | Parameters from the Workspace Object definition
 monthly_submissions | Number (Optional) | If submission_data is requested, the number of submissions in the workspace on the current monthly billing cycle is returned.
+monthly_submission_usage | Number (Optional) If submission data is requested, the percentage of the current month's submissions that have been used.
 submission_cycle_start | Date (Optional) | If submission data is requested, the start date of the most recent billing cycle
 
 ## Create a Workspace
@@ -2399,6 +2400,7 @@ test_api_key | String                                      | The test API key of
 live_sdk_key | String                                      | The live SDK key of the workspace which can be used to embed workspace forms.
 test_sdk_key | String                                      | The test API key of the workspace which can be used to embed workspace forms.
 monthly_submissions | Number (Optional) | If submission_data is requested, the number of submissions in the workspace on the current monthly billing cycle is returned.
+monthly_submission_usage | Number (Optional) If submission data is requested, the percentage of the current month's submissions that have been used.
 submission_cycle_start | Date (Optional) | If submission data is requested, the start date of the most recent billing cycle
 
 ## Update a Workspace
