@@ -2152,6 +2152,7 @@ disabled_global_tabs | ('themes' &#124; 'ab_tests' &#124; 'all_users')[]        
 disabled_form_tabs | ('flow' &#124; 'logic' &#124; 'api_connectors' &#124; 'integrations' &#124; 'results' &#124; 'settings')[]                                             | Hide specific tabs from the form editor.                                                                                                                       
 disabled_form_settings | ('form_properties' &#124; 'form_behavior' &#124; 'user_tracking' &#124; 'data_tracking' &#124; 'seo' &#124; 'international_support' &#124; 'form_promotion' &#124; 'delete')[] | Hide specific tabs from form settings.                                                                                                                         
 disabled_form_elements | ElementType[]                                                                                                                                          | Hide specific elements from the form designer element selector. Element type enums can be found [here](https://docs.feathery.io/platform/build-forms/elements). 
+enabled_integrations | String[] | Only enable specific form integrations for the workspace. Specify a list of integration types to enable.
 metadata | Object                                                                                                                                                 | Key-value pairs of arbitrary metadata to configure and identify this workspace                                                                                 
 accounts | {id: string; email: string; role: string}[]                                                                                                            | A list of accounts in this workspace                                                                                                                           
 test | Boolean                                                                                                                                                | Is this a test workspace (created via test API key)                                                                                                            
@@ -2199,6 +2200,7 @@ fetch(url, options)
     "disabled_form_tabs": [],
     "disabled_form_settings": [],
     "disabled_form_elements": [],
+    "enabled_integrations": [],
     "metadata": {"tag1": "value"},
     "accounts": [{"email": "user@mail.com", "role": "admin"}],
     "created_at": "2020-06-01T00:00:00+00:00"
@@ -2285,6 +2287,7 @@ fetch(url, options)
   "disabled_form_tabs": [],
   "disabled_form_settings": [],
   "disabled_form_elements": [],
+  "enabled_integrations": [],
   "metadata": {"tag1": "value"},
   "accounts": [{"email": "user@mail.com", "role": "admin"}],
   "created_at": "2020-06-01T00:00:00+00:00"
@@ -2299,21 +2302,22 @@ Create a new workspace connected to your main account. If querying with the test
 
 ### Body Parameters
 
-Parameter | Type                                                                                                                                                                | Description
---------- |---------------------------------------------------------------------------------------------------------------------------------------------------------------------| -----------
-name | String                                                                                                                                                              | The human-readable name of the workspace, e.g. "Company 1"
-logo | URL (Optional)                                                                                                                                                      | A URL to the logo to display in this workspace
-brand_url | URL (Optional)                                                                                                                                                      | A link to the brand website
-brand_favicon | URL (Optional)                                                                                                                                                      | A link to the brand favicon to display
-brand_name | String (Optional)                                                                                                                                                   | The name of the white label brand
-brand_primary_color | Hex Color (Optional)                                                                                                                                                | 6-digit hex code of the primary color of the brand
-brand_secondary_color | Hex Color (Optional)                                                                                                                                                | 6-digit hex code of the secondary color of the brand
-features | Object (Optional)                                                                                                                                                   | Key-value pairs of account features. Available options are `live_forms` (# of live forms available), `submissions` (# of monthly submissions available), and `ab_testing` (is AB testing enabled)
-disabled_global_tabs | ('themes' &#124; 'ab_tests' &#124; 'all_users')\[\] (Optional)                                                                                                      | Hide specific tabs from the global workspace dashboard.
-disabled_form_tabs | ('flow' &#124; 'integrations' &#124; 'results' &#124; 'settings')\[\] (Optional)                                                                                    | Hide specific tabs from the form editor.
+Parameter | Type                                                                                                                                                                                        | Description
+--------- |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| -----------
+name | String                                                                                                                                                                                      | The human-readable name of the workspace, e.g. "Company 1"
+logo | URL (Optional)                                                                                                                                                                              | A URL to the logo to display in this workspace
+brand_url | URL (Optional)                                                                                                                                                                              | A link to the brand website
+brand_favicon | URL (Optional)                                                                                                                                                                              | A link to the brand favicon to display
+brand_name | String (Optional)                                                                                                                                                                           | The name of the white label brand
+brand_primary_color | Hex Color (Optional)                                                                                                                                                                        | 6-digit hex code of the primary color of the brand
+brand_secondary_color | Hex Color (Optional)                                                                                                                                                                        | 6-digit hex code of the secondary color of the brand
+features | Object (Optional)                                                                                                                                                                           | Key-value pairs of account features. Available options are `live_forms` (# of live forms available), `submissions` (# of monthly submissions available), and `ab_testing` (is AB testing enabled)
+disabled_global_tabs | ('themes' &#124; 'ab_tests' &#124; 'all_users')\[\] (Optional)                                                                                                                              | Hide specific tabs from the global workspace dashboard.
+disabled_form_tabs | ('flow' &#124; 'integrations' &#124; 'results' &#124; 'settings')\[\] (Optional)                                                                                                            | Hide specific tabs from the form editor.
 disabled_form_settings | ('form_properties' &#124; 'form_behavior' &#124; 'user_tracking' &#124; 'data_tracking' &#124; 'seo' &#124; 'international_support' &#124; 'form_promotion' &#124; 'delete')\[\] (Optional) | Hide specific tabs from form settings.
-disabled_form_elements | ElementType\[\] (Optional)                                                                                                                                          | Hide specific elements from the form designer element selector. Element type enums can be found [here](https://docs.feathery.io/platform/build-forms/elements).
-metadata | Object (Optional)                                                                                                                                                   | Key-value pairs of arbitrary metadata to configure and identify this workspace
+disabled_form_elements | ElementType\[\] (Optional)                                                                                                                                                                  | Hide specific elements from the form designer element selector. Element type enums can be found [here](https://docs.feathery.io/platform/build-forms/elements).
+enabled_integrations | String\[\]                                                                                                                                                                                  | Only enable specific form integrations for the workspace. Specify a list of integration types to enable.
+metadata | Object (Optional)                                                                                                                                                                           | Key-value pairs of arbitrary metadata to configure and identify this workspace
 
 ### Response Body
 Parameter | Type                  | Description
@@ -2361,6 +2365,7 @@ fetch(url, options)
   "disabled_form_tabs": [],
   "disabled_form_settings": [],
   "disabled_form_elements": [],
+  "enabled_integrations": [],
   "metadata": {"tag1": "value"},
   "live_api_key": "<LIVE API KEY>",
   "test_api_key": "<TEST API KEY>",
@@ -2460,6 +2465,7 @@ fetch(url, options)
   "disabled_form_tabs": [],
   "disabled_form_settings": [],
   "disabled_form_elements": [],
+  "enabled_integrations": [],
   "metadata": {"tag1": "value"},
   "accounts": [{"email": "user@mail.com", "role": "admin"}],
   "created_at": "2020-06-01T00:00:00+00:00"
@@ -2494,6 +2500,7 @@ disabled_global_tabs | ('themes' &#124; 'ab_tests' &#124; 'all_users')\[\] (Opti
 disabled_form_tabs | ('flow' &#124; 'integrations' &#124; 'results' &#124; 'settings')\[\] (Optional)                                                                                    | Hide specific tabs from the form editor.
 disabled_form_settings | ('form_properties' &#124; 'form_behavior' &#124; 'user_tracking' &#124; 'data_tracking' &#124; 'seo' &#124; 'international_support' &#124; 'delete')\[\] (Optional) | Hide specific tabs from form settings.
 disabled_form_elements | ElementType\[\] (Optional)                                                                                                                                          | Hide specific elements from the form designer element selector. Element type enums can be found [here](https://docs.feathery.io/platform/build-forms/elements).
+enabled_integrations | String\[\]                                                                                                                                                          | Only enable specific form integrations for the workspace. Specify a list of integration types to enable.
 metadata | Object (Optional)                                                                                                                                                   | Key-value pairs of arbitrary metadata to configure and identify this workspace
 
 ### Response Body
