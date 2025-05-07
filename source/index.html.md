@@ -1331,6 +1331,85 @@ enabled | Boolean | Whether the form should be enabled or disabled
 ### Response Body
 Same as request body parameters
 
+## Copy a Form
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/form/copy/";
+
+data = {"form_name": "Copied Form", "copy_form_id": "AAAAAA"}
+
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+
+result = requests.post(url, data=data, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/form/copy/" \
+    -X PATCH \
+    -d "{'form_name': 'Copied Form', 'copy_form_id': 'AAAAAA'}" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/form/copy/";
+const data = {form_name: 'Copied Form', copy_form_id: 'AAAAAA'}
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = {
+    headers,
+    method: 'POST',
+    body: JSON.stringify(data)
+};
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "id": "aSdsa5",
+  "name": "My Form",
+  "active": true,
+  "created_at": "2020-06-01T00:00:00Z",
+  "updated_at": "2020-06-01T00:00:00Z"
+}
+```
+
+Duplicate a form in your account.
+
+### HTTP Request
+
+`POST https://api.feathery.io/api/form/copy/`
+
+### Request Body Parameters
+
+Parameter | Type | Description
+--------- | --------- | -----------
+form_name | String | The name of your new form
+copy_form_id | String | The ID of the form to be copied
+
+### Response Body
+Parameter | Type            | Description
+--------- |-----------------| -----------
+id | String          | The form ID
+name | String          | The form name
+active | Boolean         | Is the form turned on
+tags | String[]        | The tags on your form
+internal_id | UUID (Optional) | Feathery-specific identifier for the form. Returned only for white label workspaces.
+created_at | Datetime        | When this form was created
+updated_at | Datetime        | When this form was last updated
+
 ## Create or Update Form Submissions
 
 ```python
