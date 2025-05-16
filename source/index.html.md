@@ -1786,7 +1786,10 @@ fetch(url, options)
 [
   {
     "template_id": "alice@feathery.io",
-    "recipients": "2020-06-01T00:00:00Z",
+    "recipients": [
+      "mary@feathery.io",
+      "richard@feathery.io",
+    ],
     "subject": "",
     "created_at": "2020-06-02T00:00:00Z"
   }
@@ -1813,9 +1816,80 @@ The response will be an array of objects with the following parameters.
 Parameter | Type | Description
 --------- | --------- | -----------
 template_id | String | The ID of the email template in the integration this email was based off of.
-recipients | Datetime | The recipient addresses this email was sent to.
-subject | Datetime | The subject of this email.
+recipients | Array | The recipient addresses this email was sent to.
+subject | String | The subject of this email.
 created_at | Datetime | When this email was sent.
+
+## List Email Issues
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/logs/email/issues/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/logs/email/issues/" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/logs/email/issues/";
+const options = { headers: { Authorization: "Token <API KEY>" } };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+[
+  {
+    "event_type": "Bounce",
+    "recipients": [
+      "mary@feathery.io",
+      "richard@feathery.io",
+      "non@example.com",
+    ],
+    "rejected_recipients": [
+      "non@example.com",
+    ],
+    "subject": "",
+    "sender": "alice@feathery.io",
+    "created_at": "2020-06-02T00:00:00Z"
+  }
+]
+```
+
+List all Bounce and Complaint events that occured when sending emails using Feathery.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/logs/email/issues/`
+
+### Request Query Parameters
+
+Parameter | Type                | Description
+--------- |---------------------| -----------
+event_type | String (Optional) | Either 'Bounce' or 'Complaint'. Defaults to both.
+start_time | Datetime (Optional) | Only return emails sent after this time.
+end_time | Datetime (Optional) | Only return emails sent before this time.
+
+### Response Body
+
+The response will be an array of objects with the following parameters.
+
+Parameter           | Type     | Description
+------------------- | -------- | -----------
+event_type          | String   | Either 'Bounce' or 'Complaint'.
+recipients          | Array    | The recipient addresses this email was sent to.
+rejected_recipients | Array    | The recipient addresses that were rejected.
+subject             | Datetime | The subject of this email.
+created_at          | Datetime | When this event occured.
 
 ## List Recent Quik Requests
 
