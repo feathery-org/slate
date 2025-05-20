@@ -2300,7 +2300,7 @@ brand_favicon | URL                                                             
 brand_name | String                                                                                                                                                 | The name of the white label brand                                                                                                                              
 brand_primary_color | Hex Color                                                                                                                                              | 6-digit hex code of the primary color of the brand                                                                                                             
 brand_secondary_color | Hex Color                                                                                                                                              | 6-digit hex code of the secondary color of the brand                                                                                                           
-features | Object                                                                                                                                                 | Key-value pairs of account features. Available options are `live_forms` (# of live forms available), `submissions` (# of monthly submissions available), and `ab_testing` (is AB testing enabled)
+features | Object                                                                                                                                                 | Key-value pairs of account features. Available options are `live_forms` (# of live forms available), `submissions` (# of submissions available in current cycle), `cycle_interval` (`month` or `year` for billing tracking), and `ab_testing` (is AB testing enabled)
 disabled_global_tabs | ('themes' &#124; 'ab_tests' &#124; 'all_users')[]                                                                                                      | Hide specific tabs from the global workspace dashboard.
 disabled_form_tabs | ('flow' &#124; 'logic' &#124; 'api_connectors' &#124; 'integrations' &#124; 'results' &#124; 'settings')[]                                             | Hide specific tabs from the form editor.                                                                                                                       
 disabled_form_settings | ('form_properties' &#124; 'form_behavior' &#124; 'user_tracking' &#124; 'data_tracking' &#124; 'seo' &#124; 'international_support' &#124; 'form_promotion' &#124; 'delete')[] | Hide specific tabs from form settings.                                                                                                                         
@@ -2370,7 +2370,7 @@ List all of the Feathery workspaces connected to your main account. This is only
 ### Request Query Parameters
 Parameter | Type               | Description
 --------- |--------------------| -----------
-submission_data | Boolean (Optional) | If set to true, each workspace's monthly submission data will be fetched as well.
+submission_data | Boolean (Optional) | If set to true, each workspace's submission data will be fetched as well.
 
 ### Response Body
 
@@ -2379,8 +2379,9 @@ The response will be an array of workspace objects with the following parameters
 Parameter | Type                                        | Description
 --------- |---------------------------------------------| -----------
 [Workspace Object](#workspace-object) | | Parameters from the Workspace Object definition
-monthly_submissions | Number (Optional) | If submission_data is requested, the number of submissions in the workspace on the current monthly billing cycle is returned.
-monthly_submission_usage | Number (Optional) | If submission data is requested, the percentage of the current month's submissions that have been used.
+submission_cycle_interval | 'month' &#124; 'year' | The billing cycle interval 
+submissions_this_cycle | Number (Optional) | If submission_data is requested, the number of submissions in the workspace on the current billing cycle is returned.
+submission_usage_this_cycle | Number (Optional) | If submission data is requested, the percentage of the current cycle's submissions that have been used.
 submission_cycle_start | Date (Optional) | If submission data is requested, the start date of the most recent billing cycle
 
 ## Create a Workspace
@@ -2464,7 +2465,7 @@ brand_favicon | URL (Optional)                                                  
 brand_name | String (Optional)                                                                                                                                                                           | The name of the white label brand
 brand_primary_color | Hex Color (Optional)                                                                                                                                                                        | 6-digit hex code of the primary color of the brand
 brand_secondary_color | Hex Color (Optional)                                                                                                                                                                        | 6-digit hex code of the secondary color of the brand
-features | Object (Optional)                                                                                                                                                                           | Key-value pairs of account features. Available options are `live_forms` (# of live forms available), `submissions` (# of monthly submissions available), and `ab_testing` (is AB testing enabled)
+features | Object (Optional)                                                                                                                                                                           | Key-value pairs of account features. Available options are `live_forms` (# of live forms available), `submissions` (# of submissions available in current cycle), `cycle_interval` (`month` or `year` for billing tracking), and `ab_testing` (is AB testing enabled)
 disabled_global_tabs | ('themes' &#124; 'ab_tests' &#124; 'all_users')\[\] (Optional)                                                                                                                              | Hide specific tabs from the global workspace dashboard.
 disabled_form_tabs | ('flow' &#124; 'integrations' &#124; 'results' &#124; 'settings')\[\] (Optional)                                                                                                            | Hide specific tabs from the form editor.
 disabled_form_settings | ('form_properties' &#124; 'form_behavior' &#124; 'user_tracking' &#124; 'data_tracking' &#124; 'seo' &#124; 'international_support' &#124; 'form_promotion' &#124; 'delete')\[\] (Optional) | Hide specific tabs from form settings.
@@ -2544,7 +2545,7 @@ workspace_id | The ID of the workspace to retrieve
 ### Request Query Parameters
 Parameter | Type               | Description
 --------- |--------------------| -----------
-submission_data | Boolean (Optional) | If set to true, each workspace's monthly submission data will be fetched as well.
+submission_data | Boolean (Optional) | If set to true, each workspace's submission data will be fetched as well.
 
 ### Response Body
 
@@ -2557,8 +2558,9 @@ live_api_key | String                                      | The live API key of
 test_api_key | String                                      | The test API key of the workspace which can be used to call APIs on its behalf.
 live_sdk_key | String                                      | The live SDK key of the workspace which can be used to embed workspace forms.
 test_sdk_key | String                                      | The test API key of the workspace which can be used to embed workspace forms.
-monthly_submissions | Number (Optional) | If submission_data is requested, the number of submissions in the workspace on the current monthly billing cycle is returned.
-monthly_submission_usage | Number (Optional) | If submission data is requested, the percentage of the current month's submissions that have been used.
+submission_cycle_interval | 'month' &#124; 'year' | The billing cycle interval
+submissions_this_cycle | Number (Optional) | If submission_data is requested, the number of submissions in the workspace on the current billing cycle is returned.
+submission_usage_this_cycle | Number (Optional) | If submission data is requested, the percentage of the current cycle's submissions that have been used.
 submission_cycle_start | Date (Optional) | If submission data is requested, the start date of the most recent billing cycle
 
 ## Update a Workspace
@@ -2648,7 +2650,7 @@ brand_favicon | URL (Optional)                                                  
 brand_name | String (Optional)                                                                                                                                                   | The name of the white label brand
 brand_primary_color | Hex Color (Optional)                                                                                                                                                | 6-digit hex code of the primary color of the brand
 brand_secondary_color | Hex Color (Optional)                                                                                                                                                | 6-digit hex code of the secondary color of the brand
-features | Object (Optional)                                                                                                                                                   | Key-value pairs of account features. Available options are `live_forms` (# of live forms available), `submissions` (# of monthly submissions available), and `ab_testing` (is AB testing enabled)
+features | Object (Optional)                                                                                                                                                   | Key-value pairs of account features. Available options are `live_forms` (# of live forms available), `submissions` (# of submissions available in current cycle), `cycle_interval` (`month` or `year` for billing tracking), and `ab_testing` (is AB testing enabled)
 disabled_global_tabs | ('themes' &#124; 'ab_tests' &#124; 'all_users')\[\] (Optional)                                                                                                      | Hide specific tabs from the global workspace dashboard.
 disabled_form_tabs | ('flow' &#124; 'integrations' &#124; 'results' &#124; 'settings')\[\] (Optional)                                                                                    | Hide specific tabs from the form editor.
 disabled_form_settings | ('form_properties' &#124; 'form_behavior' &#124; 'user_tracking' &#124; 'data_tracking' &#124; 'seo' &#124; 'international_support' &#124; 'delete')\[\] (Optional) | Hide specific tabs from form settings.
