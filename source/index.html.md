@@ -2574,13 +2574,13 @@ headers = {
     "Authorization": "Token <API KEY>",
     "Content-Type": "application/json",
 }
-result = requests.post(url, data=data, headers=headers)
+result = requests.patch(url, json=data, headers=headers)
 print(result.json())
 ```
 
 ```shell
 curl "https://api.feathery.io/api/workspace/<workspace_id>/" \
-    -X POST \
+    -X PATCH \
     -d "{'brand_url': 'https://feathery.io'}" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
@@ -2595,7 +2595,7 @@ const headers = {
 };
 const options = {
     headers, 
-    method: 'POST',
+    method: 'PATCH',
     body: JSON.stringify(data)
 };
 fetch(url, options)
@@ -2631,7 +2631,7 @@ Update an existing workspace connected to your main account.
 
 ### HTTP Request
 
-`POST https://api.feathery.io/api/workspace/<workspace_id>/`
+`PATCH https://api.feathery.io/api/workspace/<workspace_id>/`
 
 ### URL Parameters
 
