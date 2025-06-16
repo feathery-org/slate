@@ -761,7 +761,23 @@ fetch(url, options)
       "created_at": "2020-06-01T00:00:00Z",
       "updated_at": "2020-06-01T00:00:00Z"
     }  
-  ]
+  ],
+  "translations": {
+    "Heading": {
+      "es": "Membrete",
+      "fr": "Titre"
+    },
+    "Invalid Code": {},
+    "Invalid URL": {},
+    "Invalid email format": {},
+    "Invalid phone number": {},
+    "Invalid social security number": {},
+    "Next": {},
+    "Please enter a full code": {},
+    "Please wait {time} seconds before sending another SMS.": {},
+    "This is a required field": {},
+    "Your entry must be at least {length} characters": {},
+  }
 }
 ```
 
@@ -775,12 +791,13 @@ Retrieve the schema of a form created in Feathery.
 
 The response will be an object containing the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-form_id | String | Your form's ID
-form_name | String | Your form's name
-steps | Array<Obj> | An array of step objects
-rules | Array<Obj> | An array of rule objects
+Parameter    | Type      | Description
+------------ | --------- | -----------
+form_id      | String    | Your form's ID
+form_name    | String     | Your form's name
+steps        | Array<Obj> | An array of step objects
+rules        | Array<Obj> | An array of rule objects
+translations | JSON        | A mapping of default text to translations
 
 Each `steps` object contains the following parameters.
 
@@ -1272,7 +1289,15 @@ import requests
 
 url = "https://api.feathery.io/api/form/<form_id>/";
 
-data = {"enabled": False}
+data = {
+  "enabled": False,
+  "translations": {
+    "hi": {
+      "es": "hola", 
+      "zh": "nihao"
+    }
+  }
+}
 
 headers = {
     "Authorization": "Token <API KEY>",
@@ -1286,14 +1311,22 @@ print(result.json())
 ```shell
 curl "https://api.feathery.io/api/form/<form_id>/" \
     -X PATCH \
-    -d "{'enabled': false}" \
+    -d "{'enabled': false, 'translations': {'hi': {'es': 'hola', 'zh': 'nihao'}}}" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
 
 ```javascript
 const url = "https://api.feathery.io/api/form/<form_id>/";
-const data = {"enabled": false}
+const data = {
+  "enabled": false,
+  "translations": {
+    "hi": {
+      "es": "hola", 
+      "zh": "nihao"
+    }
+  }
+}
 const headers = {
     Authorization: "Token <API KEY>",
     "Content-Type": "application/json"
@@ -1324,9 +1357,14 @@ Update a form's properties, including its status.
 
 ### Request Body Parameters
 
-Parameter | Type | Description
---------- | --------- | -----------
-enabled | Boolean | Whether the form should be enabled or disabled
+Parameter    | Type      | Description
+------------ | --------- | -----------
+enabled      | Boolean   | Whether the form should be enabled or disabled
+translations | JSON      | A mapping of default text to translations
+
+<aside class="notice">
+Please note that setting the translations parameter will override any existing translations
+</aside>
 
 ### Response Body
 Same as request body parameters
