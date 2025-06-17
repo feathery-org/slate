@@ -767,16 +767,14 @@ fetch(url, options)
       "es": "Membrete",
       "fr": "Titre"
     },
-    "Invalid Code": {},
-    "Invalid URL": {},
-    "Invalid email format": {},
-    "Invalid phone number": {},
-    "Invalid social security number": {},
-    "Next": {},
-    "Please enter a full code": {},
-    "Please wait {time} seconds before sending another SMS.": {},
-    "This is a required field": {},
-    "Your entry must be at least {length} characters": {},
+    "Invalid Code": {
+      "es": "Código no válido",
+      "fr": "Code invalide"
+    },
+    "This is a required field": {
+      "es": "Este es un campo obligatorio",
+      "fr": "Ceci est un champ obligatoire"
+    },
   }
 }
 ```
