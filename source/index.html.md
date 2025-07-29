@@ -1367,6 +1367,64 @@ Please note that setting the translations parameter will override any existing t
 ### Response Body
 Same as request body parameters
 
+## Delete a Form
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/form/<form_id>/";
+data = {"confirm_delete": True}
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+result = requests.delete(url, json=data, headers=headers)
+print(result.status_code)
+```
+
+```shell
+curl "https://api.feathery.io/api/form/<form_id>/" \
+    -X DELETE \
+    -d "{'confirm_delete': true}" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/form/<form_id>/";
+const data = {"confirm_delete": true}
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = { 
+  headers,
+  method: 'DELETE',
+  body: JSON.stringify(data)
+};
+fetch(url, options).then((response) => console.log(response.status))
+```
+
+> The above command does not return a response body
+
+Delete a specific form.
+
+### HTTP Request
+
+`DELETE https://api.feathery.io/api/form/<form_id>/`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+form_id | The ID of the form to delete
+
+### Request Body Parameters
+
+Parameter | Type | Description
+--------- | --------- | -----------
+confirm_delete | boolean | Set to true to delete the form
+
 ## Copy a Form
 
 ```python
