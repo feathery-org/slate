@@ -1373,28 +1373,35 @@ Same as request body parameters
 import requests
 
 url = "https://api.feathery.io/api/form/<form_id>/";
+data = {"confirm_delete": True}
 headers = {
     "Authorization": "Token <API KEY>",
     "Content-Type": "application/json",
 }
-result = requests.delete(url, headers=headers)
+result = requests.delete(url, json=data, headers=headers)
 print(result.status_code)
 ```
 
 ```shell
 curl "https://api.feathery.io/api/form/<form_id>/" \
     -X DELETE \
+    -d "{'confirm_delete': true}" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
 
 ```javascript
 const url = "https://api.feathery.io/api/form/<form_id>/";
+const data = {"confirm_delete": true}
 const headers = {
     Authorization: "Token <API KEY>",
     "Content-Type": "application/json"
 };
-const options = { headers, method: 'DELETE' };
+const options = { 
+  headers,
+  method: 'DELETE',
+  body: JSON.stringify(data)
+};
 fetch(url, options).then((response) => console.log(response.status))
 ```
 
@@ -1411,6 +1418,12 @@ Delete a specific form.
 Parameter | Description
 --------- | -----------
 form_id | The ID of the form to delete
+
+### Request Body Parameters
+
+Parameter | Type | Description
+--------- | --------- | -----------
+confirm_delete | boolean | Set to true to delete the form
 
 ## Copy a Form
 
