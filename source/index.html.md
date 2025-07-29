@@ -1367,6 +1367,51 @@ Please note that setting the translations parameter will override any existing t
 ### Response Body
 Same as request body parameters
 
+## Delete a Form
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/form/<form_id>/";
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+result = requests.delete(url, headers=headers)
+print(result.status_code)
+```
+
+```shell
+curl "https://api.feathery.io/api/form/<form_id>/" \
+    -X DELETE \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/form/<form_id>/";
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = { headers, method: 'DELETE' };
+fetch(url, options).then((response) => console.log(response.status))
+```
+
+> The above command does not return a response body
+
+Delete a specific form.
+
+### HTTP Request
+
+`DELETE https://api.feathery.io/api/form/<form_id>/`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+form_id | The ID of the form to delete
+
 ## Copy a Form
 
 ```python
