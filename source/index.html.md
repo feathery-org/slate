@@ -1289,6 +1289,7 @@ url = "https://api.feathery.io/api/form/<form_id>/";
 
 data = {
   "enabled": False,
+  "form_name": "New Name"
   "translations": {
     "hi": {
       "es": "hola", 
@@ -1309,7 +1310,7 @@ print(result.json())
 ```shell
 curl "https://api.feathery.io/api/form/<form_id>/" \
     -X PATCH \
-    -d "{'enabled': false, 'translations': {'hi': {'es': 'hola', 'zh': 'nihao'}}}" \
+    -d "{'enabled': false, 'form_name': 'New Name', 'translations': {'hi': {'es': 'hola', 'zh': 'nihao'}}}" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
@@ -1318,6 +1319,7 @@ curl "https://api.feathery.io/api/form/<form_id>/" \
 const url = "https://api.feathery.io/api/form/<form_id>/";
 const data = {
   "enabled": false,
+  "form_name": "New Name"
   "translations": {
     "hi": {
       "es": "hola", 
@@ -1343,7 +1345,8 @@ fetch(url, options)
 
 ```json
 {
-  "enabled": false
+  "enabled": false,
+  "form_name": "New Name"
 }
 ```
 
@@ -1351,13 +1354,14 @@ Update a form's properties, including its status.
 
 ### HTTP Request
 
-`POST https://api.feathery.io/api/form/<form_id>/`
+`PATCH https://api.feathery.io/api/form/<form_id>/`
 
 ### Request Body Parameters
 
 Parameter    | Type      | Description
 ------------ | --------- | -----------
 enabled      | Boolean   | Whether the form should be enabled or disabled
+form_name    | String    | The new name to set for the form
 translations | JSON      | A mapping of default text to translations
 
 <aside class="notice">
@@ -1365,7 +1369,13 @@ Please note that setting the translations parameter will override any existing t
 </aside>
 
 ### Response Body
-Same as request body parameters
+
+The response will be an object containing the following parameters.
+
+Parameter | Type | Description
+--------- | --------- | -----------
+enabled   | Boolean   | Whether the form is enabled or disabled
+form_name | String    | The name of the form
 
 ## Delete a Form
 
