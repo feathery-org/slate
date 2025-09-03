@@ -1643,8 +1643,10 @@ List submission data for a particular form
 
 Parameter | Type                                        | Description
 --------- |---------------------------------------------| -----------
-start_time | Datetime (Optional)                         | Limit submissions to after this start time
-end_time | Datetime (Optional)                         | Limit submissions to before this end time
+start_time | Datetime (Optional)                         | Limit submissions to after this update time
+end_time | Datetime (Optional)                         | Limit submissions to before this update time
+created_after | Datetime (Optional)                         | Limit submissions to after this creation time
+created_before | Datetime (Optional)                         | Limit submissions to before this creation time
 count | Number (Optional)                           | Limit the number of returned submissions to the specified number (sorted by either last submission time or similarity if fuzzy search is leveraged).
 completed | Boolean (Optional)                          | If specified, only fetch submissions that are either completed or incomplete
 field_search | {field_id: string; value: any}[] (Optional) | Fetch submissions with specific field values. Pass in a stringified array of objects, where each object specifies the field ID and the value to matched against.
@@ -2101,7 +2103,7 @@ fetch(url, options)
 ]
 ```
 
-List all of your users (corresponding to form submissions) in Feathery.
+List all of your users in Feathery. A user is equivalent to their form submissions across all forms.
 
 ### HTTP Request
 
@@ -2111,6 +2113,8 @@ List all of your users (corresponding to form submissions) in Feathery.
 
 Parameter | Type | Description
 --------- | --------- | -----------
+created_after | Datetime (Optional)                         | Limit users to after this creation time
+created_before | Datetime (Optional)                         | Limit users to before this creation time
 filter_field_id | String (Optional) | The ID of a form or hidden field to filter users by.
 filter_field_value | String (Optional) | The value of the field to filter on. Paired with `filter_field_id` to only return users who have this field value.
 
