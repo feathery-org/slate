@@ -1592,19 +1592,20 @@ Same as request body parameters
 ```python
 import requests
 
-url = "https://api.feathery.io/api/form/submission/batch/abcdef/";
+url = "https://api.feathery.io/api/form/submission/";
 headers = {"Authorization": "Token <API KEY>"}
-result = requests.get(url, headers=headers)
+data = {"form_id": "abcdef"}
+result = requests.get(url, params=data, headers=headers)
 print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/form/submission/batch/abcdef/" \
+curl "https://api.feathery.io/api/form/submission/?form_id=abcdef" \
     -H "Authorization: Token <API KEY>"
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/form/submission/batch/abcdef/";
+const url = "https://api.feathery.io/api/form/submission/?form_id=abcdef";
 const headers = { Authorization: "Token <API KEY>" };
 fetch(url, { headers })
     .then((response) => response.json())
@@ -1644,12 +1645,13 @@ List submission data for a particular form
 
 ### HTTP Request
 
-`GET https://api.feathery.io/api/form/submission/batch/<FORM ID>/`
+`GET https://api.feathery.io/api/form/submission/?form_id=<FORM ID>`
 
 ### Request Query Parameters
 
 Parameter | Type                                        | Description
 --------- |---------------------------------------------| -----------
+form_id   |  String                                     | The ID of the Form to get data for.
 start_time | Datetime (Optional)                         | Limit submissions to after this update time
 end_time | Datetime (Optional)                         | Limit submissions to before this update time
 created_after | Datetime (Optional)                         | Limit submissions to after this creation time
