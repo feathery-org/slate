@@ -1592,19 +1592,20 @@ Same as request body parameters
 ```python
 import requests
 
-url = "https://api.feathery.io/api/form/submission/batch/abcdef/";
+url = "https://api.feathery.io/api/form/submission/";
 headers = {"Authorization": "Token <API KEY>"}
-result = requests.get(url, headers=headers)
+data = {"form_id": "abcdef"}
+result = requests.get(url, params=data, headers=headers)
 print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/form/submission/batch/abcdef/" \
+curl "https://api.feathery.io/api/form/submission/?form_id=abcdef" \
     -H "Authorization: Token <API KEY>"
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/form/submission/batch/abcdef/";
+const url = "https://api.feathery.io/api/form/submission/?form_id=abcdef";
 const headers = { Authorization: "Token <API KEY>" };
 fetch(url, { headers })
     .then((response) => response.json())
@@ -1614,35 +1615,43 @@ fetch(url, { headers })
 > The above command outputs JSON structured like this:
 
 ```json
-[{
-  "values": [
-    {
-      "id": "TestField",
-      "type": "text_field",
-      "created_at": "2024-10-28T07:56:09.391398Z",
-      "updated_at": "2024-10-28T16:39:32.577794Z",
-      "value": "Test Value",
-      "hidden": false,
-      "display_text": "",
-      "internal_id": "ef5ed054-73de-4463-ba61-82c36aca5afc",
-    }
-  ],
-    "user_id": "131e7132-dg6d-4a8c-9d70-cgd493c2a368",
-    "submission_start": "2024-10-30T02:07:32Z",
-    "last_submitted": "2024-10-30T02:07:32Z",
-}]
+{
+  "count": 2,
+  "next": "https://api.feathery.io/...",
+  "previous": null,
+  "total_pages": 2,
+  "current_page": 1,
+  "results": [{
+    "values": [
+      {
+        "id": "TestField",
+        "type": "text_field",
+        "created_at": "2024-10-28T07:56:09.391398Z",
+        "updated_at": "2024-10-28T16:39:32.577794Z",
+        "value": "Test Value",
+        "hidden": false,
+        "display_text": "",
+        "internal_id": "ef5ed054-73de-4463-ba61-82c36aca5afc",
+      }
+    ],
+      "user_id": "131e7132-dg6d-4a8c-9d70-cgd493c2a368",
+      "submission_start": "2024-10-30T02:07:32Z",
+      "last_submitted": "2024-10-30T02:07:32Z",
+  }]
+}
 ```
 
 List submission data for a particular form
 
 ### HTTP Request
 
-`GET https://api.feathery.io/api/form/submission/batch/<FORM ID>/`
+`GET https://api.feathery.io/api/form/submission/?form_id=<FORM ID>`
 
 ### Request Query Parameters
 
 Parameter | Type                                        | Description
 --------- |---------------------------------------------| -----------
+form_id   |  String                                     | The ID of the Form to get data for.
 start_time | Datetime (Optional)                         | Limit submissions to after this update time
 end_time | Datetime (Optional)                         | Limit submissions to before this update time
 created_after | Datetime (Optional)                         | Limit submissions to after this creation time
@@ -1654,6 +1663,7 @@ fuzzy_search | JSON (Optional)                             | Fuzzy search allows
 fields | String (Optional)                           | Comma-separated list of field IDs. If specified, limit returned data to the specified field IDs.
 no_field_values | Boolean (Optional)                          | Don't return field data. If this is enabled, you may fetch more records and the endpoint is more performant.
 sort | String (Optional)                           | If "layout", the returned field values will be sorted in the way fields are laid out in the form. Otherwise, values will be sorted by field ID alphabetically.
+page_size | Number (Optional)                           | By default the API pagination returns 500 results in each page. You can specify a different page size using this parameter up to a maximum of 1000.
 
 ### Fuzzy Search Parameters
 Parameter | Type                                                  | Description
@@ -1663,7 +1673,14 @@ parameters | { field_id: string; term: string; weight: number; }[] | Each parame
 
 
 ### Response Body
-An array of submission entries. The similarity score will be returned as well if fuzzy search is implemented.
+Parameter | Type | Description
+--------- |------| -----------
+count | Number  | Total number of submission entries that can be returned across all pages.
+next | URL or null  | A URL to the next page of results (if available) or null.
+previous | URL or null  | A URL to the previous page of results (if available) or null.
+total_pages | Number  | Total number of pages to get all of the data.
+current_page | Number  | The current page number out of all the total pages.
+results | Array | An array of submission entries. The similarity score will be returned as well if fuzzy search is implemented.
 
 ## Create Hidden Field
 
