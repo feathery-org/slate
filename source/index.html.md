@@ -1748,6 +1748,71 @@ field_id | String | A new unique ID for the hidden field to create
 ### Response Body
 Same as request body parameters
 
+## List Hidden Fields
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/form/hidden_field/";
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/form/hidden_field/" \
+    -X GET \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/form/hidden_field/";
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = {
+    headers, 
+    method: 'GET'
+};
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "id": "employmentType",
+  "internal_id": "42cbfa02-7c80-4db9-aedf-0ae7e7c00d5a",
+  "type": "json_value",
+  "created_at": "2025-09-17T18:47:58.117032Z",
+  "updated_at": "2025-09-17T18:47:58.117036Z"
+}
+```
+
+List the hidden fields in your Feathery account.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/form/hidden_field/`
+
+### Response Body
+
+Parameter | Type | Description
+--------- | --------- | -----------
+id | String | The unique ID of the hidden field
+internal_id | String | Feathery-internal identifier of the hidden field
+type | String Enum | The type of value in the hidden field
+created_at | Datetime | When this field was created
+updated_at | Datetime | When this field was last updated
+
 ## Export Form Submission PDF
 
 ```python
@@ -2205,7 +2270,7 @@ Parameter | Type                   | Description
 --------- |------------------------| -----------
 id | String                 | Your unique field ID
 hidden | Boolean                | If true, this is a hidden field. Otherwise, it's a form field.
-type | String Enum (Optional) | The [form field type](https://docs.feathery.io/platform/components/fields/button-group#example). Not present for hidden fields.
+type | String Enum (Optional) | The [form field type](https://docs.feathery.io/platform/components/fields/button-group#example).
 display_text | String (Optional)      | Human-friendly text to display for this field
 value | Polymorphic (Optional) | Submitted value of the user whose key was passed in.
 created_at | Datetime               | When this field was created
