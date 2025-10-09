@@ -1664,6 +1664,7 @@ fields | String (Optional)                           | Comma-separated list of f
 no_field_values | Boolean (Optional)                          | Don't return field data. If this is enabled, you may fetch more records and the endpoint is more performant.
 sort | String (Optional)                           | If "layout", the returned field values will be sorted in the way fields are laid out in the form. Otherwise, values will be sorted by field ID alphabetically.
 page_size | Number (Optional)                           | By default the API pagination returns 500 results in each page. You can specify a different page size using this parameter up to a maximum of 1000.
+use_cache | Boolean (Optional)                           | If true, results are obtained from a cached source which reduces response time but the data might not reflect the live results and could be a few minutes old.
 
 ### Fuzzy Search Parameters
 Parameter | Type                                                  | Description
