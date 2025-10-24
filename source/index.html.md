@@ -1945,24 +1945,24 @@ request | JSON string | The API request parameters, truncated if above 400 chara
 response | JSON string | The API response, truncated if above 400 characters
 created_at | Datetime    | When this error was received.
 
-## List Recently Sent Emails
+## List Recently Sent Form Emails
 
 ```python
 import requests
 
-url = "https://api.feathery.io/api/logs/email/<Form ID>/";
+url = "https://api.feathery.io/api/logs/email/form/<Form ID>/";
 headers = {"Authorization": "Token <API KEY>"}
 result = requests.get(url, headers=headers)
 print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/logs/email/<Form ID>/" \
+curl "https://api.feathery.io/api/logs/email/form/<Form ID>/" \
     -H "Authorization: Token <API KEY>"
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/logs/email/<Form ID>/";
+const url = "https://api.feathery.io/api/logs/email/form/<Form ID>/";
 const options = { headers: { Authorization: "Token <API KEY>" } };
 fetch(url, options)
     .then((response) => response.json())
@@ -1980,7 +1980,7 @@ fetch(url, options)
       "richard@feathery.io",
     ],
     "subject": "",
-    "created_at": "2020-06-02T00:00:00Z"
+    "created_at": "2020-10-20T00:00:00.0+00:00"
   }
 ]
 ```
@@ -1989,7 +1989,7 @@ List all recent emails sent via Feathery's [email integration](https://feathery.
 
 ### HTTP Request
 
-`GET https://api.feathery.io/api/logs/email/<Form ID>/`
+`GET https://api.feathery.io/api/logs/email/form/<Form ID>/`
 
 ### Request Query Parameters
 
@@ -2007,6 +2007,75 @@ Parameter | Type | Description
 template_id | String | The ID of the email template in the integration this email was based off of.
 recipients | Array | The recipient addresses this email was sent to.
 subject | String | The subject of this email.
+created_at | Datetime | When this email was sent.
+
+## List Recently Sent AI Emails
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/logs/email/extraction/<Extraction ID>/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/logs/email/extraction/<Extraction ID>/" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/logs/email/extraction/<Extraction ID>/";
+const options = { headers: { Authorization: "Token <API KEY>" } };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+[
+  {
+    "sender": "Alice <alice@feathery.io>",
+    "subject": "",
+    "group_name": "Group A",
+    "recipients": [
+      "mary@feathery.io",
+      "richard@feathery.io",
+    ],
+    "created_at": "2020-10-20T00:00:00.0+00:00",
+    "user_id": "user_1"
+  }
+]
+```
+
+List all recent emails initiated from an AI extraction.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/logs/email/extraction/<Extraction ID>/`
+
+### Request Query Parameters
+
+Parameter | Type                | Description
+--------- |---------------------| -----------
+start_time | Datetime (Optional) | Only return emails sent after this time.
+end_time | Datetime (Optional) | Only return emails sent before this time.
+user_id  | String (Optional)   | The user if any who initiated the email action.
+
+### Response Body
+
+The response will be an array of objects with the following parameters.
+
+Parameter | Type | Description
+--------- | --------- | -----------
+sender | String | The name and address of the original email sender.
+recipients | Array | The recipient addresses this email was sent to.
+group_name | String | The name of the email group if any which the recipients are defined under.
+subject | String | The subject of this email.
+user_id  | String   | The user if any who initiated the email action.
 created_at | Datetime | When this email was sent.
 
 ## List Email Issues
