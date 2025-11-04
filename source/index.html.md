@@ -87,10 +87,10 @@ Rotate your Feathery API key. The rotated key is the one used to authenticate th
 
 The response will be an object containing the following parameters.
 
-Parameter | Type   | Description
---------- |--------| -----------
-old_api_key | String | The former API key that was rotated out
-new_api_key | String | The new API key that is in effect
+| Parameter   | Type   | Description                             |
+|-------------|--------|-----------------------------------------|
+| old_api_key | String | The former API key that was rotated out |
+| new_api_key | String | The new API key that is in effect       |
 
 # Account
 
@@ -143,10 +143,10 @@ Retrieve your Feathery account information.
 
 The response will be an object containing the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-team | String | The name of your team in Feathery
-accounts | Array | List of accounts that belong to your team
+| Parameter | Type   | Description                               |
+|-----------|--------|-------------------------------------------|
+| team      | String | The name of your team in Feathery         |
+| accounts  | Array  | List of accounts that belong to your team |
 
 ## Invite Accounts
 
@@ -194,25 +194,25 @@ Invite new users to your Feathery team.
 An array of objects with the following parameters, where each object is a new
 user to invite:
 
-Parameter | Type                  | Description
---------- |-----------------------| -----------
-email | string                | The email of the new user to invite 
-role | string (optional)     | Either 'admin', 'editor', or 'viewer'. Defaults to 'admin'.
-permission_edit_form_results | boolean (optional)    | If they're allowed to edit form results. Defaults to true.
-permission_invite_collaborators | boolean (optional)    | If they're allowed to invite form collaborators. Defaults to true.
-permission_edit_collaborator_template | boolean (optional)    | If they're allowed to edit form collaborator settings. Defaults to true.
-permission_edit_logic | boolean (optional)    | If they're allowed to edit form custom logic rules. Defaults to true.
-permission_edit_theme | boolean (optional)    | If they're allowed to edit form themes. Defaults to true.
-user_groups | string\[\] (optional) | An array of user group names to add the invited account to
+| Parameter                             | Type                  | Description                                                              |
+|---------------------------------------|-----------------------|--------------------------------------------------------------------------|
+| email                                 | string                | The email of the new user to invite                                      |
+| role                                  | string (optional)     | Either 'admin', 'editor', or 'viewer'. Defaults to 'admin'.              |
+| permission_edit_form_results          | boolean (optional)    | If they're allowed to edit form results. Defaults to true.               |
+| permission_invite_collaborators       | boolean (optional)    | If they're allowed to invite form collaborators. Defaults to true.       |
+| permission_edit_collaborator_template | boolean (optional)    | If they're allowed to edit form collaborator settings. Defaults to true. |
+| permission_edit_logic                 | boolean (optional)    | If they're allowed to edit form custom logic rules. Defaults to true.    |
+| permission_edit_theme                 | boolean (optional)    | If they're allowed to edit form themes. Defaults to true.                |
+| user_groups                           | string\[\] (optional) | An array of user group names to add the invited account to               |
 
 ### Response Body
 
 The response will be an object containing the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-team | String | The name of your team in Feathery
-accounts | Array | List of accounts that belong to your team
+| Parameter | Type   | Description                               |
+|-----------|--------|-------------------------------------------|
+| team      | String | The name of your team in Feathery         |
+| accounts  | Array  | List of accounts that belong to your team |
 
 ## Edit Account
 
@@ -259,16 +259,16 @@ Edit a Feathery account.
 ### Request Body Parameters
 The following parameters can be specified in the request body.
 
-Parameter | Type                  | Description
---------- |-----------------------| -----------
-email | string (optional)     | The email of the account to edit
-account_id | UUID (optional) | The ID of the account to edit. Either the account ID or the email must be specified.
-role | string (optional)     | Either 'admin', 'editor', or 'viewer'
-permission_edit_form_results | boolean (optional)    | If they're allowed to edit form results.
-permission_invite_collaborators | boolean (optional)    | If they're allowed to invite form collaborators.
-permission_edit_collaborator_template | boolean (optional)    | If they're allowed to edit form collaborator settings.
-permission_edit_logic | boolean (optional)    | If they're allowed to edit form custom logic rules.
-permission_edit_theme | boolean (optional)    | Iif they're allowed to edit form themes.
+| Parameter                             | Type               | Description                                                                          |
+|---------------------------------------|--------------------|--------------------------------------------------------------------------------------|
+| email                                 | string (optional)  | The email of the account to edit                                                     |
+| account_id                            | UUID (optional)    | The ID of the account to edit. Either the account ID or the email must be specified. |
+| role                                  | string (optional)  | Either 'admin', 'editor', or 'viewer'                                                |
+| permission_edit_form_results          | boolean (optional) | If they're allowed to edit form results.                                             |
+| permission_invite_collaborators       | boolean (optional) | If they're allowed to invite form collaborators.                                     |
+| permission_edit_collaborator_template | boolean (optional) | If they're allowed to edit form collaborator settings.                               |
+| permission_edit_logic                 | boolean (optional) | If they're allowed to edit form custom logic rules.                                  |
+| permission_edit_theme                 | boolean (optional) | Iif they're allowed to edit form themes.                                             |
 
 ### Response Body
 
@@ -318,19 +318,19 @@ Remove user from your Feathery team.
 
 ### Request Body Parameters
 
-Parameter | Type              | Description
---------- |-------------------| -----------
-email | String (Optional) | The email of the user to remove. Either the account ID or the email needs to be specified.
-account_id | String (Optional) | The account ID of the user to remove. Either the account ID or the email needs to be specified.
+| Parameter  | Type              | Description                                                                                     |
+|------------|-------------------|-------------------------------------------------------------------------------------------------|
+| email      | String (Optional) | The email of the user to remove. Either the account ID or the email needs to be specified.      |
+| account_id | String (Optional) | The account ID of the user to remove. Either the account ID or the email needs to be specified. |
 
 ### Response Body
 
 The response will be an object containing the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-team | String | The name of your team in Feathery
-accounts | Array | List of accounts that belong to your team
+| Parameter | Type   | Description                               |
+|-----------|--------|-------------------------------------------|
+| team      | String | The name of your team in Feathery         |
+| accounts  | Array  | List of accounts that belong to your team |
 
 # Document Intelligence
 
@@ -388,24 +388,24 @@ and you must have document intelligence enabled.
 
 ### URL Parameters
 
-Parameter | Type              | Description
---------- |-------------------| -----------
-extraction_id | String | The ID of the extraction to run, which is configured in your Feathery dashboard.
+| Parameter     | Type   | Description                                                                      |
+|---------------|--------|----------------------------------------------------------------------------------|
+| extraction_id | String | The ID of the extraction to run, which is configured in your Feathery dashboard. |
 
 ### Request Body Parameters
 Note that this needs to be formatted as a multipart/form-data request.
 
-Parameter | Type              | Description
---------- |-------------------| -----------
-files | File Array        | An array of files that will be parsed by the extraction for data.
+| Parameter | Type       | Description                                                       |
+|-----------|------------|-------------------------------------------------------------------|
+| files     | File Array | An array of files that will be parsed by the extraction for data. |
 
 ### Response Body
 
 The response will be an object containing the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-user_id | String | The new Feathery user / submission who the extracted data is stored under.
+| Parameter | Type   | Description                                                                |
+|-----------|--------|----------------------------------------------------------------------------|
+| user_id   | String | The new Feathery user / submission who the extracted data is stored under. |
 
 ## List Extraction Runs
 
@@ -457,28 +457,28 @@ List runs for a specific AI document extraction
 
 ### Request Query Parameters
 
-Parameter | Type                | Description
---------- |---------------------| -----------
-start_time | Datetime (Optional) | Fetch runs that started after this start time
-end_time | Datetime (Optional) | Fetch runs that started before this end time
+| Parameter  | Type                | Description                                   |
+|------------|---------------------|-----------------------------------------------|
+| start_time | Datetime (Optional) | Fetch runs that started after this start time |
+| end_time   | Datetime (Optional) | Fetch runs that started before this end time  |
 
 ### Response Body
 
 The response is an array of extraction run entries with the following parameters.
 
-Parameter | Type                | Description
---------- |---------------------| -----------
-id | String              | The unique ID of the extraction run
-user_id | String              | The unique ID of the user who the extraction run is associated with
-file_name | String | The name of the document that was processed
-success | Boolean             | If the run was successful
-data | {field_internal_id: string; value: any}[] | A list of datapoints extracted during this run
-approved | Boolean             | If the run required review and was approved
-approver | Email               | The email of the account who approved the run
-email_extracted_at | Datetime (Optional) | If the inbox integration is turned on for this extraction, when the email associated with this run finished extracting
-document_extracted_at | Datetime | When the document associated with this run finished extracting
-created_at | Datetime | When this extraction run was created
-updated_at | Datetime | When this extraction run was last updated
+| Parameter             | Type                                      | Description                                                                                                            |
+|-----------------------|-------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| id                    | String                                    | The unique ID of the extraction run                                                                                    |
+| user_id               | String                                    | The unique ID of the user who the extraction run is associated with                                                    |
+| file_name             | String                                    | The name of the document that was processed                                                                            |
+| success               | Boolean                                   | If the run was successful                                                                                              |
+| data                  | {field_internal_id: string; value: any}[] | A list of datapoints extracted during this run                                                                         |
+| approved              | Boolean                                   | If the run required review and was approved                                                                            |
+| approver              | Email                                     | The email of the account who approved the run                                                                          |
+| email_extracted_at    | Datetime (Optional)                       | If the inbox integration is turned on for this extraction, when the email associated with this run finished extracting |
+| document_extracted_at | Datetime                                  | When the document associated with this run finished extracting                                                         |
+| created_at            | Datetime                                  | When this extraction run was created                                                                                   |
+| updated_at            | Datetime                                  | When this extraction run was last updated                                                                              |
 
 # Document Templates
 
@@ -534,20 +534,20 @@ uploaded and mapped in your Feathery account.
 
 ### Request Body Parameters
 
-Parameter | Type              | Description
---------- |-------------------| -----------
-document | UUID String       | The ID of the document to fill
-field_values | Object (optional) | A mapping of field ID to field value to fill the document
-signer_email | String (optional) | The document will route to the specified email for signature after being filled
-user_id | String (Optional) | Associate an existing Feathery user with the generated document
+| Parameter    | Type              | Description                                                                     |
+|--------------|-------------------|---------------------------------------------------------------------------------|
+| document     | UUID String       | The ID of the document to fill                                                  |
+| field_values | Object (optional) | A mapping of field ID to field value to fill the document                       |
+| signer_email | String (optional) | The document will route to the specified email for signature after being filled |
+| user_id      | String (Optional) | Associate an existing Feathery user with the generated document                 |
 
 ### Response Body
 
 The response will be an object containing the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-file_url | String | The URL to the filled out document
+| Parameter | Type   | Description                        |
+|-----------|--------|------------------------------------|
+| file_url  | String | The URL to the filled out document |
 
 ## List Document Envelopes
 
@@ -603,28 +603,28 @@ or a particular submission.
 
 ### Request Query Parameters
 
-Parameter | Type              | Description
---------- |-------------------| -----------
-type | String            | Either `document` or `user`, specifying how to look up envelopes of interest.
-id | String            | If method is `document`, this is the document ID. If method is `user`, this is the user ID.
+| Parameter | Type   | Description                                                                                 |
+|-----------|--------|---------------------------------------------------------------------------------------------|
+| type      | String | Either `document` or `user`, specifying how to look up envelopes of interest.               |
+| id        | String | If method is `document`, this is the document ID. If method is `user`, this is the user ID. |
 
 ### Response Body
 
 The response will be an array of objects containing the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-id | String | The ID of the envelope
-document | String (Optional) | The ID of the document template this envelope was generated from
-user | String (Optional) | The ID of the Feathery user that filled out this envelope
-signer | String (Optional) | The email of the envelope signer
-sender | String (Optional) | The email of the envelope sender
-file | URL | The URL to the file associated with this envelope
-type | String Enum | The type of document - `pdf`, `docx`, `xlsx`
-viewed | Boolean | If envelope was routed for signature, if the signer has viewed it
-signed | Boolean | If envelope was routed for signature, if the signer has signed it
-tags | String[] | An array of tags that contain metadata about the envelope
-created_at | Datetime | When this envelope was created
+| Parameter  | Type              | Description                                                       |
+|------------|-------------------|-------------------------------------------------------------------|
+| id         | String            | The ID of the envelope                                            |
+| document   | String (Optional) | The ID of the document template this envelope was generated from  |
+| user       | String (Optional) | The ID of the Feathery user that filled out this envelope         |
+| signer     | String (Optional) | The email of the envelope signer                                  |
+| sender     | String (Optional) | The email of the envelope sender                                  |
+| file       | URL               | The URL to the file associated with this envelope                 |
+| type       | String Enum       | The type of document - `pdf`, `docx`, `xlsx`                      |
+| viewed     | Boolean           | If envelope was routed for signature, if the signer has viewed it |
+| signed     | Boolean           | If envelope was routed for signature, if the signer has signed it |
+| tags       | String[]          | An array of tags that contain metadata about the envelope         |
+| created_at | Datetime          | When this envelope was created                                    |
 
 ## Delete Document Envelope
 
@@ -660,9 +660,9 @@ Delete a specific Feathery document envelope.
 
 ### URL Parameters
 
-Parameter | Type   | Description
---------- |--------| -----------
-envelope_id | UUID   | The ID of the envelope to delete.
+| Parameter   | Type | Description                       |
+|-------------|------|-----------------------------------|
+| envelope_id | UUID | The ID of the envelope to delete. |
 
 # Forms
 
@@ -774,7 +774,7 @@ fetch(url, options)
     "This is a required field": {
       "es": "Este es un campo obligatorio",
       "fr": "Ceci est un champ obligatoire"
-    },
+    }
   }
 }
 ```
@@ -789,50 +789,50 @@ Retrieve the schema of a form created in Feathery.
 
 The response will be an object containing the following parameters.
 
-Parameter    | Type      | Description
------------- | --------- | -----------
-form_id      | String    | Your form's ID
-form_name    | String     | Your form's name
-steps        | Array<Obj> | An array of step objects
-rules        | Array<Obj> | An array of rule objects
-translations | JSON        | A mapping of default text to translations
+| Parameter    | Type       | Description                               |
+|--------------|------------|-------------------------------------------|
+| form_id      | String     | Your form's ID                            |
+| form_name    | String     | Your form's name                          |
+| steps        | Array<Obj> | An array of step objects                  |
+| rules        | Array<Obj> | An array of rule objects                  |
+| translations | JSON       | A mapping of default text to translations |
 
 Each `steps` object contains the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-id | String | The ID of the step, unique to the form
-internal_id | UUID | The internal ID of the step, globally unique
-origin | Boolean | Is this the first step of the form
-images | Array<Obj> | Images on this step
-videos | Array<Obj> | Videos on this step
-progress_bars | Array<Obj> | Progress bars on this step
-texts | Array<Obj> | Text elements on this step
-buttons | Array<Obj> | Buttons on this step
-fields | Array<Obj> | Fields on this step
-previous_conditions | Array<Obj> | Navigation rules that connect previous steps to the current step
-next_conditions | Array<Obj> | Navigation rules that connect the current step to next steps
-created_at | Datetime | When this step was created
-updated_at | Datetime | When this step was last updated
+| Parameter           | Type       | Description                                                      |
+|---------------------|------------|------------------------------------------------------------------|
+| id                  | String     | The ID of the step, unique to the form                           |
+| internal_id         | UUID       | The internal ID of the step, globally unique                     |
+| origin              | Boolean    | Is this the first step of the form                               |
+| images              | Array<Obj> | Images on this step                                              |
+| videos              | Array<Obj> | Videos on this step                                              |
+| progress_bars       | Array<Obj> | Progress bars on this step                                       |
+| texts               | Array<Obj> | Text elements on this step                                       |
+| buttons             | Array<Obj> | Buttons on this step                                             |
+| fields              | Array<Obj> | Fields on this step                                              |
+| previous_conditions | Array<Obj> | Navigation rules that connect previous steps to the current step |
+| next_conditions     | Array<Obj> | Navigation rules that connect the current step to next steps     |
+| created_at          | Datetime   | When this step was created                                       |
+| updated_at          | Datetime   | When this step was last updated                                  |
 
 Each form element (images, videos, progress_bars, texts, buttons, fields) has a common `id` parameter that uniquely identifies it. 
 Each element also contains a `hide_rules` parameter that stores any conditions that would trigger the element to be hidden on the form.
 
 Each `rule` object contains the following parameters.
 
-Parameter | Type   | Description
---------- |--------| -----------
-name | String | The user-friendly name of the rule
-description | String | Description of the rule
-trigger_event | Enum   | On what event the rule runs
-index | Number | The ordering of this rule when executing
-steps | Array  | A list of step IDs corresponding to the steps that the rule runs on
-elements | Array  | A list of element IDs that trigger the rule
-enabled | Boolean | Is this rule runnable
-valid | Boolean | Is the rule configuration in a valid state
-mode | Enum | Is the rule defined via the code editor or no-code logic
-created_at | Datetime | When the rule was created
-updated_at | Datetime | When the rule was last updated
+| Parameter     | Type     | Description                                                         |
+|---------------|----------|---------------------------------------------------------------------|
+| name          | String   | The user-friendly name of the rule                                  |
+| description   | String   | Description of the rule                                             |
+| trigger_event | Enum     | On what event the rule runs                                         |
+| index         | Number   | The ordering of this rule when executing                            |
+| steps         | Array    | A list of step IDs corresponding to the steps that the rule runs on |
+| elements      | Array    | A list of element IDs that trigger the rule                         |
+| enabled       | Boolean  | Is this rule runnable                                               |
+| valid         | Boolean  | Is the rule configuration in a valid state                          |
+| mode          | Enum     | Is the rule defined via the code editor or no-code logic            |
+| created_at    | Datetime | When the rule was created                                           |
+| updated_at    | Datetime | When the rule was last updated                                      |
 
 ## List Forms
 
@@ -880,23 +880,23 @@ List your Feathery forms
 
 ### Request Query Parameters
 
-Parameter | Type              | Description
---------- |-------------------| -----------
-tags | String (Optional) | Only return forms that have all of these tags in a comma-separated list.
+| Parameter | Type              | Description                                                              |
+|-----------|-------------------|--------------------------------------------------------------------------|
+| tags      | String (Optional) | Only return forms that have all of these tags in a comma-separated list. |
 
 ### Response Body
 
 The response will be an array of objects containing the following parameters.
 
-Parameter | Type            | Description
---------- |-----------------| -----------
-id | String          | The form ID
-name | String          | The form name
-active | Boolean         | Is the form turned on
-tags | String[]        | The tags on your form
-internal_id | UUID (Optional) | Feathery-specific identifier for the form. Returned only for white label workspaces.
-created_at | Datetime        | When this form was created
-updated_at | Datetime        | When this form was last updated
+| Parameter   | Type            | Description                                                                          |
+|-------------|-----------------|--------------------------------------------------------------------------------------|
+| id          | String          | The form ID                                                                          |
+| name        | String          | The form name                                                                        |
+| active      | Boolean         | Is the form turned on                                                                |
+| tags        | String[]        | The tags on your form                                                                |
+| internal_id | UUID (Optional) | Feathery-specific identifier for the form. Returned only for white label workspaces. |
+| created_at  | Datetime        | When this form was created                                                           |
+| updated_at  | Datetime        | When this form was last updated                                                      |
 
 ## Create a Form
 
@@ -1140,145 +1140,143 @@ Create a form based off an existing template form. Any integrations on the templ
 
 ### Body Parameters
 
-Parameter | Type | Description
---------- | --------- | -----------
-form_name | String | The name of the new form being created (must be unique)
-template_form_id | String | The ID of the template form to copy from
-steps | Array<Obj> | An array of steps to create
-navigation_rules | Array<Obj> | An array of navigation rule connecting steps to be created
-logic_rules | Array<Obj> (Optional) | An array of advanced logic rules to associate with the form
-enabled | Boolean (Optional) | If the created form should be enabled or disabled. If not specified, will inherit the status of the template form.
+| Parameter        | Type                  | Description                                                                                                        |
+|------------------|-----------------------|--------------------------------------------------------------------------------------------------------------------|
+| form_name        | String                | The name of the new form being created (must be unique)                                                            |
+| template_form_id | String                | The ID of the template form to copy from                                                                           |
+| steps            | Array<Obj>            | An array of steps to create                                                                                        |
+| navigation_rules | Array<Obj>            | An array of navigation rule connecting steps to be created                                                         |
+| logic_rules      | Array<Obj> (Optional) | An array of advanced logic rules to associate with the form                                                        |
+| enabled          | Boolean (Optional)    | If the created form should be enabled or disabled. If not specified, will inherit the status of the template form. |
 
 Each `steps` object contains the following parameters.
 The form element arrays allow you to edit attributes from the elements in the copied step.
 If nothing is specified, the elements on the step will be copied as they are.
 
-Parameter | Type | Description
---------- | --------- | -----------
-step_id | String | The ID of the new step to create, unique to the form
-template_step_id | Optional String | The ID of the step to copy from the original form. If not specified, a step will be auto-created with a single column layout.
-origin | Optional Boolean | `true` if this step is the first of the form. Defaults to `false`
-images | Array<Obj> | Image elements to edit on this step
-videos | Array<Obj> | Video elements to edit on this step
-progress_bars | Array<Obj> | Progress bar elements to edit on this step
-texts | Array<Obj> | Text elements to edit on this step
-buttons | Array<Obj> | Button elements to edit on this step
-fields | Array<Obj> | Field elements to edit on this step
+| Parameter        | Type             | Description                                                                                                                   |
+|------------------|------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| step_id          | String           | The ID of the new step to create, unique to the form                                                                          |
+| template_step_id | Optional String  | The ID of the step to copy from the original form. If not specified, a step will be auto-created with a single column layout. |
+| origin           | Optional Boolean | `true` if this step is the first of the form. Defaults to `false`                                                             |
+| images           | Array<Obj>       | Image elements to edit on this step                                                                                           |
+| videos           | Array<Obj>       | Video elements to edit on this step                                                                                           |
+| progress_bars    | Array<Obj>       | Progress bar elements to edit on this step                                                                                    |
+| texts            | Array<Obj>       | Text elements to edit on this step                                                                                            |
+| buttons          | Array<Obj>       | Button elements to edit on this step                                                                                          |
+| fields           | Array<Obj>       | Field elements to edit on this step                                                                                           |
 
 Each `image` object contains the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-id | String | The ID of the image to edit. If `template_step_id` is specified, it must be from that step.
-source_url | String | A new image URL
-asset | Optional String | The name of the image asset to inherit from. This asset must belong to the template form's theme.
+| Parameter  | Type            | Description                                                                                       |
+|------------|-----------------|---------------------------------------------------------------------------------------------------|
+| id         | String          | The ID of the image to edit. If `template_step_id` is specified, it must be from that step.       |
+| source_url | String          | A new image URL                                                                                   |
+| asset      | Optional String | The name of the image asset to inherit from. This asset must belong to the template form's theme. |
 
 Each `video` object contains the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-id | String | The ID of the video to edit. If `template_step_id` is specified, it must be from that step.
-source_url | String | A new video URL
-asset | Optional String | The name of the video asset to inherit from. This asset must belong to the template form's theme.
+| Parameter  | Type            | Description                                                                                       |
+|------------|-----------------|---------------------------------------------------------------------------------------------------|
+| id         | String          | The ID of the video to edit. If `template_step_id` is specified, it must be from that step.       |
+| source_url | String          | A new video URL                                                                                   |
+| asset      | Optional String | The name of the video asset to inherit from. This asset must belong to the template form's theme. |
 
 Each `progress_bar` object contains the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-id | String | The ID of the progress bar to edit. If `template_step_id` is specified, it must be from that step.
-progress | Integer | The percentage of progress to display between 0 and 100
-asset | Optional String | The name of the progress bar asset to inherit from. This asset must belong to the template form's theme.
+| Parameter | Type            | Description                                                                                              |
+|-----------|-----------------|----------------------------------------------------------------------------------------------------------|
+| id        | String          | The ID of the progress bar to edit. If `template_step_id` is specified, it must be from that step.       |
+| progress  | Integer         | The percentage of progress to display between 0 and 100                                                  |
+| asset     | Optional String | The name of the progress bar asset to inherit from. This asset must belong to the template form's theme. |
 
 Each `text` object contains the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-id | String | The ID of the text element to edit. If `template_step_id` is specified, it must be from that step.
-text | String | The new text to display
-asset | Optional String | The name of the text asset to inherit from. This asset must belong to the template form's theme.
+| Parameter | Type            | Description                                                                                        |
+|-----------|-----------------|----------------------------------------------------------------------------------------------------|
+| id        | String          | The ID of the text element to edit. If `template_step_id` is specified, it must be from that step. |
+| text      | String          | The new text to display                                                                            |
+| asset     | Optional String | The name of the text asset to inherit from. This asset must belong to the template form's theme.   |
 
 Each `button` object contains the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-id | String | The ID of the button to edit. If `template_step_id` is specified, it must be from that step.
-text | String | Text to display on the new button
-asset | Optional String | The name of the button asset to inherit from. This asset must belong to the template form's theme.
+| Parameter | Type            | Description                                                                                        |
+|-----------|-----------------|----------------------------------------------------------------------------------------------------|
+| id        | String          | The ID of the button to edit. If `template_step_id` is specified, it must be from that step.       |
+| text      | String          | Text to display on the new button                                                                  |
+| asset     | Optional String | The name of the button asset to inherit from. This asset must belong to the template form's theme. |
 
 Each `field` object may contain the following parameters, depending on what type of field you are copying or changing.
 
-Parameter | Type | Description
---------- | --------- | -----------
-id | String | The ID of the field to copy. If `template_step_id` is specified, it must be from that step.
-field_id | Optional String | The ID to set for the field on the new step. If this ID references an existing field, it will automatically link to the field's properties and user data. If field_id isn't specified, it will be automatically generated.
-type | Optional String | The new [field type](https://docs.feathery.io/platform/build-forms/elements/fields#example)
-description | Optional String | The label / description of the field
-required | Optional Boolean | Does the user need to fill out this field before submitting the step? Defaults to `true`
-max_length | Optional Integer | Maximum length of the field value
-min_length | Optional Integer | Minimum length of the field value 
-placeholder | Optional String | New placeholder text for the field
-tooltipText | Optional String | New tooltip text for the field
-submit_trigger | Optional String | Does filling out the field trigger submission of the current step? Options are "auto" or "none"
-metadata | Optional Object | Specifies field options and file types
-asset | Optional String | The name of the field asset to inherit from. This asset must belong to the template form's theme.
+| Parameter      | Type             | Description                                                                                                                                                                                                                |
+|----------------|------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id             | String           | The ID of the field to copy. If `template_step_id` is specified, it must be from that step.                                                                                                                                |
+| field_id       | Optional String  | The ID to set for the field on the new step. If this ID references an existing field, it will automatically link to the field's properties and user data. If field_id isn't specified, it will be automatically generated. |
+| type           | Optional String  | The new [field type](https://docs.feathery.io/platform/build-forms/elements/fields#example)                                                                                                                                |
+| description    | Optional String  | The label / description of the field                                                                                                                                                                                       |
+| required       | Optional Boolean | Does the user need to fill out this field before submitting the step? Defaults to `true`                                                                                                                                   |
+| max_length     | Optional Integer | Maximum length of the field value                                                                                                                                                                                          |
+| min_length     | Optional Integer | Minimum length of the field value                                                                                                                                                                                          |
+| placeholder    | Optional String  | New placeholder text for the field                                                                                                                                                                                         |
+| tooltipText    | Optional String  | New tooltip text for the field                                                                                                                                                                                             |
+| submit_trigger | Optional String  | Does filling out the field trigger submission of the current step? Options are "auto" or "none"                                                                                                                            |
+| metadata       | Optional Object  | Specifies field options and file types                                                                                                                                                                                     |
+| asset          | Optional String  | The name of the field asset to inherit from. This asset must belong to the template form's theme.                                                                                                                          |
 
 Below we specify which parameters apply to which field type. They are only required if you aren't linking from an existing field.
 
-Parameter | [Field Types](https://docs.feathery.io/platform/components/fields/button-group#example) | Required
---------- | --------- | -----------
-max_length, min_length | text_field, text_area, integer_field, select, multiselect, email | Optional
-max_length | pin_input | Required
-placeholder, toolTipText | dropdown, email, login, phone_number, gmap_line_1, gmap_line_2, gmap_city, gmap_state, gmap_zip, integer_field, ssn, text_field, text_area, url | Optional
-submit_trigger | button_group, file_upload, dropdown, gmap_state, pin_input, select, hex_color, login, phone_number, ssn | Optional
-metadata.other | select, multiselect, dropdown | Required
-metadata.options | button_group, select, multiselect, dropdown | Required
-metadata.file_types | file_upload | Required
+| Parameter                | [Field Types](https://docs.feathery.io/platform/components/fields/button-group#example)                                                         | Required |
+|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| max_length, min_length   | text_field, text_area, integer_field, select, multiselect, email                                                                                | Optional |
+| max_length               | pin_input                                                                                                                                       | Required |
+| placeholder, toolTipText | dropdown, email, login, phone_number, gmap_line_1, gmap_line_2, gmap_city, gmap_state, gmap_zip, integer_field, ssn, text_field, text_area, url | Optional |
+| submit_trigger           | button_group, file_upload, dropdown, gmap_state, pin_input, select, hex_color, login, phone_number, ssn                                         | Optional |
+| metadata.other           | select, multiselect, dropdown                                                                                                                   | Required |
+| metadata.options         | button_group, select, multiselect, dropdown                                                                                                     | Required |
+| metadata.file_types      | file_upload                                                                                                                                     | Required |
 
 Each `navigation_rules` object controls how the user navigates between 2 steps. 
 For example, one navigation rule might specify that clicking the button `Next` on `Step 1` leads to `Step 2`.
 
 Navigation rules contain the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-previous_step_id | String | The step the user is coming from.
-next_step_id | String | The step the user is going to.
-trigger | String Enum | How navigation is trigger - "click", "change", or "load"
-element_type | String Enum | What type of element triggers navigation - "button", "field", or "text"
-element_id | String | The ID of the element on the previous step that triggers navigation. 
-rules | Array<Obj> | The conditions that must be fulfilled for navigation to occur
-
+| Parameter        | Type        | Description                                                             |
+|------------------|-------------|-------------------------------------------------------------------------|
+| previous_step_id | String      | The step the user is coming from.                                       |
+| next_step_id     | String      | The step the user is going to.                                          |
+| trigger          | String Enum | How navigation is trigger - "click", "change", or "load"                |
+| element_type     | String Enum | What type of element triggers navigation - "button", "field", or "text" |
+| element_id       | String      | The ID of the element on the previous step that triggers navigation.    |
+| rules            | Array<Obj>  | The conditions that must be fulfilled for navigation to occur           |
 
 Each `navigation_rules` `rules` object contains the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-comparison | String | Comparison - "equal", "not_equal"
-field_key | String | The ID of the field whose value is being used for this comparison
-value | String | The value to compare the field value against
+| Parameter  | Type   | Description                                                       |
+|------------|--------|-------------------------------------------------------------------|
+| comparison | String | Comparison - "equal", "not_equal"                                 |
+| field_key  | String | The ID of the field whose value is being used for this comparison |
+| value      | String | The value to compare the field value against                      |
 
 Each `logic_rules` object contains the following parameters:
 
-Parameter | Type                                                                                                       | Description                     
---------- |------------------------------------------------------------------------------------------------------------|---------------------------------
-name | String                                                                                                     | The name of the logic rule
-code | String | The Javascript code to run in the logic rule
-trigger_event | 'change' &#124; 'load' &#124; 'form_complete' &#124; 'submit' &#124; 'error' &#124; 'view' &#124; 'action' | The event that triggers the logic rule to run
-steps | String\[\] (Optional)                                                                                      | If `trigger_event` is 'submit' or 'load', the step IDs that will trigger the rule to run.
-elements | String\[\] (Optional)                                                                                      | If `trigger_event` is 'change', 'error', 'view', 'or 'action', the elements that will trigger the rule to run.
-description | String (Optional)                                                                                          | A description of the logic rule
-index | Number (Optional) The execution order of the logic rule
-
+| Parameter     | Type                                                                                                       | Description                                                                                                    |
+|---------------|------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
+| name          | String                                                                                                     | The name of the logic rule                                                                                     |
+| code          | String                                                                                                     | The Javascript code to run in the logic rule                                                                   |
+| trigger_event | 'change' &#124; 'load' &#124; 'form_complete' &#124; 'submit' &#124; 'error' &#124; 'view' &#124; 'action' | The event that triggers the logic rule to run                                                                  |
+| steps         | String\[\] (Optional)                                                                                      | If `trigger_event` is 'submit' or 'load', the step IDs that will trigger the rule to run.                      |
+| elements      | String\[\] (Optional)                                                                                      | If `trigger_event` is 'change', 'error', 'view', 'or 'action', the elements that will trigger the rule to run. |
+| description   | String (Optional)                                                                                          | A description of the logic rule                                                                                |
+| index         | Number (Optional) The execution order of the logic rule                                                    |                                                                                                                |
 
 ### Response Body
 
 The response will be an object containing the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-id | String | The form ID
-name | String | The form name
-internal_id | UUID (Optional) | Feathery-specific identifier for the form. Returned only for white label workspaces.
+| Parameter   | Type            | Description                                                                          |
+|-------------|-----------------|--------------------------------------------------------------------------------------|
+| id          | String          | The form ID                                                                          |
+| name        | String          | The form name                                                                        |
+| internal_id | UUID (Optional) | Feathery-specific identifier for the form. Returned only for white label workspaces. |
 
 ## Update a Form
 
@@ -1319,7 +1317,7 @@ curl "https://api.feathery.io/api/form/<form_id>/" \
 const url = "https://api.feathery.io/api/form/<form_id>/";
 const data = {
   "enabled": false,
-  "form_name": "New Name"
+  "form_name": "New Name",
   "translations": {
     "hi": {
       "es": "hola", 
@@ -1358,11 +1356,11 @@ Update a form's properties, including its status.
 
 ### Request Body Parameters
 
-Parameter    | Type      | Description
------------- | --------- | -----------
-enabled      | Boolean   | Whether the form should be enabled or disabled
-form_name    | String    | The new name to set for the form
-translations | JSON      | A mapping of default text to translations
+| Parameter    | Type    | Description                                    |
+|--------------|---------|------------------------------------------------|
+| enabled      | Boolean | Whether the form should be enabled or disabled |
+| form_name    | String  | The new name to set for the form               |
+| translations | JSON    | A mapping of default text to translations      |
 
 <aside class="notice">
 Please note that setting the translations parameter will override any existing translations
@@ -1372,10 +1370,10 @@ Please note that setting the translations parameter will override any existing t
 
 The response will be an object containing the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-enabled   | Boolean   | Whether the form is enabled or disabled
-form_name | String    | The name of the form
+| Parameter | Type    | Description                             |
+|-----------|---------|-----------------------------------------|
+| enabled   | Boolean | Whether the form is enabled or disabled |
+| form_name | String  | The name of the form                    |
 
 ## Delete a Form
 
@@ -1425,15 +1423,15 @@ Delete a specific form.
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
-form_id | The ID of the form to delete
+| Parameter | Description                  |
+|-----------|------------------------------|
+| form_id   | The ID of the form to delete |
 
 ### Request Body Parameters
 
-Parameter | Type | Description
---------- | --------- | -----------
-confirm_delete | boolean | Set to true to delete the form
+| Parameter      | Type    | Description                    |
+|----------------|---------|--------------------------------|
+| confirm_delete | boolean | Set to true to delete the form |
 
 ## Copy a Form
 
@@ -1498,21 +1496,21 @@ Duplicate a form in your account.
 
 ### Request Body Parameters
 
-Parameter | Type | Description
---------- | --------- | -----------
-form_name | String | The name of your new form
-copy_form_id | String | The ID of the form to be copied
+| Parameter    | Type   | Description                     |
+|--------------|--------|---------------------------------|
+| form_name    | String | The name of your new form       |
+| copy_form_id | String | The ID of the form to be copied |
 
 ### Response Body
-Parameter | Type            | Description
---------- |-----------------| -----------
-id | String          | The form ID
-name | String          | The form name
-active | Boolean         | Is the form turned on
-tags | String[]        | The tags on your form
-internal_id | UUID (Optional) | Feathery-specific identifier for the form. Returned only for white label workspaces.
-created_at | Datetime        | When this form was created
-updated_at | Datetime        | When this form was last updated
+| Parameter   | Type            | Description                                                                          |
+|-------------|-----------------|--------------------------------------------------------------------------------------|
+| id          | String          | The form ID                                                                          |
+| name        | String          | The form name                                                                        |
+| active      | Boolean         | Is the form turned on                                                                |
+| tags        | String[]        | The tags on your form                                                                |
+| internal_id | UUID (Optional) | Feathery-specific identifier for the form. Returned only for white label workspaces. |
+| created_at  | Datetime        | When this form was created                                                           |
+| updated_at  | Datetime        | When this form was last updated                                                      |
 
 ## Create or Update Form Submissions
 
@@ -1577,12 +1575,12 @@ Set field values for a user and initialize form submissions
 
 ### Request Body Parameters
 
-Parameter | Type | Description
---------- | --------- | -----------
-fields | Object | A mapping from field identifier (ID or Internal ID) to associated field values to create. For a signature field, pass `{"file": <base64 string>, "name": <file name>}`
-user_id | Optional String | A new or existing user ID. If not provided, a random ID will be generated and returned.
-forms | Optional String[] | An array of form IDs to initialize submissions for
-complete | Optional Boolean | If this submission is complete or incomplete. If the submission already exists and this flag is not specified, the completion status will not be changed.
+| Parameter | Type              | Description                                                                                                                                                            |
+|-----------|-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| fields    | Object            | A mapping from field identifier (ID or Internal ID) to associated field values to create. For a signature field, pass `{"file": <base64 string>, "name": <file name>}` |
+| user_id   | Optional String   | A new or existing user ID. If not provided, a random ID will be generated and returned.                                                                                |
+| forms     | Optional String[] | An array of form IDs to initialize submissions for                                                                                                                     |
+| complete  | Optional Boolean  | If this submission is complete or incomplete. If the submission already exists and this flag is not specified, the completion status will not be changed.              |
 
 ### Response Body
 Same as request body parameters
@@ -1631,12 +1629,12 @@ fetch(url, { headers })
         "value": "Test Value",
         "hidden": false,
         "display_text": "",
-        "internal_id": "ef5ed054-73de-4463-ba61-82c36aca5afc",
+        "internal_id": "ef5ed054-73de-4463-ba61-82c36aca5afc"
       }
     ],
       "user_id": "131e7132-dg6d-4a8c-9d70-cgd493c2a368",
       "submission_start": "2024-10-30T02:07:32Z",
-      "last_submitted": "2024-10-30T02:07:32Z",
+      "last_submitted": "2024-10-30T02:07:32Z"
   }]
 }
 ```
@@ -1649,39 +1647,38 @@ List submission data for a particular form
 
 ### Request Query Parameters
 
-Parameter | Type                                        | Description
---------- |---------------------------------------------| -----------
-form_id   |  String                                     | The ID of the Form to get data for.
-start_time | Datetime (Optional)                         | Limit submissions to after this update time
-end_time | Datetime (Optional)                         | Limit submissions to before this update time
-created_after | Datetime (Optional)                         | Limit submissions to after this creation time
-created_before | Datetime (Optional)                         | Limit submissions to before this creation time
-count | Number (Optional)                           | Limit the number of returned submissions to the specified number (sorted by either last submission time or similarity if fuzzy search is leveraged).
-completed | Boolean (Optional)                          | If specified, only fetch submissions that are either completed or incomplete
-field_search | {field_id: string; value: any}[] (Optional) | Fetch submissions with specific field values. Pass in a stringified array of objects, where each object specifies the field ID and the value to matched against.
-fuzzy_search | JSON (Optional)                             | Fuzzy search allows you to fetch submissions whose field values are similar to search terms that you pass in. To leverage fuzzy search, pass in a stringified JSON object of the format described below. Fuzzy search is implemented via a trigram similarity score. Returned results will be sorted by similarity. There is a delay of a few seconds between when a field value is updated and when it is available to be fuzzy searched against.
-fields | String (Optional)                           | Comma-separated list of field IDs. If specified, limit returned data to the specified field IDs.
-no_field_values | Boolean (Optional)                          | Don't return field data. If this is enabled, you may fetch more records and the endpoint is more performant.
-sort | String (Optional)                           | If "layout", the returned field values will be sorted in the way fields are laid out in the form. Otherwise, values will be sorted by field ID alphabetically.
-page_size | Number (Optional)                           | By default the API pagination returns 500 results in each page. You can specify a different page size using this parameter up to a maximum of 1000.
-use_cache | Boolean (Optional)                           | If true, results are obtained from a cached source which reduces response time but the data might not reflect the live results and could be a few minutes old.
+| Parameter       | Type                                        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|-----------------|---------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| form_id         | String                                      | The ID of the Form to get data for.                                                                                                                                                                                                                                                                                                                                                                                                                |
+| start_time      | Datetime (Optional)                         | Limit submissions to after this update time                                                                                                                                                                                                                                                                                                                                                                                                        |
+| end_time        | Datetime (Optional)                         | Limit submissions to before this update time                                                                                                                                                                                                                                                                                                                                                                                                       |
+| created_after   | Datetime (Optional)                         | Limit submissions to after this creation time                                                                                                                                                                                                                                                                                                                                                                                                      |
+| created_before  | Datetime (Optional)                         | Limit submissions to before this creation time                                                                                                                                                                                                                                                                                                                                                                                                     |
+| count           | Number (Optional)                           | Limit the number of returned submissions to the specified number (sorted by either last submission time or similarity if fuzzy search is leveraged).                                                                                                                                                                                                                                                                                               |
+| completed       | Boolean (Optional)                          | If specified, only fetch submissions that are either completed or incomplete                                                                                                                                                                                                                                                                                                                                                                       |
+| field_search    | {field_id: string; value: any}[] (Optional) | Fetch submissions with specific field values. Pass in a stringified array of objects, where each object specifies the field ID and the value to matched against.                                                                                                                                                                                                                                                                                   |
+| fuzzy_search    | JSON (Optional)                             | Fuzzy search allows you to fetch submissions whose field values are similar to search terms that you pass in. To leverage fuzzy search, pass in a stringified JSON object of the format described below. Fuzzy search is implemented via a trigram similarity score. Returned results will be sorted by similarity. There is a delay of a few seconds between when a field value is updated and when it is available to be fuzzy searched against. |
+| fields          | String (Optional)                           | Comma-separated list of field IDs. If specified, limit returned data to the specified field IDs.                                                                                                                                                                                                                                                                                                                                                   |
+| no_field_values | Boolean (Optional)                          | Don't return field data. If this is enabled, you may fetch more records and the endpoint is more performant.                                                                                                                                                                                                                                                                                                                                       |
+| sort            | String (Optional)                           | If "layout", the returned field values will be sorted in the way fields are laid out in the form. Otherwise, values will be sorted by field ID alphabetically.                                                                                                                                                                                                                                                                                     |
+| page_size       | Number (Optional)                           | By default the API pagination returns 500 results in each page. You can specify a different page size using this parameter up to a maximum of 1000.                                                                                                                                                                                                                                                                                                |
+| use_cache       | Boolean (Optional)                          | If true, results are obtained from a cached source which reduces response time but the data might not reflect the live results and could be a few minutes old.                                                                                                                                                                                                                                                                                     |
 
 ### Fuzzy Search Parameters
-Parameter | Type                                                  | Description
---------- |-------------------------------------------------------| -----------
-threshold | Number                                                | A number between 0 and 1. Only submissions with a score higher than the threshold will be returned.
-parameters | { field_id: string; term: string; weight: number; }[] | Each parameter specifies a field whose value will be compared against the included term. The weight is a number between 0 and 1 describing the importance of this parameter to the final score. The sum of all parameter weights must be 1.
-
+| Parameter  | Type                                                  | Description                                                                                                                                                                                                                                 |
+|------------|-------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| threshold  | Number                                                | A number between 0 and 1. Only submissions with a score higher than the threshold will be returned.                                                                                                                                         |
+| parameters | { field_id: string; term: string; weight: number; }[] | Each parameter specifies a field whose value will be compared against the included term. The weight is a number between 0 and 1 describing the importance of this parameter to the final score. The sum of all parameter weights must be 1. |
 
 ### Response Body
-Parameter | Type | Description
---------- |------| -----------
-count | Number  | Total number of submission entries that can be returned across all pages.
-next | URL or null  | A URL to the next page of results (if available) or null.
-previous | URL or null  | A URL to the previous page of results (if available) or null.
-total_pages | Number  | Total number of pages to get all of the data.
-current_page | Number  | The current page number out of all the total pages.
-results | Array | An array of submission entries. The similarity score will be returned as well if fuzzy search is implemented.
+| Parameter    | Type        | Description                                                                                                   |
+|--------------|-------------|---------------------------------------------------------------------------------------------------------------|
+| count        | Number      | Total number of submission entries that can be returned across all pages.                                     |
+| next         | URL or null | A URL to the next page of results (if available) or null.                                                     |
+| previous     | URL or null | A URL to the previous page of results (if available) or null.                                                 |
+| total_pages  | Number      | Total number of pages to get all of the data.                                                                 |
+| current_page | Number      | The current page number out of all the total pages.                                                           |
+| results      | Array       | An array of submission entries. The similarity score will be returned as well if fuzzy search is implemented. |
 
 ## Create Hidden Field
 
@@ -1742,9 +1739,9 @@ Create a new hidden field in your Feathery account.
 
 ### Request Body Parameters
 
-Parameter | Type | Description
---------- | --------- | -----------
-field_id | String | A new unique ID for the hidden field to create
+| Parameter | Type   | Description                                    |
+|-----------|--------|------------------------------------------------|
+| field_id  | String | A new unique ID for the hidden field to create |
 
 ### Response Body
 Same as request body parameters
@@ -1806,13 +1803,13 @@ List the hidden fields in your Feathery account.
 
 ### Response Body
 
-Parameter | Type | Description
---------- | --------- | -----------
-id | String | The unique ID of the hidden field
-internal_id | String | Feathery-internal identifier of the hidden field
-type | String Enum | The type of value in the hidden field
-created_at | Datetime | When this field was created
-updated_at | Datetime | When this field was last updated
+| Parameter   | Type        | Description                                      |
+|-------------|-------------|--------------------------------------------------|
+| id          | String      | The unique ID of the hidden field                |
+| internal_id | String      | Feathery-internal identifier of the hidden field |
+| type        | String Enum | The type of value in the hidden field            |
+| created_at  | Datetime    | When this field was created                      |
+| updated_at  | Datetime    | When this field was last updated                 |
 
 ## Export Form Submission PDF
 
@@ -1870,15 +1867,15 @@ Create a PDF export for a specific form submission. The returned URL points to t
 
 ### Request Body Parameters
 
-Parameter | Type   | Description
---------- |--------| -----------
-form_id | String | The unique ID of the form whose submission you want to export.
-user_id | String | The unique ID corresponding to a Feathery submission / user who you want to export.
+| Parameter | Type   | Description                                                                         |
+|-----------|--------|-------------------------------------------------------------------------------------|
+| form_id   | String | The unique ID of the form whose submission you want to export.                      |
+| user_id   | String | The unique ID corresponding to a Feathery submission / user who you want to export. |
 
 ### Response Body
-Parameter | Type | Description
---------- |------| -----------
-pdf_url | URL  | A URL where the PDF export can be downloaded from. The file may not be immediately available. 
+| Parameter | Type | Description                                                                                   |
+|-----------|------|-----------------------------------------------------------------------------------------------|
+| pdf_url   | URL  | A URL where the PDF export can be downloaded from. The file may not be immediately available. |
 
 # Logs
 
@@ -1928,22 +1925,22 @@ List all recent response errors from API connector requests triggered from Feath
 
 ### Request Query Parameters
 
-Parameter | Type                | Description
---------- |---------------------| -----------
-start_time | Datetime (Optional) | Only return errors after this time.
-end_time | Datetime (Optional) | Only return errors before this time.
+| Parameter  | Type                | Description                          |
+|------------|---------------------|--------------------------------------|
+| start_time | Datetime (Optional) | Only return errors after this time.  |
+| end_time   | Datetime (Optional) | Only return errors before this time. |
 
 ### Response Body
 
 The response will be an array of objects with the following parameters.
 
-Parameter | Type        | Description
---------- |-------------| -----------
-url | String      | The endpoint URL that returned an error
-status_code | Number      | The erroring status code returned
-request | JSON string | The API request parameters, truncated if above 400 characters
-response | JSON string | The API response, truncated if above 400 characters
-created_at | Datetime    | When this error was received.
+| Parameter   | Type        | Description                                                   |
+|-------------|-------------|---------------------------------------------------------------|
+| url         | String      | The endpoint URL that returned an error                       |
+| status_code | Number      | The erroring status code returned                             |
+| request     | JSON string | The API request parameters, truncated if above 400 characters |
+| response    | JSON string | The API response, truncated if above 400 characters           |
+| created_at  | Datetime    | When this error was received.                                 |
 
 ## List Recently Sent Form Emails
 
@@ -1977,7 +1974,7 @@ fetch(url, options)
     "template_id": "alice@feathery.io",
     "recipients": [
       "mary@feathery.io",
-      "richard@feathery.io",
+      "richard@feathery.io"
     ],
     "subject": "",
     "created_at": "2020-10-20T00:00:00.0+00:00"
@@ -1993,21 +1990,21 @@ List all recent emails sent via Feathery's [email integration](https://feathery.
 
 ### Request Query Parameters
 
-Parameter | Type                | Description
---------- |---------------------| -----------
-start_time | Datetime (Optional) | Only return emails sent after this time.
-end_time | Datetime (Optional) | Only return emails sent before this time.
+| Parameter  | Type                | Description                               |
+|------------|---------------------|-------------------------------------------|
+| start_time | Datetime (Optional) | Only return emails sent after this time.  |
+| end_time   | Datetime (Optional) | Only return emails sent before this time. |
 
 ### Response Body
 
 The response will be an array of objects with the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-template_id | String | The ID of the email template in the integration this email was based off of.
-recipients | Array | The recipient addresses this email was sent to.
-subject | String | The subject of this email.
-created_at | Datetime | When this email was sent.
+| Parameter   | Type     | Description                                                                  |
+|-------------|----------|------------------------------------------------------------------------------|
+| template_id | String   | The ID of the email template in the integration this email was based off of. |
+| recipients  | Array    | The recipient addresses this email was sent to.                              |
+| subject     | String   | The subject of this email.                                                   |
+| created_at  | Datetime | When this email was sent.                                                    |
 
 ## List Recently Forwarded Emails
 
@@ -2043,7 +2040,7 @@ fetch(url, options)
     "group_name": "Group A",
     "recipients": [
       "mary@feathery.io",
-      "richard@feathery.io",
+      "richard@feathery.io"
     ],
     "created_at": "2020-10-20T00:00:00.0+00:00",
     "user_id": "user_1"
@@ -2051,7 +2048,7 @@ fetch(url, options)
 ]
 ```
 
-List all recently forwarded emails from an AI extraction.
+List all recently forwarded emails that triggered an AI extraction.
 
 ### HTTP Request
 
@@ -2059,24 +2056,24 @@ List all recently forwarded emails from an AI extraction.
 
 ### Request Query Parameters
 
-Parameter | Type                | Description
---------- |---------------------| -----------
-start_time | Datetime (Optional) | Only return emails sent after this time.
-end_time | Datetime (Optional) | Only return emails sent before this time.
-user_id  | String (Optional)   | The user if any who initiated the email action.
+| Parameter  | Type                | Description                                               |
+|------------|---------------------|-----------------------------------------------------------|
+| start_time | Datetime (Optional) | Only return emails forwarded after this time.             |
+| end_time   | Datetime (Optional) | Only return emails forwarded before this time.            |
+| user_id    | String (Optional)   | The user (if identified) who triggered the AI extraction. |
 
 ### Response Body
 
 The response will be an array of objects with the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-sender | String | The name and address of the original email sender.
-recipients | Array | The recipient addresses this email was sent to.
-group_name | String | The name of the email group if any which the recipients are defined under.
-subject | String | The subject of this email.
-user_id  | String   | The user if any who initiated the email action.
-created_at | Datetime | When this email was sent.
+| Parameter  | Type     | Description                                                                 |
+|------------|----------|-----------------------------------------------------------------------------|
+| sender     | String   | The name and address of the original email sender.                          |
+| recipients | Array    | The recipient addresses this email was forwarded to.                        |
+| group_name | String   | The name of the email group which the forward recipients are defined under. |
+| subject    | String   | The subject of this email.                                                  |
+| user_id    | String   | The user (if identified) who triggered the AI extraction.                   |
+| created_at | Datetime | When this email was forwarded.                                              |
 
 ## List Email Issues
 
@@ -2111,10 +2108,10 @@ fetch(url, options)
     "recipients": [
       "mary@feathery.io",
       "richard@feathery.io",
-      "non@example.com",
+      "non@example.com"
     ],
     "rejected_recipients": [
-      "non@example.com",
+      "non@example.com"
     ],
     "subject": "",
     "sender": "alice@feathery.io",
@@ -2131,23 +2128,23 @@ List all Bounce and Complaint events that occured when sending emails using Feat
 
 ### Request Query Parameters
 
-Parameter | Type                | Description
---------- |---------------------| -----------
-event_type | String (Optional) | Either 'Bounce' or 'Complaint'. Defaults to both.
-start_time | Datetime (Optional) | Only return emails sent after this time.
-end_time | Datetime (Optional) | Only return emails sent before this time.
+| Parameter  | Type                | Description                                       |
+|------------|---------------------|---------------------------------------------------|
+| event_type | String (Optional)   | Either 'Bounce' or 'Complaint'. Defaults to both. |
+| start_time | Datetime (Optional) | Only return emails sent after this time.          |
+| end_time   | Datetime (Optional) | Only return emails sent before this time.         |
 
 ### Response Body
 
 The response will be an array of objects with the following parameters.
 
-Parameter           | Type     | Description
-------------------- | -------- | -----------
-event_type          | String   | Either 'Bounce' or 'Complaint'.
-recipients          | Array    | The recipient addresses this email was sent to.
-rejected_recipients | Array    | The recipient addresses that were rejected.
-subject             | Datetime | The subject of this email.
-created_at          | Datetime | When this event occured.
+| Parameter           | Type     | Description                                     |
+|---------------------|----------|-------------------------------------------------|
+| event_type          | String   | Either 'Bounce' or 'Complaint'.                 |
+| recipients          | Array    | The recipient addresses this email was sent to. |
+| rejected_recipients | Array    | The recipient addresses that were rejected.     |
+| subject             | Datetime | The subject of this email.                      |
+| created_at          | Datetime | When this event occured.                        |
 
 ## List Recent Quik Requests
 
@@ -2195,22 +2192,22 @@ List all recent Quik integration requests and responses triggered from Feathery 
 
 ### Request Query Parameters
 
-Parameter | Type                | Description
---------- |---------------------| -----------
-start_time | Datetime (Optional) | Only return requests after this time.
-end_time | Datetime (Optional) | Only return errors before this time.
+| Parameter  | Type                | Description                           |
+|------------|---------------------|---------------------------------------|
+| start_time | Datetime (Optional) | Only return requests after this time. |
+| end_time   | Datetime (Optional) | Only return errors before this time.  |
 
 ### Response Body
 
 The response will be an array of objects with the following parameters.
 
-Parameter | Type        | Description
---------- |-------------| -----------
-url | String      | The Quik API URL that returned an error
-status_code | Number      | The status code returned
-request | JSON string | The API request parameters
-response | JSON string | The API response
-created_at | Datetime    | When this request was made.
+| Parameter   | Type        | Description                             |
+|-------------|-------------|-----------------------------------------|
+| url         | String      | The Quik API URL that returned an error |
+| status_code | Number      | The status code returned                |
+| request     | JSON string | The API request parameters              |
+| response    | JSON string | The API response                        |
+| created_at  | Datetime    | When this request was made.             |
 
 # Users
 
@@ -2263,22 +2260,22 @@ List all of your users in Feathery. A user is equivalent to their form submissio
 
 ### Request Query Parameters
 
-Parameter | Type | Description
---------- | --------- | -----------
-created_after | Datetime (Optional)                         | Limit users to after this creation time
-created_before | Datetime (Optional)                         | Limit users to before this creation time
-filter_field_id | String (Optional) | The ID of a form or hidden field to filter users by.
-filter_field_value | String (Optional) | The value of the field to filter on. Paired with `filter_field_id` to only return users who have this field value.
+| Parameter          | Type                | Description                                                                                                        |
+|--------------------|---------------------|--------------------------------------------------------------------------------------------------------------------|
+| created_after      | Datetime (Optional) | Limit users to after this creation time                                                                            |
+| created_before     | Datetime (Optional) | Limit users to before this creation time                                                                           |
+| filter_field_id    | String (Optional)   | The ID of a form or hidden field to filter users by.                                                               |
+| filter_field_value | String (Optional)   | The value of the field to filter on. Paired with `filter_field_id` to only return users who have this field value. |
 
 ### Response Body
 
 The response will be an array of objects with the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-id | String | Your unique user ID
-created_at | Datetime | When this user was created
-updated_at | Datetime | When this user was last updated
+| Parameter  | Type     | Description                     |
+|------------|----------|---------------------------------|
+| id         | String   | Your unique user ID             |
+| created_at | Datetime | When this user was created      |
+| updated_at | Datetime | When this user was last updated |
 
 ## List All Data for a User
 
@@ -2315,7 +2312,7 @@ fetch(url, options)
     "value": "Alice Smith",
     "created_at": "2020-06-01T00:00:00Z",
     "updated_at": "2020-06-02T00:00:00Z",
-    "internal_id": "50c15c23-7558-4d51-810a-1a02dlf0bf58",
+    "internal_id": "50c15c23-7558-4d51-810a-1a02dlf0bf58"
   }
 ]
 ```
@@ -2328,24 +2325,24 @@ For a specific user, list all of the field data they submitted
 
 ### Request Query Parameters
 
-Parameter | Type | Description
---------- | --------- | -----------
-id | String (Optional) | Your unique user ID
+| Parameter | Type              | Description         |
+|-----------|-------------------|---------------------|
+| id        | String (Optional) | Your unique user ID |
 
 ### Response Body
 
 The response will be an array of objects with the following parameters.
 
-Parameter | Type                   | Description
---------- |------------------------| -----------
-id | String                 | Your unique field ID
-hidden | Boolean                | If true, this is a hidden field. Otherwise, it's a form field.
-type | String Enum (Optional) | The [form field type](https://docs.feathery.io/platform/components/fields/button-group#example).
-display_text | String (Optional)      | Human-friendly text to display for this field
-value | Polymorphic (Optional) | Submitted value of the user whose key was passed in.
-created_at | Datetime               | When this field was created
-updated_at | Datetime               | When this field was last updated
-internal_id | String                 | Feathery-internal identifier of your field. Always static
+| Parameter    | Type                   | Description                                                                                      |
+|--------------|------------------------|--------------------------------------------------------------------------------------------------|
+| id           | String                 | Your unique field ID                                                                             |
+| hidden       | Boolean                | If true, this is a hidden field. Otherwise, it's a form field.                                   |
+| type         | String Enum (Optional) | The [form field type](https://docs.feathery.io/platform/components/fields/button-group#example). |
+| display_text | String (Optional)      | Human-friendly text to display for this field                                                    |
+| value        | Polymorphic (Optional) | Submitted value of the user whose key was passed in.                                             |
+| created_at   | Datetime               | When this field was created                                                                      |
+| updated_at   | Datetime               | When this field was last updated                                                                 |
+| internal_id  | String                 | Feathery-internal identifier of your field. Always static                                        |
 
 ## Get User Form Session
 
@@ -2404,22 +2401,21 @@ Get form session data for a user, including all forms and their progress
 
 The response will be an object with the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-auth_id | String (Optional) | Identity provider ID
-internal_id | String | Unique User ID
-forms | Array | List of forms the user is working on
+| Parameter   | Type              | Description                          |
+|-------------|-------------------|--------------------------------------|
+| auth_id     | String (Optional) | Identity provider ID                 |
+| internal_id | String            | Unique User ID                       |
+| forms       | Array             | List of forms the user is working on |
 
 Each form object will have the following parameters:
 
-Parameter | Type | Description
---------- | --------- | -----------
-id | String | Form's ID
-current_step_id | String | ID of the step the user most recently visited
-completed_at | String | Timestamp of when the user completed the form - null if not complete
-name | String | Name of the form
-track_location | Boolean | Whether the form remembers the user's location
-
+| Parameter       | Type    | Description                                                          |
+|-----------------|---------|----------------------------------------------------------------------|
+| id              | String  | Form's ID                                                            |
+| current_step_id | String  | ID of the step the user most recently visited                        |
+| completed_at    | String  | Timestamp of when the user completed the form - null if not complete |
+| name            | String  | Name of the form                                                     |
+| track_location  | Boolean | Whether the form remembers the user's location                       |
 
 ## Create and Fetch a User
 
@@ -2487,18 +2483,18 @@ the React library for displaying forms.
 
 ### Body Parameters
 
-Parameter | Type | Description
---------- | --------- | -----------
-id | String | Your unique user ID
+| Parameter | Type   | Description         |
+|-----------|--------|---------------------|
+| id        | String | Your unique user ID |
 
 ### Response Body
 
-Parameter | Type | Description
---------- | --------- | -----------
-sdk_key | String | This user's SDK key
-id | String | Your unique user ID
-created_at | Datetime | When this user was created
-updated_at | Datetime | When this user was last updated
+| Parameter  | Type     | Description                     |
+|------------|----------|---------------------------------|
+| sdk_key    | String   | This user's SDK key             |
+| id         | String   | Your unique user ID             |
+| created_at | Datetime | When this user was created      |
+| updated_at | Datetime | When this user was last updated |
 
 ## Delete a User
 
@@ -2542,34 +2538,34 @@ Delete a specific user.
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
-id | The ID of the user to delete
+| Parameter | Description                  |
+|-----------|------------------------------|
+| id        | The ID of the user to delete |
 
 # Workspaces
 
 ### Workspace Object
 
-Parameter | Type                                                                                                                                                   | Description                                                                                                                                                    
---------- |--------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------
-id | UUID                                                                                                                                                   | Your unique workspace ID                                                                                                                                       
-name | String                                                                                                                                                 | The human-readable name of the workspace, e.g. "Company 1"                                                                                                     
-logo | URL                                                                                                                                                    | A URL to the logo to display in this workspace                                                                                                                 
-brand_url | URL                                                                                                                                                    | A link to the brand website                                                                                                                                    
-brand_favicon | URL                                                                                                                                                    | A link to the brand favicon to display                                                                                                                         
-brand_name | String                                                                                                                                                 | The name of the white label brand                                                                                                                              
-brand_primary_color | Hex Color                                                                                                                                              | 6-digit hex code of the primary color of the brand                                                                                                             
-brand_secondary_color | Hex Color                                                                                                                                              | 6-digit hex code of the secondary color of the brand                                                                                                           
-features | Object                                                                                                                                                 | Key-value pairs of account features. Available options are `live_forms` (# of live forms available), `submissions` (# of submissions available in current cycle), `cycle_interval` (`month` or `year` for billing tracking), and `ab_testing` (is AB testing enabled)
-disabled_global_tabs | ('themes' &#124; 'ab_tests' &#124; 'all_users')[]                                                                                                      | Hide specific tabs from the global workspace dashboard.
-disabled_form_tabs | ('flow' &#124; 'logic' &#124; 'api_connectors' &#124; 'integrations' &#124; 'results' &#124; 'settings')[]                                             | Hide specific tabs from the form editor.                                                                                                                       
-disabled_form_settings | ('form_properties' &#124; 'form_behavior' &#124; 'user_tracking' &#124; 'data_tracking' &#124; 'seo' &#124; 'international_support' &#124; 'form_promotion' &#124; 'delete')[] | Hide specific tabs from form settings.                                                                                                                         
-disabled_form_elements | ElementType[]                                                                                                                                          | Hide specific elements from the form designer element selector. Element type enums can be found [here](https://docs.feathery.io/platform/build-forms/elements). 
-enabled_integrations | String[] | Only enable specific form integrations for the workspace. Specify a list of integration types to enable.
-metadata | Object                                                                                                                                                 | Key-value pairs of arbitrary metadata to configure and identify this workspace                                                                                 
-accounts | {id: string; email: string; role: string}[]                                                                                                            | A list of accounts in this workspace                                                                                                                           
-test | Boolean                                                                                                                                                | Is this a test workspace (created via test API key)                                                                                                            
-created_at | Datetime                                                                                                                                               | When this workspace was created                                                                                                                                
+| Parameter              | Type                                                                                                                                                                           | Description                                                                                                                                                                                                                                                           |
+|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                     | UUID                                                                                                                                                                           | Your unique workspace ID                                                                                                                                                                                                                                              |
+| name                   | String                                                                                                                                                                         | The human-readable name of the workspace, e.g. "Company 1"                                                                                                                                                                                                            |
+| logo                   | URL                                                                                                                                                                            | A URL to the logo to display in this workspace                                                                                                                                                                                                                        |
+| brand_url              | URL                                                                                                                                                                            | A link to the brand website                                                                                                                                                                                                                                           |
+| brand_favicon          | URL                                                                                                                                                                            | A link to the brand favicon to display                                                                                                                                                                                                                                |
+| brand_name             | String                                                                                                                                                                         | The name of the white label brand                                                                                                                                                                                                                                     |
+| brand_primary_color    | Hex Color                                                                                                                                                                      | 6-digit hex code of the primary color of the brand                                                                                                                                                                                                                    |
+| brand_secondary_color  | Hex Color                                                                                                                                                                      | 6-digit hex code of the secondary color of the brand                                                                                                                                                                                                                  |
+| features               | Object                                                                                                                                                                         | Key-value pairs of account features. Available options are `live_forms` (# of live forms available), `submissions` (# of submissions available in current cycle), `cycle_interval` (`month` or `year` for billing tracking), and `ab_testing` (is AB testing enabled) |
+| disabled_global_tabs   | ('themes' &#124; 'ab_tests' &#124; 'all_users')[]                                                                                                                              | Hide specific tabs from the global workspace dashboard.                                                                                                                                                                                                               |
+| disabled_form_tabs     | ('flow' &#124; 'logic' &#124; 'api_connectors' &#124; 'integrations' &#124; 'results' &#124; 'settings')[]                                                                     | Hide specific tabs from the form editor.                                                                                                                                                                                                                              |
+| disabled_form_settings | ('form_properties' &#124; 'form_behavior' &#124; 'user_tracking' &#124; 'data_tracking' &#124; 'seo' &#124; 'international_support' &#124; 'form_promotion' &#124; 'delete')[] | Hide specific tabs from form settings.                                                                                                                                                                                                                                |
+| disabled_form_elements | ElementType[]                                                                                                                                                                  | Hide specific elements from the form designer element selector. Element type enums can be found [here](https://docs.feathery.io/platform/build-forms/elements).                                                                                                       |
+| enabled_integrations   | String[]                                                                                                                                                                       | Only enable specific form integrations for the workspace. Specify a list of integration types to enable.                                                                                                                                                              |
+| metadata               | Object                                                                                                                                                                         | Key-value pairs of arbitrary metadata to configure and identify this workspace                                                                                                                                                                                        |
+| accounts               | {id: string; email: string; role: string}[]                                                                                                                                    | A list of accounts in this workspace                                                                                                                                                                                                                                  |
+| test                   | Boolean                                                                                                                                                                        | Is this a test workspace (created via test API key)                                                                                                                                                                                                                   |
+| created_at             | Datetime                                                                                                                                                                       | When this workspace was created                                                                                                                                                                                                                                       |
 
 ## List All Workspaces
 
@@ -2628,21 +2624,21 @@ List all of the Feathery workspaces connected to your main account. This is only
 `GET https://api.feathery.io/api/workspace/`
 
 ### Request Query Parameters
-Parameter | Type               | Description
---------- |--------------------| -----------
-submission_data | Boolean (Optional) | If set to true, each workspace's submission data will be fetched as well.
+| Parameter       | Type               | Description                                                               |
+|-----------------|--------------------|---------------------------------------------------------------------------|
+| submission_data | Boolean (Optional) | If set to true, each workspace's submission data will be fetched as well. |
 
 ### Response Body
 
 The response will be an array of workspace objects with the following parameters.
 
-Parameter | Type                                        | Description
---------- |---------------------------------------------| -----------
-[Workspace Object](#workspace-object) | | Parameters from the Workspace Object definition
-submission_cycle_interval | 'month' &#124; 'year' | The billing cycle interval 
-submissions_this_cycle | Number (Optional) | If submission_data is requested, the number of submissions in the workspace on the current billing cycle is returned.
-submission_usage_this_cycle | Number (Optional) | If submission data is requested, the percentage of the current cycle's submissions that have been used.
-submission_cycle_start | Date (Optional) | If submission data is requested, the start date of the most recent billing cycle
+| Parameter                             | Type                  | Description                                                                                                           |
+|---------------------------------------|-----------------------|-----------------------------------------------------------------------------------------------------------------------|
+| [Workspace Object](#workspace-object) |                       | Parameters from the Workspace Object definition                                                                       |
+| submission_cycle_interval             | 'month' &#124; 'year' | The billing cycle interval                                                                                            |
+| submissions_this_cycle                | Number (Optional)     | If submission_data is requested, the number of submissions in the workspace on the current billing cycle is returned. |
+| submission_usage_this_cycle           | Number (Optional)     | If submission data is requested, the percentage of the current cycle's submissions that have been used.               |
+| submission_cycle_start                | Date (Optional)       | If submission data is requested, the start date of the most recent billing cycle                                      |
 
 ## Create a Workspace
 
@@ -2716,27 +2712,27 @@ Create a new workspace connected to your main account. If querying with the test
 
 ### Body Parameters
 
-Parameter | Type                                                                                                                                                                                        | Description
---------- |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| -----------
-name | String                                                                                                                                                                                      | The human-readable name of the workspace, e.g. "Company 1"
-logo | URL (Optional)                                                                                                                                                                              | A URL to the logo to display in this workspace
-brand_url | URL (Optional)                                                                                                                                                                              | A link to the brand website
-brand_favicon | URL (Optional)                                                                                                                                                                              | A link to the brand favicon to display
-brand_name | String (Optional)                                                                                                                                                                           | The name of the white label brand
-brand_primary_color | Hex Color (Optional)                                                                                                                                                                        | 6-digit hex code of the primary color of the brand
-brand_secondary_color | Hex Color (Optional)                                                                                                                                                                        | 6-digit hex code of the secondary color of the brand
-features | Object (Optional)                                                                                                                                                                           | Key-value pairs of account features. Available options are `live_forms` (# of live forms available), `submissions` (# of submissions available in current cycle), `cycle_interval` (`month` or `year` for billing tracking), and `ab_testing` (is AB testing enabled)
-disabled_global_tabs | ('themes' &#124; 'ab_tests' &#124; 'all_users')\[\] (Optional)                                                                                                                              | Hide specific tabs from the global workspace dashboard.
-disabled_form_tabs | ('flow' &#124; 'integrations' &#124; 'results' &#124; 'settings')\[\] (Optional)                                                                                                            | Hide specific tabs from the form editor.
-disabled_form_settings | ('form_properties' &#124; 'form_behavior' &#124; 'user_tracking' &#124; 'data_tracking' &#124; 'seo' &#124; 'international_support' &#124; 'form_promotion' &#124; 'delete')\[\] (Optional) | Hide specific tabs from form settings.
-disabled_form_elements | ElementType\[\] (Optional)                                                                                                                                                                  | Hide specific elements from the form designer element selector. Element type enums can be found [here](https://docs.feathery.io/platform/build-forms/elements).
-enabled_integrations | String\[\]                                                                                                                                                                                  | Only enable specific form integrations for the workspace. Specify a list of integration types to enable.
-metadata | Object (Optional)                                                                                                                                                                           | Key-value pairs of arbitrary metadata to configure and identify this workspace
+| Parameter              | Type                                                                                                                                                                                        | Description                                                                                                                                                                                                                                                           |
+|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| name                   | String                                                                                                                                                                                      | The human-readable name of the workspace, e.g. "Company 1"                                                                                                                                                                                                            |
+| logo                   | URL (Optional)                                                                                                                                                                              | A URL to the logo to display in this workspace                                                                                                                                                                                                                        |
+| brand_url              | URL (Optional)                                                                                                                                                                              | A link to the brand website                                                                                                                                                                                                                                           |
+| brand_favicon          | URL (Optional)                                                                                                                                                                              | A link to the brand favicon to display                                                                                                                                                                                                                                |
+| brand_name             | String (Optional)                                                                                                                                                                           | The name of the white label brand                                                                                                                                                                                                                                     |
+| brand_primary_color    | Hex Color (Optional)                                                                                                                                                                        | 6-digit hex code of the primary color of the brand                                                                                                                                                                                                                    |
+| brand_secondary_color  | Hex Color (Optional)                                                                                                                                                                        | 6-digit hex code of the secondary color of the brand                                                                                                                                                                                                                  |
+| features               | Object (Optional)                                                                                                                                                                           | Key-value pairs of account features. Available options are `live_forms` (# of live forms available), `submissions` (# of submissions available in current cycle), `cycle_interval` (`month` or `year` for billing tracking), and `ab_testing` (is AB testing enabled) |
+| disabled_global_tabs   | ('themes' &#124; 'ab_tests' &#124; 'all_users')\[\] (Optional)                                                                                                                              | Hide specific tabs from the global workspace dashboard.                                                                                                                                                                                                               |
+| disabled_form_tabs     | ('flow' &#124; 'integrations' &#124; 'results' &#124; 'settings')\[\] (Optional)                                                                                                            | Hide specific tabs from the form editor.                                                                                                                                                                                                                              |
+| disabled_form_settings | ('form_properties' &#124; 'form_behavior' &#124; 'user_tracking' &#124; 'data_tracking' &#124; 'seo' &#124; 'international_support' &#124; 'form_promotion' &#124; 'delete')\[\] (Optional) | Hide specific tabs from form settings.                                                                                                                                                                                                                                |
+| disabled_form_elements | ElementType\[\] (Optional)                                                                                                                                                                  | Hide specific elements from the form designer element selector. Element type enums can be found [here](https://docs.feathery.io/platform/build-forms/elements).                                                                                                       |
+| enabled_integrations   | String\[\]                                                                                                                                                                                  | Only enable specific form integrations for the workspace. Specify a list of integration types to enable.                                                                                                                                                              |
+| metadata               | Object (Optional)                                                                                                                                                                           | Key-value pairs of arbitrary metadata to configure and identify this workspace                                                                                                                                                                                        |
 
 ### Response Body
-Parameter | Type                  | Description
---------- |-----------------------| -----------
-[Workspace Object](#workspace-object) | | Parameters from the Workspace Object definition
+| Parameter                             | Type | Description                                     |
+|---------------------------------------|------|-------------------------------------------------|
+| [Workspace Object](#workspace-object) |      | Parameters from the Workspace Object definition |
 
 ## Retrieve a Workspace
 
@@ -2798,30 +2794,30 @@ Retrieve a specific Feathery workspace connected to your main account, including
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
-workspace_id | The ID of the workspace to retrieve
+| Parameter    | Description                         |
+|--------------|-------------------------------------|
+| workspace_id | The ID of the workspace to retrieve |
 
 ### Request Query Parameters
-Parameter | Type               | Description
---------- |--------------------| -----------
-submission_data | Boolean (Optional) | If set to true, each workspace's submission data will be fetched as well.
+| Parameter       | Type               | Description                                                               |
+|-----------------|--------------------|---------------------------------------------------------------------------|
+| submission_data | Boolean (Optional) | If set to true, each workspace's submission data will be fetched as well. |
 
 ### Response Body
 
 The response will be an array of objects with the following parameters.
 
-Parameter | Type                                        | Description
---------- |---------------------------------------------| -----------
-[Workspace Object](#workspace-object) | | Parameters from the Workspace Object definition
-live_api_key | String                                      | The live API key of the workspace which can be used to call APIs on its behalf.
-test_api_key | String                                      | The test API key of the workspace which can be used to call APIs on its behalf.
-live_sdk_key | String                                      | The live SDK key of the workspace which can be used to embed workspace forms.
-test_sdk_key | String                                      | The test API key of the workspace which can be used to embed workspace forms.
-submission_cycle_interval | 'month' &#124; 'year' | The billing cycle interval
-submissions_this_cycle | Number (Optional) | If submission_data is requested, the number of submissions in the workspace on the current billing cycle is returned.
-submission_usage_this_cycle | Number (Optional) | If submission data is requested, the percentage of the current cycle's submissions that have been used.
-submission_cycle_start | Date (Optional) | If submission data is requested, the start date of the most recent billing cycle
+| Parameter                             | Type                  | Description                                                                                                           |
+|---------------------------------------|-----------------------|-----------------------------------------------------------------------------------------------------------------------|
+| [Workspace Object](#workspace-object) |                       | Parameters from the Workspace Object definition                                                                       |
+| live_api_key                          | String                | The live API key of the workspace which can be used to call APIs on its behalf.                                       |
+| test_api_key                          | String                | The test API key of the workspace which can be used to call APIs on its behalf.                                       |
+| live_sdk_key                          | String                | The live SDK key of the workspace which can be used to embed workspace forms.                                         |
+| test_sdk_key                          | String                | The test API key of the workspace which can be used to embed workspace forms.                                         |
+| submission_cycle_interval             | 'month' &#124; 'year' | The billing cycle interval                                                                                            |
+| submissions_this_cycle                | Number (Optional)     | If submission_data is requested, the number of submissions in the workspace on the current billing cycle is returned. |
+| submission_usage_this_cycle           | Number (Optional)     | If submission data is requested, the percentage of the current cycle's submissions that have been used.               |
+| submission_cycle_start                | Date (Optional)       | If submission data is requested, the start date of the most recent billing cycle                                      |
 
 ## Update a Workspace
 
@@ -2895,33 +2891,33 @@ Update an existing workspace connected to your main account.
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
-workspace_id | The ID of the workspace to update
+| Parameter    | Description                       |
+|--------------|-----------------------------------|
+| workspace_id | The ID of the workspace to update |
 
 ### Body Parameters
 
-Parameter | Type                                                                                                                                                                | Description
---------- |---------------------------------------------------------------------------------------------------------------------------------------------------------------------| -----------
-name | String (Optional)                                                                                                                                                   | The human-readable name of the workspace, e.g. "Company 1"
-logo | URL (Optional)                                                                                                                                                      | A URL to the logo to display in this workspace
-brand_url | URL (Optional)                                                                                                                                                      | A link to the brand website
-brand_favicon | URL (Optional)                                                                                                                                                      | A link to the brand favicon to display
-brand_name | String (Optional)                                                                                                                                                   | The name of the white label brand
-brand_primary_color | Hex Color (Optional)                                                                                                                                                | 6-digit hex code of the primary color of the brand
-brand_secondary_color | Hex Color (Optional)                                                                                                                                                | 6-digit hex code of the secondary color of the brand
-features | Object (Optional)                                                                                                                                                   | Key-value pairs of account features. Available options are `live_forms` (# of live forms available), `submissions` (# of submissions available in current cycle), `cycle_interval` (`month` or `year` for billing tracking), and `ab_testing` (is AB testing enabled)
-disabled_global_tabs | ('themes' &#124; 'ab_tests' &#124; 'all_users')\[\] (Optional)                                                                                                      | Hide specific tabs from the global workspace dashboard.
-disabled_form_tabs | ('flow' &#124; 'integrations' &#124; 'results' &#124; 'settings')\[\] (Optional)                                                                                    | Hide specific tabs from the form editor.
-disabled_form_settings | ('form_properties' &#124; 'form_behavior' &#124; 'user_tracking' &#124; 'data_tracking' &#124; 'seo' &#124; 'international_support' &#124; 'delete')\[\] (Optional) | Hide specific tabs from form settings.
-disabled_form_elements | ElementType\[\] (Optional)                                                                                                                                          | Hide specific elements from the form designer element selector. Element type enums can be found [here](https://docs.feathery.io/platform/build-forms/elements).
-enabled_integrations | String\[\]                                                                                                                                                          | Only enable specific form integrations for the workspace. Specify a list of integration types to enable.
-metadata | Object (Optional)                                                                                                                                                   | Key-value pairs of arbitrary metadata to configure and identify this workspace
+| Parameter              | Type                                                                                                                                                                | Description                                                                                                                                                                                                                                                           |
+|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| name                   | String (Optional)                                                                                                                                                   | The human-readable name of the workspace, e.g. "Company 1"                                                                                                                                                                                                            |
+| logo                   | URL (Optional)                                                                                                                                                      | A URL to the logo to display in this workspace                                                                                                                                                                                                                        |
+| brand_url              | URL (Optional)                                                                                                                                                      | A link to the brand website                                                                                                                                                                                                                                           |
+| brand_favicon          | URL (Optional)                                                                                                                                                      | A link to the brand favicon to display                                                                                                                                                                                                                                |
+| brand_name             | String (Optional)                                                                                                                                                   | The name of the white label brand                                                                                                                                                                                                                                     |
+| brand_primary_color    | Hex Color (Optional)                                                                                                                                                | 6-digit hex code of the primary color of the brand                                                                                                                                                                                                                    |
+| brand_secondary_color  | Hex Color (Optional)                                                                                                                                                | 6-digit hex code of the secondary color of the brand                                                                                                                                                                                                                  |
+| features               | Object (Optional)                                                                                                                                                   | Key-value pairs of account features. Available options are `live_forms` (# of live forms available), `submissions` (# of submissions available in current cycle), `cycle_interval` (`month` or `year` for billing tracking), and `ab_testing` (is AB testing enabled) |
+| disabled_global_tabs   | ('themes' &#124; 'ab_tests' &#124; 'all_users')\[\] (Optional)                                                                                                      | Hide specific tabs from the global workspace dashboard.                                                                                                                                                                                                               |
+| disabled_form_tabs     | ('flow' &#124; 'integrations' &#124; 'results' &#124; 'settings')\[\] (Optional)                                                                                    | Hide specific tabs from the form editor.                                                                                                                                                                                                                              |
+| disabled_form_settings | ('form_properties' &#124; 'form_behavior' &#124; 'user_tracking' &#124; 'data_tracking' &#124; 'seo' &#124; 'international_support' &#124; 'delete')\[\] (Optional) | Hide specific tabs from form settings.                                                                                                                                                                                                                                |
+| disabled_form_elements | ElementType\[\] (Optional)                                                                                                                                          | Hide specific elements from the form designer element selector. Element type enums can be found [here](https://docs.feathery.io/platform/build-forms/elements).                                                                                                       |
+| enabled_integrations   | String\[\]                                                                                                                                                          | Only enable specific form integrations for the workspace. Specify a list of integration types to enable.                                                                                                                                                              |
+| metadata               | Object (Optional)                                                                                                                                                   | Key-value pairs of arbitrary metadata to configure and identify this workspace                                                                                                                                                                                        |
 
 ### Response Body
-Parameter | Type   | Description
---------- |--------| -----------
-[Workspace Object](#workspace-object) | | Parameters from the Workspace Object definition
+| Parameter                             | Type | Description                                     |
+|---------------------------------------|------|-------------------------------------------------|
+| [Workspace Object](#workspace-object) |      | Parameters from the Workspace Object definition |
 
 ## Delete a Workspace
 
@@ -2964,9 +2960,9 @@ Delete a workspace connected to your main Feathery account.
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
-workspace_id | The ID of the workspace to delete
+| Parameter    | Description                       |
+|--------------|-----------------------------------|
+| workspace_id | The ID of the workspace to delete |
 
 ## Generate a Workspace Login Token
 
@@ -3013,7 +3009,7 @@ fetch(url, options)
 ```json
 {
   "account_id": "<ACCOUNT ID>",
-  "token": "<JWT TOKEN>",
+  "token": "<JWT TOKEN>"
 }
 ```
 
@@ -3026,21 +3022,21 @@ This token can be used to automatically log the user into the Feathery applicati
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
-workspace_id | The ID of the workspace that the account token belongs to.
+| Parameter    | Description                                                |
+|--------------|------------------------------------------------------------|
+| workspace_id | The ID of the workspace that the account token belongs to. |
 
 ### Body Parameters
 
-Parameter | Type          | Description
---------- |---------------| -----------
-account_id | String (UUID) | The unique ID of the account to generate a login token for.
+| Parameter  | Type          | Description                                                 |
+|------------|---------------|-------------------------------------------------------------|
+| account_id | String (UUID) | The unique ID of the account to generate a login token for. |
 
 ### Response Body
-Parameter | Type          | Description
---------- |---------------| -----------
-account_id | String (UUID) | The unique ID of the account
-token | String        | A JWT token that can be passed to the Feathery dashboard to automatically log the account in.
+| Parameter  | Type          | Description                                                                                   |
+|------------|---------------|-----------------------------------------------------------------------------------------------|
+| account_id | String (UUID) | The unique ID of the account                                                                  |
+| token      | String        | A JWT token that can be passed to the Feathery dashboard to automatically log the account in. |
 
 ## Populate Workspace with Template Form
 
@@ -3090,23 +3086,23 @@ Create a form in your workspace from one of your admin account forms or [custom 
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
-workspace_id | The ID of the workspace to create the form in.
+| Parameter    | Description                                    |
+|--------------|------------------------------------------------|
+| workspace_id | The ID of the workspace to create the form in. |
 
 ### Body Parameters
 
-Parameter | Type         | Description
---------- |--------------| -----------
-form_name | String | The name of the new form to create.
-template_id | String (UUID) | The ID of the form template to populate in the workspace.
+| Parameter   | Type          | Description                                               |
+|-------------|---------------|-----------------------------------------------------------|
+| form_name   | String        | The name of the new form to create.                       |
+| template_id | String (UUID) | The ID of the form template to populate in the workspace. |
 
 ### Response Body
 
 The response will be an object containing the following parameters.
 
-Parameter | Type | Description
---------- | --------- | -----------
-id | String | The form ID
-name | String | The form name
-internal_id | UUID | Feathery-specific identifier for the form
+| Parameter   | Type   | Description                               |
+|-------------|--------|-------------------------------------------|
+| id          | String | The form ID                               |
+| name        | String | The form name                             |
+| internal_id | UUID   | Feathery-specific identifier for the form |
