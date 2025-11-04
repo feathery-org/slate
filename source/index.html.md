@@ -2009,7 +2009,7 @@ recipients | Array | The recipient addresses this email was sent to.
 subject | String | The subject of this email.
 created_at | Datetime | When this email was sent.
 
-## List Recently Sent AI Emails
+## List Recently Forwarded Emails
 
 ```python
 import requests
@@ -2051,7 +2051,7 @@ fetch(url, options)
 ]
 ```
 
-List all recent emails initiated from an AI extraction.
+List all recently forwarded emails from an AI extraction.
 
 ### HTTP Request
 
