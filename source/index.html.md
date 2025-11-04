@@ -2006,7 +2006,7 @@ The response will be an array of objects with the following parameters.
 | subject     | String   | The subject of this email.                                                   |
 | created_at  | Datetime | When this email was sent.                                                    |
 
-## List Recently Forwarded Emails
+## List Recently Forwarded AI Extraction Emails
 
 ```python
 import requests
