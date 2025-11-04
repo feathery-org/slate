@@ -1879,7 +1879,7 @@ Create a PDF export for a specific form submission. The returned URL points to t
 
 # Logs
 
-## List Recent API Connector Errors
+## List API Connector Errors
 
 ```python
 import requests
@@ -1942,7 +1942,7 @@ The response will be an array of objects with the following parameters.
 | response    | JSON string | The API response, truncated if above 400 characters           |
 | created_at  | Datetime    | When this error was received.                                 |
 
-## List Recently Sent Form Emails
+## List Emails Sent From Form
 
 ```python
 import requests
@@ -2006,7 +2006,7 @@ The response will be an array of objects with the following parameters.
 | subject     | String   | The subject of this email.                                                   |
 | created_at  | Datetime | When this email was sent.                                                    |
 
-## List Recently Forwarded AI Extraction Emails
+## List Forwarded AI Extraction Emails
 
 ```python
 import requests
@@ -2048,7 +2048,7 @@ fetch(url, options)
 ]
 ```
 
-List all recently forwarded emails that triggered an AI extraction.
+List emails that triggered an AI extraction and were then forwarded.
 
 ### HTTP Request
 
@@ -2146,7 +2146,7 @@ The response will be an array of objects with the following parameters.
 | subject             | Datetime | The subject of this email.                      |
 | created_at          | Datetime | When this event occured.                        |
 
-## List Recent Quik Requests
+## List Quik Integration Requests
 
 ```python
 import requests
