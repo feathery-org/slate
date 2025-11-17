@@ -696,6 +696,7 @@ fetch(url, options)
             {
   "form_id": "aSdsa5",
   "form_name": "My Form",
+  "form_internal_id": "asd1ba89-0dcc-42cd-839c-a12ce6668347",
   "steps": [
     {
       "id": "Step 1",
@@ -789,13 +790,14 @@ Retrieve the schema of a form created in Feathery.
 
 The response will be an object containing the following parameters.
 
-| Parameter    | Type       | Description                               |
-|--------------|------------|-------------------------------------------|
-| form_id      | String     | Your form's ID                            |
-| form_name    | String     | Your form's name                          |
-| steps        | Array<Obj> | An array of step objects                  |
-| rules        | Array<Obj> | An array of rule objects                  |
-| translations | JSON       | A mapping of default text to translations |
+| Parameter        | Type       | Description                               |
+|------------------|------------|-------------------------------------------|
+| form_id          | String     | Your form's ID                            |
+| form_name        | String     | Your form's name                          |
+| form_internal_id | String     | Your form's internal Feathery ID          |
+| steps            | Array<Obj> | An array of step objects                  |
+| rules            | Array<Obj> | An array of rule objects                  |
+| translations     | JSON       | A mapping of default text to translations |
 
 Each `steps` object contains the following parameters.
 
