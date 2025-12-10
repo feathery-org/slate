@@ -1522,7 +1522,25 @@ import requests
 url = "https://api.feathery.io/api/form/submission/";
 
 # Using field ID or internal ID
-data = {"fields": {"age": 21}, "user_id": "alice@feathery.io", "forms": ["My Form"], "complete": True, "documents":[{"id": "doc_id","output_location": {"sheet": "sht1","cell": "D7"}}]}
+data = {
+  "fields": {
+    "age": 21
+  },
+  "user_id": "alice@feathery.io",
+  "forms": [
+    "My Form"
+  ],
+  "complete": True,
+  "documents": [
+    {
+      "id": "doc_id",
+      "output_location": {
+        "sheet": "sht1",
+        "cell": "D7"
+      }
+    }
+  ]
+}
 
 headers = {
     "Authorization": "Token <API KEY>",
@@ -1536,14 +1554,50 @@ print(result.json())
 ```shell
 curl "https://api.feathery.io/api/form/submission/" \
     -X POST \
-    -d "{'fields': {'age': 21}, 'user_id': 'alice@feathery.io', 'forms': ['My Form'], 'complete': True, 'documents':[{'id': 'doc_id','output_location': {'sheet': 'sht1','cell': 'D7'}}]}" \
+    -d "{
+        'fields': {
+          'age': 21
+        },
+        'user_id': 'alice@feathery.io',
+        'forms': [
+          'My Form'
+        ],
+        'complete': true,
+        'documents': [
+          {
+            'id': 'doc_id',
+            'output_location': {
+              'sheet': 'sht1',
+              'cell': 'D7'
+            }
+          }
+        ]
+      }" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
 
 ```javascript
 const url = "https://api.feathery.io/api/form/submission/";
-const data = {"fields": {"age": 21}, "user_id": "alice@feathery.io", "forms": ["My Form"], "complete": true, "documents":[{"id": "doc_id","output_location": {"sheet": "sht1","cell": "D7"}}]}
+const data = {
+  "fields": {
+    "age": 21
+  },
+  "user_id": "alice@feathery.io",
+  "forms": [
+    "My Form"
+  ],
+  "complete": true,
+  "documents": [
+    {
+      "id": "doc_id",
+      "output_location": {
+        "sheet": "sht1",
+        "cell": "D7"
+      }
+    }
+  ]
+}
 const headers = {
     Authorization: "Token <API KEY>",
     "Content-Type": "application/json"
