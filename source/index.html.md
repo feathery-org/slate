@@ -1642,23 +1642,23 @@ Set field values for a user and initialize form submissions
 
 ### Request Body Parameters
 
-| Parameter | Type              | Description                                                                                                                                                            |
-|-----------|-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| fields    | Object            | A mapping from field identifier (ID or Internal ID) to associated field values to create. For a signature field, pass `{"file": <base64 string>, "name": <file name>}` |
-| user_id   | Optional String   | A new or existing user ID. If not provided, a random ID will be generated and returned.                                                                                |
-| forms     | Optional String[] | An array of form IDs to initialize submissions for                                                                                                                     |
-| complete  | Optional Boolean  | If this submission is complete or incomplete. If the submission already exists and this flag is not specified, the completion status will not be changed.              |
-| documents | Optional Obj[]    | An array of objects containing document IDs and optionally output_location for excel documents which specifies the sheet and cell coordinates to return the value from. The documents will be generated and values from output_locations will be returned |
+| Parameter | Type                                                                                                                  | Description                                                                                                                                                                                                                                               |
+| --------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| fields    | Object                                                                                                                | A mapping from field identifier (ID or Internal ID) to associated field values to create. For a signature field, pass `{"file": <base64 string>, "name": <file name>}`                                                                                    |
+| user_id   | Optional String                                                                                                       | A new or existing user ID. If not provided, a random ID will be generated and returned.                                                                                                                                                                   |
+| forms     | Optional String[]                                                                                                     | An array of form IDs to initialize submissions for                                                                                                                                                                                                        |
+| complete  | Optional Boolean                                                                                                      | If this submission is complete or incomplete. If the submission already exists and this flag is not specified, the completion status will not be changed.                                                                                                 |
+| documents | Optional `{"id": <document ID>, "output_location" (Optional): {"sheet": <sheet name>, "cell": <cell coordinates>}}[]` | An array of objects containing document IDs and optionally output_location for excel documents which specifies the sheet and cell coordinates to return the value from. The documents will be generated and values from output_locations will be returned |
 
 ### Response Body
 
-| Parameter | Type              | Description                                                                                                                                        |
-|-----------|-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| fields    | Object            | Same as request body                                                                                                                               |
-| user_id   | Optional String   | Same as request body                                                                                                                               |
-| forms     | Optional String[] | Same as request body                                                                                                                               |
-| complete  | Optional Boolean  | Same as request body                                                                                                                               |
-| documents | Optional Obj[]    | `[{"id": <document id>, "file": <file url>, "output_location": <Same as request body>, "output_value": <value from output_location if specified>}]`  |
+| Parameter | Type              | Description                                                                                                                                         |
+| --------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| fields    | Object            | Same as request body                                                                                                                                |
+| user_id   | Optional String   | Same as request body                                                                                                                                |
+| forms     | Optional String[] | Same as request body                                                                                                                                |
+| complete  | Optional Boolean  | Same as request body                                                                                                                                |
+| documents | Optional `{"id": <document id>, "file": <file url>, "output_location": <Same as request body>, "output_value": <value from output_location if specified>}[]` |          |
 
 ## List Form Submissions
 
