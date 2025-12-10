@@ -1522,7 +1522,7 @@ import requests
 url = "https://api.feathery.io/api/form/submission/";
 
 # Using field ID or internal ID
-data = {"fields": {"age": 21}, "user_id": "alice@feathery.io", "forms": ["My Form"], "complete": True}
+data = {"fields": {"age": 21}, "user_id": "alice@feathery.io", "forms": ["My Form"], "complete": True, "documents":[{"id": "doc_id","output_location": {"sheet": "sht1","cell": "D7"}}]}
 
 headers = {
     "Authorization": "Token <API KEY>",
@@ -1536,14 +1536,14 @@ print(result.json())
 ```shell
 curl "https://api.feathery.io/api/form/submission/" \
     -X POST \
-    -d "{'fields': {'age': 21}, 'user_id': 'alice@feathery.io', 'forms': ['My Form'], 'complete': True}" \
+    -d "{'fields': {'age': 21}, 'user_id': 'alice@feathery.io', 'forms': ['My Form'], 'complete': True, 'documents':[{'id': 'doc_id','output_location': {'sheet': 'sht1','cell': 'D7'}}]}" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
 
 ```javascript
 const url = "https://api.feathery.io/api/form/submission/";
-const data = {"fields": {"age": 21}, "user_id": "alice@feathery.io", "forms": ["My Form"], "complete": true}
+const data = {"fields": {"age": 21}, "user_id": "alice@feathery.io", "forms": ["My Form"], "complete": true, "documents":[{"id": "doc_id","output_location": {"sheet": "sht1","cell": "D7"}}]}
 const headers = {
     Authorization: "Token <API KEY>",
     "Content-Type": "application/json"
@@ -1565,7 +1565,18 @@ fetch(url, options)
   "fields": {"age": 21},
   "user_id": "alice@feathery.io",
   "forms": ["My Form"],
-  "complete": true
+  "complete": true,
+  "documents": [
+    {
+      "id": "doc_id",
+      "file": "file.xlsx",
+      "output_location": {
+          "sheet": "sht1",
+          "cell": "D7"
+      },
+      "output_value": 3
+    }
+  ],
 }
 ```
 
@@ -1583,9 +1594,17 @@ Set field values for a user and initialize form submissions
 | user_id   | Optional String   | A new or existing user ID. If not provided, a random ID will be generated and returned.                                                                                |
 | forms     | Optional String[] | An array of form IDs to initialize submissions for                                                                                                                     |
 | complete  | Optional Boolean  | If this submission is complete or incomplete. If the submission already exists and this flag is not specified, the completion status will not be changed.              |
+| documents | Optional Obj[]    | An array of objects containing document IDs and optionally output_location for excel documents which specifies the sheet and cell coordinates to return the value from. The documents will be generated and values from output_locations will be returned |
 
 ### Response Body
-Same as request body parameters
+
+| Parameter | Type              | Description                                                                                                                                        |
+|-----------|-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| fields    | Object            | Same as request body                                                                                                                               |
+| user_id   | Optional String   | Same as request body                                                                                                                               |
+| forms     | Optional String[] | Same as request body                                                                                                                               |
+| complete  | Optional Boolean  | Same as request body                                                                                                                               |
+| documents | Optional Obj[]    | `[{"id": <document id>, "file": <file url>, "output_location": <Same as request body>, "output_value": <value from output_location if specified>}]`  |
 
 ## List Form Submissions
 
