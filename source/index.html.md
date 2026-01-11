@@ -1418,7 +1418,7 @@ Update a form's properties, including its status.
 | Integration    | Parameter   | Type   | Value                                    |
 |--------------|---------|----------|--------------------------------------|
 | Webhook      | type    | string | webhook
-|              | active (Optional)   | boolean | true \| false
+|              | active (Optional)   | boolean | `true` OR `false`
 |              | metadata    | Object | {"webhook": `<url>`, "test_webhook (optional)": `<url>`, "trigger (optional)": "data_received" OR "form_completion", "headers (optional)": [{"key":`<any>`, "value":`<any>`}]}
 
 <aside class="notice">
