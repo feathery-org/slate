@@ -1408,10 +1408,18 @@ Update a form's properties, including its status.
 
 | Parameter    | Type    | Description                                    |
 |--------------|---------|------------------------------------------------|
-| enabled      | Boolean | Whether the form should be enabled or disabled |
-| form_name    | String  | The new name to set for the form               |
-| translations | JSON    | A mapping of default text to translations      |
-| integrations | Array<Obj> | An array of integrations that have been created in this form (currently only webhook supported) |
+| enabled      | Boolean (Optional) | Whether the form should be enabled or disabled |
+| form_name    | String (Optional) | The new name to set for the form               |
+| translations | JSON (Optional)   | A mapping of default text to translations      |
+| integrations | Array`<Obj>` (Optional) | An array of integrations that have been created in this form (currently only webhook supported) |
+
+### Integration Objects
+
+| Integration    | Parameter   | Type   | Value                                    |
+|--------------|---------|----------|--------------------------------------|
+| Webhook      | type    | string | webhook
+|              | active (Optional)   | boolean | true \| false
+|              | metadata    | Object | {"webhook": `<url>`, "test_webhook (optional)": `<url>`, "trigger (optional)": "data_received" OR "form_completion", "headers (optional)": [{"key":`<any>`, "value":`<any>`}]}
 
 <aside class="notice">
 Please note that setting the translations parameter will override any existing translations
