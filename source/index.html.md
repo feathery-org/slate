@@ -1289,13 +1289,26 @@ url = "https://api.feathery.io/api/form/<form_id>/";
 
 data = {
   "enabled": False,
-  "form_name": "New Name"
+  "form_name": "New Name",
   "translations": {
     "hi": {
       "es": "hola", 
       "zh": "nihao"
     }
-  }
+  },
+  "integrations": [{
+    "type": "webhook",
+    "active": True,
+    "metadata": {
+      "webhook": "https://production.com",
+      "test_webhook": "https://test.com",
+      "trigger": "data_received",
+      "headers": [{
+        "name": "abc",
+        "value": 123
+      }]
+    }
+  }]
 }
 
 headers = {
@@ -1310,7 +1323,29 @@ print(result.json())
 ```shell
 curl "https://api.feathery.io/api/form/<form_id>/" \
     -X PATCH \
-    -d "{'enabled': false, 'form_name': 'New Name', 'translations': {'hi': {'es': 'hola', 'zh': 'nihao'}}}" \
+    -d "{
+          'enabled': false,
+          'form_name': 'New Name',
+          'translations': {
+            'hi': {
+              'es': 'hola',
+              'zh': 'nihao'
+            }
+          },
+          'integrations': [{
+            'type': 'webhook',
+            'active': True,
+            'metadata': {
+              'webhook': 'https://production.com',
+              'test_webhook': 'https://test.com',
+              'trigger': 'data_received',
+              'headers': [{
+                'name': 'abc',
+                'value': 123
+              }]
+            }
+          }]
+        }" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
@@ -1325,7 +1360,20 @@ const data = {
       "es": "hola", 
       "zh": "nihao"
     }
-  }
+  },
+  "integrations": [{
+    "type": "webhook",
+    "active": true,
+    "metadata": {
+      "webhook": "https://production.com",
+      "test_webhook": "https://test.com",
+      "trigger": "data_received",
+      "headers": [{
+        "name": "abc",
+        "value": 123
+      }]
+    }
+  }]
 }
 const headers = {
     Authorization: "Token <API KEY>",
@@ -1363,6 +1411,7 @@ Update a form's properties, including its status.
 | enabled      | Boolean | Whether the form should be enabled or disabled |
 | form_name    | String  | The new name to set for the form               |
 | translations | JSON    | A mapping of default text to translations      |
+| integrations | Array<Obj> | An array of integrations that have been created in this form (currently only webhook supported) |
 
 <aside class="notice">
 Please note that setting the translations parameter will override any existing translations
