@@ -2170,6 +2170,7 @@ fetch(url, options)
     "sender": "Alice <alice@feathery.io>",
     "subject": "",
     "group_name": "Group A",
+    "prefix": "",
     "recipients": [
       "mary@feathery.io",
       "richard@feathery.io"
@@ -2203,6 +2204,7 @@ The response will be an array of objects with the following parameters.
 | sender     | String   | The name and address of the original email sender.                          |
 | recipients | Array    | The recipient addresses this email was forwarded to.                        |
 | group_name | String   | The name of the email group which the forward recipients are defined under. |
+| prefix | String   | The prefix added before the forwarded email subject. |
 | subject    | String   | The subject of this email.                                                  |
 | user_id    | String   | The user (if identified) who triggered the AI extraction.                   |
 | created_at | Datetime | When this email was forwarded.                                              |
