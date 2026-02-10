@@ -763,6 +763,14 @@ fetch(url, options)
       "updated_at": "2020-06-01T00:00:00Z"
     }  
   ],
+  "integrations": [
+    {
+      "type": "webhook"
+    },
+    {
+      "type": "email"
+    }
+  ]
   "translations": {
     "Heading": {
       "es": "Membrete",
@@ -795,8 +803,9 @@ The response will be an object containing the following parameters.
 | form_id          | String     | Your form's ID                            |
 | form_name        | String     | Your form's name                          |
 | form_internal_id | String     | Your form's internal Feathery ID          |
-| steps            | Array<Obj> | An array of step objects                  |
-| rules            | Array<Obj> | An array of rule objects                  |
+| steps            | Array`<Obj>` | An array of step objects                  |
+| rules            | Array`<Obj>` | An array of rule objects                  |
+| integrations     | Array`<Obj>` | An array of integration objects that are active on the form |
 | translations     | JSON       | A mapping of default text to translations |
 
 Each `steps` object contains the following parameters.
@@ -806,14 +815,14 @@ Each `steps` object contains the following parameters.
 | id                  | String     | The ID of the step, unique to the form                           |
 | internal_id         | UUID       | The internal ID of the step, globally unique                     |
 | origin              | Boolean    | Is this the first step of the form                               |
-| images              | Array<Obj> | Images on this step                                              |
-| videos              | Array<Obj> | Videos on this step                                              |
-| progress_bars       | Array<Obj> | Progress bars on this step                                       |
-| texts               | Array<Obj> | Text elements on this step                                       |
-| buttons             | Array<Obj> | Buttons on this step                                             |
-| fields              | Array<Obj> | Fields on this step                                              |
-| previous_conditions | Array<Obj> | Navigation rules that connect previous steps to the current step |
-| next_conditions     | Array<Obj> | Navigation rules that connect the current step to next steps     |
+| images              | Array`<Obj>` | Images on this step                                              |
+| videos              | Array`<Obj>` | Videos on this step                                              |
+| progress_bars       | Array`<Obj>` | Progress bars on this step                                       |
+| texts               | Array`<Obj>` | Text elements on this step                                       |
+| buttons             | Array`<Obj>` | Buttons on this step                                             |
+| fields              | Array`<Obj>` | Fields on this step                                              |
+| previous_conditions | Array`<Obj>` | Navigation rules that connect previous steps to the current step |
+| next_conditions     | Array`<Obj>` | Navigation rules that connect the current step to next steps     |
 | created_at          | Datetime   | When this step was created                                       |
 | updated_at          | Datetime   | When this step was last updated                                  |
 
@@ -835,6 +844,12 @@ Each `rule` object contains the following parameters.
 | mode          | Enum     | Is the rule defined via the code editor or no-code logic            |
 | created_at    | Datetime | When the rule was created                                           |
 | updated_at    | Datetime | When the rule was last updated                                      |
+
+Each `integration` object contains the following parameters.
+
+| Parameter     | Type     | Description                                                         |
+|---------------|----------|---------------------------------------------------------------------|
+| type          | String   | The type of the integration                                  |
 
 ## List Forms
 
@@ -885,6 +900,7 @@ List your Feathery forms
 | Parameter | Type              | Description                                                              |
 |-----------|-------------------|--------------------------------------------------------------------------|
 | tags      | String (Optional) | Only return forms that have all of these tags in a comma-separated list. |
+| active    | Boolean (Optional) | Only return forms that are active or inactive. |
 
 ### Response Body
 
