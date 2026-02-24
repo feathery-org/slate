@@ -549,6 +549,72 @@ The response will be an object containing the following parameters.
 |-----------|--------|------------------------------------|
 | file_url  | String | The URL to the filled out document |
 
+## List Document Templates
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/document/template/?name=claims&tags=insurance;;claims&tags=renewal"
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/document/template/?name=claims&tags=insurance;;claims&tags=renewal" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/document/template/?name=claims&tags=insurance;;claims&tags=renewal";
+const headers = { Authorization: "Token <API KEY>" };
+const options = { headers };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+[{
+  "id": "<DOCUMENT ID>",
+  "name": "invoice-template",
+  "type": "pdf",
+  "file": "https://link-to-template-file.com",
+  "tags": ["claims", "insurance", "renewal"],
+  "updated_at": "2020-06-03T00:00:00Z",
+  "created_at": "2020-06-01T00:00:00Z"
+}]
+```
+
+List document templates uploaded by your team.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/document/template/`
+
+### Request Query Parameters
+
+| Parameter | Type   | Description                                                                                 |
+|-----------|--------|---------------------------------------------------------------------------------------------|
+| name      | String (Optional) | Get a list of document templates whose names contain this value.                                 |
+| tags      | String (Optional) | Tag filter. Use `;;` to match any tag in a set (OR operation). Use multiple `tags` to require multiple sets (AND operation). |
+
+### Response Body
+
+The response will be an array of objects containing the following parameters.
+
+| Parameter  | Type              | Description                                                       |
+|------------|-------------------|-------------------------------------------------------------------|
+| id         | String            | Document ID                                                         |
+| name       | String            | Document name                                                     |
+| type       | String Enum       | Document type                                                         |
+| file       | URL               | Document file url                                                    |
+| tags       | String[]          | An array of document tags                                           |
+| updated_at | Datetime          | When this document was last updated                               |
+| created_at | Datetime          | When this document was created                                    |
+
 ## List Document Envelopes
 
 ```python
@@ -599,7 +665,7 @@ or a particular submission.
 
 ### HTTP Request
 
-`GET https://api.feathery.io/api/document/envelope/
+`GET https://api.feathery.io/api/document/envelope/`
 
 ### Request Query Parameters
 
