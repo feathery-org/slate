@@ -23,6 +23,21 @@ The Feathery API is organized around REST. Our API has predictable resource-orie
 
 You can use our API to access and modify your Feathery resources - forms, fields, documents, and more.
 
+# Base URL
+
+The base URL for the Feathery API depends on the region your account is hosted in. Use the appropriate base URL for your region:
+
+| Region | Base URL |
+| --- | --- |
+| US (default) | `https://api.feathery.io` |
+| Canada | `https://api-ca.feathery.io` |
+| Europe | `https://api-eu.feathery.io` |
+| Australia | `https://api-au.feathery.io` |
+
+<aside class="notice">
+All API examples in this documentation use <code>https://api.feathery.io</code> (the US region). Replace it with your region's base URL if applicable.
+</aside>
+
 # Authentication
 
 Provide your Feathery admin API key to authenticate access.
