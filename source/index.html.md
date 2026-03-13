@@ -472,10 +472,11 @@ List runs for a specific AI document extraction
 
 ### Request Query Parameters
 
-| Parameter  | Type                | Description                                   |
-|------------|---------------------|-----------------------------------------------|
-| start_time | Datetime (Optional) | Fetch runs that started after this start time |
-| end_time   | Datetime (Optional) | Fetch runs that started before this end time  |
+| Parameter  | Type                | Description                                                     |
+|------------|---------------------|-----------------------------------------------------------------|
+| start_time | Datetime (Optional) | Fetch runs that started after this start time                   |
+| end_time   | Datetime (Optional) | Fetch runs that started before this end time                    |
+| user_id    | String (Optional)    | Fetch runs that were triggered for a specific user / submission |
 
 ### Response Body
 
