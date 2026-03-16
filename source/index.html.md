@@ -2088,6 +2088,7 @@ fetch(url, options)
 ```
 
 Create a PDF export for a specific form submission. The returned URL points to the generated PDF, with a few caveats:
+
 * The PDF may not be immediately available. We recommend polling the URL up to 5 times, once per second, to ensure availability.
 * Once a given submission is completed, the exported PDF will no longer be updated for it even if requested multiple times.
 
