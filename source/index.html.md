@@ -696,7 +696,7 @@ fetch(url, options)
 }]
 ```
 
-Upload one or more document templates in bulk. Supports up to 20 files per request with a maximum total upload size of 50 MB. Supported file types are `docx`, `idml`, `pdf`, `pptx`, and `xlsx`.
+Upload one or more document templates in bulk. Supported file types are `docx`, `idml`, `pdf`, `pptx`, and `xlsx`.
 
 ### HTTP Request
 
@@ -710,7 +710,7 @@ This endpoint uses <code>multipart/form-data</code> encoding, not JSON.
 
 | Parameter | Type              | Description                                                                                                                                     |
 |-----------|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| files     | File[] (Required) | The document files to upload. Maximum 20 files per request, 50 MB total.                                                                        |
+| files     | File[] (Required) | The document files to upload.                                                                        |
 | metadata  | JSON (Optional)   | A JSON object keyed by filename. Each value can contain `name` (String), `tags` (String[]), and `type` (String enum: docx, idml, pdf, pptx, xlsx). |
 
 ### Response Body
