@@ -631,6 +631,102 @@ The response will be an array of objects containing the following parameters.
 | updated_at | Datetime          | When this document was last updated                               |
 | created_at | Datetime          | When this document was created                                    |
 
+## Bulk Upload Document Templates
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/document/template/"
+headers = {"Authorization": "Token <API KEY>"}
+files = [
+    ("files", ("contract.pdf", open("contract.pdf", "rb"))),
+    ("files", ("invoice.docx", open("invoice.docx", "rb"))),
+]
+data = {
+    "metadata": '{"contract.pdf": {"name": "contract-template", "tags": ["legal", "sales"]}, "invoice.docx": {"name": "invoice-template", "tags": ["billing"]}}'
+}
+result = requests.post(url, files=files, data=data, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/document/template/" \
+    -X POST \
+    -H "Authorization: Token <API KEY>" \
+    -F "files=@contract.pdf" \
+    -F "files=@invoice.docx" \
+    -F 'metadata={"contract.pdf": {"name": "contract-template", "tags": ["legal", "sales"]}, "invoice.docx": {"name": "invoice-template", "tags": ["billing"]}}'
+```
+
+```javascript
+const url = "https://api.feathery.io/api/document/template/";
+const formData = new FormData();
+formData.append("files", contractFile);
+formData.append("files", invoiceFile);
+formData.append("metadata", JSON.stringify({
+    "contract.pdf": { name: "contract-template", tags: ["legal", "sales"] },
+    "invoice.docx": { name: "invoice-template", tags: ["billing"] }
+}));
+const headers = { Authorization: "Token <API KEY>" };
+const options = { headers, method: "POST", body: formData };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+[{
+  "id": "<DOCUMENT ID>",
+  "name": "contract-template",
+  "type": "pdf",
+  "file": "https://link-to-template-file.com",
+  "tags": ["legal", "sales"],
+  "updated_at": "2020-06-03T00:00:00Z",
+  "created_at": "2020-06-03T00:00:00Z"
+}, {
+  "id": "<DOCUMENT ID>",
+  "name": "invoice-template",
+  "type": "docx",
+  "file": "https://link-to-template-file.com",
+  "tags": ["billing"],
+  "updated_at": "2020-06-03T00:00:00Z",
+  "created_at": "2020-06-03T00:00:00Z"
+}]
+```
+
+Upload one or more document templates in bulk. Supports up to 20 files per request with a maximum total upload size of 50 MB. Supported file types are `docx`, `idml`, `pdf`, `pptx`, and `xlsx`.
+
+### HTTP Request
+
+`POST https://api.feathery.io/api/document/template/`
+
+<aside class="notice">
+This endpoint uses <code>multipart/form-data</code> encoding, not JSON.
+</aside>
+
+### Request Body Parameters
+
+| Parameter | Type              | Description                                                                                                                                     |
+|-----------|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| files     | File[] (Required) | The document files to upload. Maximum 20 files per request, 50 MB total.                                                                        |
+| metadata  | JSON (Optional)   | A JSON object keyed by filename. Each value can contain `name` (String), `tags` (String[]), and `type` (String enum: docx, idml, pdf, pptx, xlsx). |
+
+### Response Body
+
+The response will be an array of objects containing the following parameters.
+
+| Parameter  | Type              | Description                                                       |
+|------------|-------------------|-------------------------------------------------------------------|
+| id         | String            | Document ID                                                       |
+| name       | String            | Document name (from metadata or original filename)                |
+| type       | String Enum       | Document type                                                     |
+| file       | URL               | Document file url                                                 |
+| tags       | String[]          | An array of document tags                                         |
+| updated_at | Datetime          | When this document was last updated                               |
+| created_at | Datetime          | When this document was created                                    |
+
 ## List Document Envelopes
 
 ```python
@@ -2088,6 +2184,7 @@ fetch(url, options)
 ```
 
 Create a PDF export for a specific form submission. The returned URL points to the generated PDF, with a few caveats:
+
 * The PDF may not be immediately available. We recommend polling the URL up to 5 times, once per second, to ensure availability.
 * Once a given submission is completed, the exported PDF will no longer be updated for it even if requested multiple times.
 
