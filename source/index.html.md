@@ -2183,9 +2183,21 @@ fetch(url, options)
 {"pdf_url": "<PDF URL>"}
 ```
 
+> Multi submission response:
+
+```json
+{
+  "results": {
+    "user_id": "<User ID>",
+    "pdf_url": "<PDF URL>"
+  },
+  "submission_count": "<total submissions with the filters applied>"
+}
+```
+
 Create a PDF export for a specific form submission by providing `user_id`, or export PDFs in bulk for multiple submissions by providing a date range filter instead. The returned URL(s) point to the generated PDF(s), with a few caveats:
 
-* The PDF may not be immediately available. We recommend polling the URL up to 5 times, once per second, to ensure availability.
+* The PDF may not be immediately available. If there is just one submission, we recommend polling the URL up to 5 times, once per second, to ensure availability. If there are more submissions, it will take longer for the 
 * Once a given submission is completed, the exported PDF will no longer be updated for it even if requested multiple times.
 
 ### HTTP Request
@@ -2206,7 +2218,6 @@ You must provide either `user_id` (single export) **or** a date range (`start_ti
 | created_before | Datetime (Optional) | Export submissions created at or before this time. Pair with `created_after`.           |
 | completed      | Boolean (Optional)  | Filter bulk exports to only completed (`true`) or incomplete (`false`) submissions.     |
 
-<aside class="notice">Bulk exports are limited to 100 submissions per request.</aside>
 
 ### Response Body
 
@@ -2220,8 +2231,8 @@ You must provide either `user_id` (single export) **or** a date range (`start_ti
 
 | Parameter        | Type     | Description                                                               |
 |------------------|----------|---------------------------------------------------------------------------|
-| results          | Object[] | An array of objects, each with `user_id` (String) and `pdf_url` (URL).   |
-| submission_count | Integer  | The total number of submissions included in this export.                  |
+| results          | Object[] | An array of objects, each with `user_id` (String) and `pdf_url` (URL). The files may not be immediately available  |
+| submission_count | Integer  | The total number of submissions that exist with the specified filters applied.                  |
 
 # Logs
 
