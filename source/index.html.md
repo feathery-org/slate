@@ -2155,7 +2155,7 @@ print(result.json())
 ```shell
 curl "https://api.feathery.io/api/form/submission/pdf/" \
     -X POST \
-    -d "{'form_id': 'abcdef, 'user_id': 'alice@feathery.io'}" \
+    -d "{'form_id': 'abcdef', 'user_id': 'alice@feathery.io'}" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
@@ -2168,7 +2168,7 @@ const headers = {
     "Content-Type": "application/json"
 };
 const options = {
-    headers, 
+    headers,
     method: 'POST',
     body: JSON.stringify(data)
 };
@@ -2177,13 +2177,13 @@ fetch(url, options)
     .then(result => console.log(result));
 ```
 
-> The above command outputs JSON structured like this:
+> Single submission response:
 
 ```json
 {"pdf_url": "<PDF URL>"}
 ```
 
-Create a PDF export for a specific form submission. The returned URL points to the generated PDF, with a few caveats:
+Create a PDF export for a specific form submission by providing `user_id`, or export PDFs in bulk for multiple submissions by providing a date range filter instead. The returned URL(s) point to the generated PDF(s), with a few caveats:
 
 * The PDF may not be immediately available. We recommend polling the URL up to 5 times, once per second, to ensure availability.
 * Once a given submission is completed, the exported PDF will no longer be updated for it even if requested multiple times.
@@ -2194,15 +2194,34 @@ Create a PDF export for a specific form submission. The returned URL points to t
 
 ### Request Body Parameters
 
-| Parameter | Type   | Description                                                                         |
-|-----------|--------|-------------------------------------------------------------------------------------|
-| form_id   | String | The unique ID of the form whose submission you want to export.                      |
-| user_id   | String | The unique ID corresponding to a Feathery submission / user who you want to export. |
+You must provide either `user_id` (single export) **or** a date range (`start_time` + `end_time`, or `created_after` + `created_before`) for bulk export.
+
+| Parameter      | Type     | Description                                                                                        |
+|----------------|----------|----------------------------------------------------------------------------------------------------|
+| form_id        | String (Required) | The unique ID of the form whose submission(s) you want to export.                         |
+| user_id        | String (Optional) | The unique ID of a specific Feathery user/submission to export. Mutually exclusive with date range filters. |
+| start_time     | Datetime (Optional) | Export submissions last submitted at or after this time. Pair with `end_time`.          |
+| end_time       | Datetime (Optional) | Export submissions last submitted at or before this time. Pair with `start_time`.       |
+| created_after  | Datetime (Optional) | Export submissions created at or after this time. Pair with `created_before`.           |
+| created_before | Datetime (Optional) | Export submissions created at or before this time. Pair with `created_after`.           |
+| completed      | Boolean (Optional)  | Filter bulk exports to only completed (`true`) or incomplete (`false`) submissions.     |
+
+<aside class="notice">Bulk exports are limited to 100 submissions per request.</aside>
 
 ### Response Body
+
+**Single export** (when `user_id` is provided):
+
 | Parameter | Type | Description                                                                                   |
 |-----------|------|-----------------------------------------------------------------------------------------------|
 | pdf_url   | URL  | A URL where the PDF export can be downloaded from. The file may not be immediately available. |
+
+**Bulk export** (when a date range is provided):
+
+| Parameter        | Type     | Description                                                               |
+|------------------|----------|---------------------------------------------------------------------------|
+| results          | Object[] | An array of objects, each with `user_id` (String) and `pdf_url` (URL).   |
+| submission_count | Integer  | The total number of submissions included in this export.                  |
 
 # Logs
 
