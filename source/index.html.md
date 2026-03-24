@@ -2177,27 +2177,29 @@ fetch(url, options)
     .then(result => console.log(result));
 ```
 
-> Single submission response:
+> Response if user_id specified:
 
 ```json
 {"pdf_url": "<PDF URL>"}
 ```
 
-> Multi submission response:
+> Response if date range specified:
 
 ```json
 {
-  "results": {
-    "user_id": "<User ID>",
-    "pdf_url": "<PDF URL>"
-  },
+  "results": [
+    {
+      "user_id": "<User ID>",
+      "pdf_url": "<PDF URL>"
+    }
+  ],
   "submission_count": "<total submissions with the filters applied>"
 }
 ```
 
 Create a PDF export for a specific form submission by providing `user_id`, or export PDFs in bulk for multiple submissions by providing a date range filter instead. The returned URL(s) point to the generated PDF(s), with a few caveats:
 
-* The PDF may not be immediately available. If there is just one submission, we recommend polling the URL up to 5 times, once per second, to ensure availability. If there are more submissions, it will take longer for the 
+* The PDF may not be immediately available. If there is just one submission, we recommend polling the URL up to 5 times, once per second, to ensure availability. If there are more submissions, it will take longer for the pdfs further down the list of returned results.
 * Once a given submission is completed, the exported PDF will no longer be updated for it even if requested multiple times.
 
 ### HTTP Request
