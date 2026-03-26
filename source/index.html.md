@@ -430,8 +430,8 @@ Note that this needs to be formatted as a multipart/form-data request.
 | Field                   | Type                 | Description                                                                            |
 | ----------------------- | -------------------- | -------------------------------------------------------------------------------------- |
 | url                     | String               | Callback URL where the extraction data payload will be sent.                           |
-| waitForBoundingBoxes    | Boolean \| undefined | If `true`, waits for bounding boxes to be generated before dispatching the webhook.    |
-| waitForConfidenceScores | Boolean \| undefined | If `true`, waits for confidence scores to be generated before dispatching the webhook. |
+| waitForBoundingBoxes    | Boolean &#124; undefined | If `true`, waits for bounding boxes to be generated before dispatching the webhook.    |
+| waitForConfidenceScores | Boolean &#124; undefined | If `true`, waits for confidence scores to be generated before dispatching the webhook. |
 
 ### Response Body
 
