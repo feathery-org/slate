@@ -413,6 +413,25 @@ Note that this needs to be formatted as a multipart/form-data request.
 | Parameter | Type       | Description                                                       |
 |-----------|------------|-------------------------------------------------------------------|
 | files     | File Array | An array of files that will be parsed by the extraction for data. |
+| webhook   | JSON string | Optional JSON string describing webhook delivery settings for extracted data (callback URL and wait behavior). |
+
+`webhook` should be a JSON string with this structure:
+
+```javascript
+{
+  "url": "string",
+  "waitForBoundingBoxes": true,
+  "waitForConfidenceScores": true
+}
+```
+
+`webhook` JSON fields:
+
+| Field                   | Type                 | Description                                                                            |
+| ----------------------- | -------------------- | -------------------------------------------------------------------------------------- |
+| url                     | String               | Callback URL where the extraction data payload will be sent.                           |
+| waitForBoundingBoxes    | Boolean \| undefined | If `true`, waits for bounding boxes to be generated before dispatching the webhook.    |
+| waitForConfidenceScores | Boolean \| undefined | If `true`, waits for confidence scores to be generated before dispatching the webhook. |
 
 ### Response Body
 
