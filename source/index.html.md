@@ -3487,7 +3487,7 @@ The response will be an object containing the following parameters.
 | name        | String | The form name                             |
 | internal_id | UUID   | Feathery-specific identifier for the form |
 
-## List Workspace Report
+## Workspace Report
 
 ```python
 import requests
@@ -3582,7 +3582,7 @@ Each `results` entry contains the following parameters.
 | form_counts      | Object   | `{ "total": int, "active": int, "multi_step": int }` — total forms, active forms, and forms with more than 1 step in this workspace                                                                                               |
 | form_field_counts | Object  | Mapping from field type (or `custom_field_key` for custom-typed fields) to `{ "forms": int, "items": int }`, where `forms` is distinct forms containing that field type and `items` is distinct field instances |
 
-## List Workspace Submission Report
+## Workspace Submission Report
 
 ```python
 import requests
