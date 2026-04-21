@@ -3487,24 +3487,24 @@ The response will be an object containing the following parameters.
 | name        | String | The form name                             |
 | internal_id | UUID   | Feathery-specific identifier for the form |
 
-## Workspace Report
+## Workspace Form Report
 
 ```python
 import requests
 
-url = "https://api.feathery.io/api/workspace/report/";
+url = "https://api.feathery.io/api/workspace/report/form/";
 headers = {"Authorization": "Token <API KEY>"}
 result = requests.get(url, headers=headers)
 print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/workspace/report/" \
+curl "https://api.feathery.io/api/workspace/report/form/" \
     -H "Authorization: Token <API KEY>"
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/workspace/report/";
+const url = "https://api.feathery.io/api/workspace/report/form/";
 const options = { headers: { Authorization: "Token <API KEY>" } };
 fetch(url, options)
     .then((response) => response.json())
@@ -3525,62 +3525,56 @@ fetch(url, options)
       "id": "<WORKSPACE ID>",
       "name": "Workspace 1",
       "created_at": "2020-06-01T00:00:00Z",
-      "form_counts": {
-        "total": 10,
-        "active": 7,
-        "multi_step": 4
-      },
-      "form_field_counts": {
-        "text_field": { "forms": 5, "items": 12 },
-        "email": { "forms": 3, "items": 3 },
-        "my_custom_type": { "forms": 2, "items": 4 }
+      "forms": [
+        { "id": "my-form", "name": "my_form", "active": true, "step_count": 3 }
+      ],
+      "form_field_stats": {
+        "text_field": { "form_count": 5, "field_count": 12 },
+        "email": { "form_count": 3, "field_count": 3 },
+        "my_custom_type": { "form_count": 2, "field_count": 4 }
       }
     }
   ],
-  "hidden_field_keys": ["account_id", "plan_tier"],
-  "field_types": ["email", "integer_field", "text_field"],
-  "custom_field_keys": ["my_custom_type"]
+  "field_types": ["email", "integer_field", "text_field"]
 }
 ```
 
-Paginated report of all child workspaces, each with form and field-type breakdowns. Also returns discovery arrays (`hidden_field_keys`, `field_types`, `custom_field_keys`) scoped across all workspaces, which are useful as filter inputs to the submission report endpoint. This is only available for Feathery's white label product. If querying with the test API key, only test workspaces are returned.
+Paginated report of all child workspaces, each with a list of their forms and per-field-type usage stats. Also returns `field_types`, the full list of standard field type values. This is only available for Feathery's white label product. If querying with the test API key, only test workspaces are returned.
 
 ### HTTP Request
 
-`GET https://api.feathery.io/api/workspace/report/`
+`GET https://api.feathery.io/api/workspace/report/form/`
 
 ### Request Query Parameters
 
-| Parameter | Type             | Description                                       |
-|-----------|------------------|---------------------------------------------------|
-| page      | Integer (Optional) | Page number. Defaults to 1.                     |
-| page_size | Integer (Optional) | Results per page. Defaults to 50, max 100.      |
+| Parameter | Type               | Description                                  |
+|-----------|--------------------|----------------------------------------------|
+| page      | Integer (Optional) | Page number. Defaults to 1.                  |
+| page_size | Integer (Optional) | Results per page. Defaults to 50, max 100.   |
 
 ### Response Body
 
 The response is a paginated object with the following top-level parameters.
 
-| Parameter        | Type       | Description                                                                                                                                               |
-|------------------|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| count            | Integer    | Total number of workspaces                                                                                                                                |
-| next             | URL &#124; null | URL to the next page                                                                                                                                 |
-| previous         | URL &#124; null | URL to the previous page                                                                                                                             |
-| total_pages      | Integer    | Total number of pages                                                                                                                                     |
-| current_page     | Integer    | Current page number                                                                                                                                       |
-| results          | Array      | Array of workspace report objects (see below)                                                                                                             |
-| hidden_field_keys | String[]  | Distinct hidden field keys across all workspaces. Useful as `hidden_field_key` inputs to the submission report. |
-| field_types      | String[]   | All standard field types available                                                                                                                        |
-| custom_field_keys | String[]  | Distinct custom field keys defined across all workspaces                                                                                                  |
+| Parameter    | Type            | Description                               |
+|--------------|-----------------|-------------------------------------------|
+| count        | Integer         | Total number of workspaces                |
+| next         | URL &#124; null | URL to the next page                      |
+| previous     | URL &#124; null | URL to the previous page                  |
+| total_pages  | Integer         | Total number of pages                     |
+| current_page | Integer         | Current page number                       |
+| results      | Array           | Array of workspace report objects (see below) |
+| field_types  | String[]        | All standard field types available        |
 
 Each `results` entry contains the following parameters.
 
-| Parameter        | Type     | Description                                                                                                                                                                                                            |
-|------------------|----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id               | String   | The workspace ID                                                                                                                                                                                                       |
-| name             | String   | The workspace name                                                                                                                                                                                                     |
-| created_at       | Datetime | When this workspace was created                                                                                                                                                                                        |
-| form_counts      | Object   | `{ "total": int, "active": int, "multi_step": int }` — total forms, active forms, and forms with more than 1 step in this workspace                                                                                               |
-| form_field_counts | Object  | Mapping from field type (or `custom_field_key` for custom-typed fields) to `{ "forms": int, "items": int }`, where `forms` is distinct forms containing that field type and `items` is distinct field instances |
+| Parameter       | Type     | Description                                                                                                                                                                                                                     |
+|-----------------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id              | String   | The workspace ID                                                                                                                                                                                                                |
+| name            | String   | The workspace name                                                                                                                                                                                                              |
+| created_at      | Datetime | When this workspace was created                                                                                                                                                                                                 |
+| forms           | Array    | List of form objects in this workspace, each with `id`, `name`, `active` (boolean), and `step_count` (integer)                                                                                               |
+| form_field_stats | Object  | Mapping from field type (or `custom_field` for custom fields) to `{ "form_count": int, "field_count": int }`, where `form_count` is distinct forms containing that field type and `field_count` is distinct field instances |
 
 ## Workspace Submission Report
 
@@ -3589,18 +3583,18 @@ import requests
 
 url = "https://api.feathery.io/api/workspace/report/submissions/";
 headers = {"Authorization": "Token <API KEY>"}
-params = {"billing_cycle_offset": 0, "hidden_field_key": ["account_id", "plan_tier"]}
+params = {"billing_cycle_offset": 0, "hidden_field_id": ["account_id", "plan_tier"]}
 result = requests.get(url, params=params, headers=headers)
 print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/workspace/report/submissions/?billing_cycle_offset=0&hidden_field_key=account_id&hidden_field_key=plan_tier" \
+curl "https://api.feathery.io/api/workspace/report/submissions/?billing_cycle_offset=0&hidden_field_id=account_id&hidden_field_id=plan_tier" \
     -H "Authorization: Token <API KEY>"
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/workspace/report/submissions/?billing_cycle_offset=0&hidden_field_key=account_id&hidden_field_key=plan_tier";
+const url = "https://api.feathery.io/api/workspace/report/submissions/?billing_cycle_offset=0&hidden_field_id=account_id&hidden_field_id=plan_tier";
 const options = { headers: { Authorization: "Token <API KEY>" } };
 fetch(url, options)
     .then((response) => response.json())
@@ -3633,7 +3627,7 @@ fetch(url, options)
 }
 ```
 
-For each workspace, returns the number of completed submissions within a billing cycle, optionally broken down by hidden field key. This is only available for Feathery's white label product. If querying with the test API key, only test workspaces are returned.
+For each workspace, returns the number of completed submissions within a billing cycle, optionally broken down by hidden field id. This is only available for Feathery's white label product. If querying with the test API key, only test workspaces are returned.
 
 ### HTTP Request
 
@@ -3646,7 +3640,7 @@ For each workspace, returns the number of completed submissions within a billing
 | page                  | Integer (Optional) | Page number. Defaults to 1.                                                                                                                                           |
 | page_size             | Integer (Optional) | Results per page. Defaults to 50, max 100.                                                                                                                            |
 | billing_cycle_offset  | Integer (Optional) | How many billing cycles back from the current cycle. Defaults to 0 (current cycle). Max 11 for monthly billing cycles, max 1 for yearly billing cycles.               |
-| hidden_field_key      | String (Optional)  | Hidden field key(s) to include per-workspace submission counts for. Can be repeated (`?hidden_field_key=a&hidden_field_key=b`) or comma-separated. Max 10 distinct values. |
+| hidden_field_id       | String (Optional)  | Hidden field ID(s) to include per-workspace submission counts for. Can be repeated (`?hidden_field_id=a&hidden_field_id=b`). Max 10 distinct values.                        |
 
 ### Response Body
 
@@ -3671,4 +3665,4 @@ Each `results` entry contains the following parameters.
 | name                | String  | The workspace name                                                                                                                                      |
 | created_at          | Datetime | When this workspace was created                                                                                                                       |
 | submissions         | Integer | Number of distinct completed submissions (live environment only) in this workspace during the requested billing cycle                                  |
-| hidden_field_counts | Object  | Mapping from each requested `hidden_field_key` to the number of submissions that have a non-null value for that key. Empty object if none requested. |
+| hidden_field_counts | Object  | Mapping from each requested `hidden_field_id` to the number of submissions that have a non-null value for that ID. Empty object if none requested. |
