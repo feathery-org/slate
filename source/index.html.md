@@ -2025,137 +2025,6 @@ List submission data for a particular form
 | current_page | Number      | The current page number out of all the total pages.                                                           |
 | results      | Array       | An array of submission entries. The similarity score will be returned as well if fuzzy search is implemented. |
 
-## Create Hidden Field
-
-```python
-import requests
-
-url = "https://api.feathery.io/api/form/hidden_field/";
-
-data = {"field_id": "NewField"}
-
-headers = {
-    "Authorization": "Token <API KEY>",
-    "Content-Type": "application/json",
-}
-
-result = requests.post(url, data=data, headers=headers)
-print(result.json())
-```
-
-```shell
-curl "https://api.feathery.io/api/form/hidden_field/" \
-    -X POST \
-    -d "{'field_id': 'NewField'}" \
-    -H "Authorization: Token <API KEY>" \
-    -H "Content-Type: application/json"
-```
-
-```javascript
-const url = "https://api.feathery.io/api/form/hidden_field/";
-const data = {"field_id": "NewField"}
-const headers = {
-    Authorization: "Token <API KEY>",
-    "Content-Type": "application/json"
-};
-const options = {
-    headers, 
-    method: 'POST',
-    body: JSON.stringify(data)
-};
-fetch(url, options)
-    .then((response) => response.json())
-    .then(result => console.log(result));
-```
-
-> The above command outputs JSON structured like this:
-
-```json
-{
-  "field_id": "NewField"
-}
-```
-
-Create a new hidden field in your Feathery account.
-
-### HTTP Request
-
-`POST https://api.feathery.io/api/form/hidden_field/`
-
-### Request Body Parameters
-
-| Parameter | Type   | Description                                    |
-|-----------|--------|------------------------------------------------|
-| field_id  | String | A new unique ID for the hidden field to create |
-
-### Response Body
-Same as request body parameters
-
-## List Hidden Fields
-
-```python
-import requests
-
-url = "https://api.feathery.io/api/form/hidden_field/";
-headers = {
-    "Authorization": "Token <API KEY>",
-    "Content-Type": "application/json",
-}
-
-result = requests.get(url, headers=headers)
-print(result.json())
-```
-
-```shell
-curl "https://api.feathery.io/api/form/hidden_field/" \
-    -X GET \
-    -H "Authorization: Token <API KEY>" \
-    -H "Content-Type: application/json"
-```
-
-```javascript
-const url = "https://api.feathery.io/api/form/hidden_field/";
-const headers = {
-    Authorization: "Token <API KEY>",
-    "Content-Type": "application/json"
-};
-const options = {
-    headers, 
-    method: 'GET'
-};
-fetch(url, options)
-    .then((response) => response.json())
-    .then(result => console.log(result));
-```
-
-> The above command outputs JSON structured like this:
-
-```json
-{
-  "id": "employmentType",
-  "internal_id": "42cbfa02-7c80-4db9-aedf-0ae7e7c00d5a",
-  "type": "json_value",
-  "created_at": "2025-09-17T18:47:58.117032Z",
-  "updated_at": "2025-09-17T18:47:58.117036Z"
-}
-```
-
-List the hidden fields in your Feathery account.
-
-### HTTP Request
-
-`GET https://api.feathery.io/api/form/hidden_field/`
-
-### Response Body
-
-| Parameter   | Type        | Description                                      |
-|-------------|-------------|--------------------------------------------------|
-| id          | String      | The unique ID of the hidden field                |
-| internal_id | String      | Feathery-internal identifier of the hidden field |
-| type        | String Enum | The type of value in the hidden field            |
-| created_at  | Datetime    | When this field was created                      |
-| updated_at  | Datetime    | When this field was last updated                 |
-
 ## Export Form Submission PDF
 
 ```python
@@ -2254,6 +2123,149 @@ You must provide either `user_id` (single export) **or** a date range (`start_ti
 |------------------|----------|---------------------------------------------------------------------------|
 | results          | Object[] | An array of objects, each with `user_id` (String) and `pdf_url` (URL). The files may not be immediately available  |
 | submission_count | Integer  | The total number of submissions that exist with the specified filters applied.                  |
+
+# Fields
+
+## Create Hidden Field
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/form/hidden_field/";
+
+data = [{"id": "NewField", "type": "json_value", "server_side": False}]
+
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+
+result = requests.post(url, data=data, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/form/hidden_field/" \
+    -X POST \
+    -d "[{'id': 'NewField', 'type': 'json_value', 'server_side': false}]" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/form/hidden_field/";
+const data = [{"id": "NewField", "type": "json_value", "server_side": false}]
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = {
+    headers, 
+    method: 'POST',
+    body: JSON.stringify(data)
+};
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+[
+  {
+    "id": "NewField",
+    "type": "json_value",
+    "server_side": false
+  }
+]
+```
+
+Create one or more hidden fields in your Feathery account by passing an array of field objects.
+
+### HTTP Request
+
+`POST https://api.feathery.io/api/form/hidden_field/`
+
+### Request Body Parameters
+
+An array of objects with the following properties:
+
+| Parameter   | Type    | Description                                                |
+|-------------|---------|------------------------------------------------------------|
+| id          | String      | A new unique ID for the hidden field to create                                                                   |
+| type        | String Enum | The type of value in the hidden field: `json_value` (any format), `number_value` (numerical), `text_value` (text) |
+| server_side | Boolean     | Whether the field is server-side only                                                                             |
+
+### Response Body
+Same as request body parameters
+
+## List Hidden Fields
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/form/hidden_field/";
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/form/hidden_field/" \
+    -X GET \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/form/hidden_field/";
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = {
+    headers, 
+    method: 'GET'
+};
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "id": "employmentType",
+  "internal_id": "42cbfa02-7c80-4db9-aedf-0ae7e7c00d5a",
+  "type": "json_value",
+  "server_side": false,
+  "created_at": "2025-09-17T18:47:58.117032Z",
+  "updated_at": "2025-09-17T18:47:58.117036Z"
+}
+```
+
+List the hidden fields in your Feathery account.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/form/hidden_field/`
+
+### Response Body
+
+| Parameter   | Type        | Description                                      |
+|-------------|-------------|--------------------------------------------------|
+| id          | String      | The unique ID of the hidden field                |
+| internal_id | String      | Feathery-internal identifier of the hidden field |
+| type        | String Enum | The type of value in the hidden field: `json_value` (any format), `number_value` (numerical), `text_value` (text) |
+| server_side | Boolean     | Whether the field is server-side only            |
+| created_at  | Datetime    | When this field was created                      |
+| updated_at  | Datetime    | When this field was last updated                 |
 
 # Logs
 
