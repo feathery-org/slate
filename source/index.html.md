@@ -2126,7 +2126,7 @@ You must provide either `user_id` (single export) **or** a date range (`start_ti
 
 # Fields
 
-## Create Hidden Field
+## Create Hidden Fields
 
 ```python
 import requests
