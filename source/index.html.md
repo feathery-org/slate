@@ -2182,7 +2182,7 @@ fetch(url, options)
 }
 ```
 
-Create a hidden field in your Feathery account. Pass an array of objects to create multiple fields at once (requires Business plan, max 100).
+Create multiple hidden fields in your Feathery account by passing an array of field objects. Bulk creation is limited to 100 fields per request.
 
 ### HTTP Request
 
