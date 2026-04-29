@@ -1796,7 +1796,7 @@ data = {
   "fields": {
     "age": 21
   },
-  "user_id": "alice@feathery.io",
+  "user_id": "alice_smith_submission",
   "forms": [
     "My Form"
   ],
@@ -1828,7 +1828,7 @@ curl "https://api.feathery.io/api/form/submission/" \
         'fields': {
           'age': 21
         },
-        'user_id': 'alice@feathery.io',
+        'user_id': 'alice_smith_submission',
         'forms': [
           'My Form'
         ],
@@ -1853,7 +1853,7 @@ const data = {
   "fields": {
     "age": 21
   },
-  "user_id": "alice@feathery.io",
+  "user_id": "alice_smith_submission",
   "forms": [
     "My Form"
   ],
@@ -1887,7 +1887,7 @@ fetch(url, options)
 ```json
 {
   "fields": {"age": 21},
-  "user_id": "alice@feathery.io",
+  "user_id": "alice_smith_submission",
   "forms": ["My Form"],
   "complete": true,
   "documents": [
@@ -2031,7 +2031,7 @@ List submission data for a particular form
 import requests
 
 url = "https://api.feathery.io/api/form/submission/pdf/";
-data = {"form_id": "abcdef", "user_id": "alice@feathery.io"}
+data = {"form_id": "abcdef", "user_id": "alice_smith_submission"}
 headers = {
     "Authorization": "Token <API KEY>",
     "Content-Type": "application/json",
@@ -2043,14 +2043,14 @@ print(result.json())
 ```shell
 curl "https://api.feathery.io/api/form/submission/pdf/" \
     -X POST \
-    -d "{'form_id': 'abcdef', 'user_id': 'alice@feathery.io'}" \
+    -d "{'form_id': 'abcdef', 'user_id': 'alice_smith_submission'}" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
 
 ```javascript
 const url = "https://api.feathery.io/api/form/submission/pdf/";
-const data = {"form_id": "abcdef", "user_id": "alice@feathery.io"}
+const data = {"form_id": "abcdef", "user_id": "alice_smith_submission"}
 const headers = {
     Authorization: "Token <API KEY>",
     "Content-Type": "application/json"
@@ -2467,7 +2467,7 @@ fetch(url, options)
 ```json
 [
   {
-    "template_id": "alice@feathery.io",
+    "template_id": "9fa8a3c1-7b71-40b1-8497-241e222d7c39",
     "recipients": [
       "mary@feathery.io",
       "richard@feathery.io"
@@ -2497,7 +2497,7 @@ The response will be an array of objects with the following parameters.
 
 | Parameter   | Type     | Description                                                                  |
 |-------------|----------|------------------------------------------------------------------------------|
-| template_id | String   | The ID of the email template in the integration this email was based off of. |
+| template_id | UUID     | The ID of the email template in the integration this email was based off of. |
 | recipients  | Array    | The recipient addresses this email was sent to.                              |
 | subject     | String   | The subject of this email.                                                   |
 | created_at  | Datetime | When this email was sent.                                                    |
@@ -2531,7 +2531,7 @@ fetch(url, options)
 ```json
 [
   {
-    "sender": "Alice <alice@feathery.io>",
+    "sender": "Alice <alice_smith_submission>",
     "subject": "",
     "group_name": "Group A",
     "prefix": "",
@@ -2738,12 +2738,12 @@ fetch(url, options)
 ```json
 [
   {
-    "id": "alice@feathery.io",
+    "id": "alice_smith_submission",
     "created_at": "2020-06-01T00:00:00Z",
     "updated_at": "2020-06-02T00:00:00Z"
   },
   {
-    "id": "bob@feathery.io",
+    "id": "bob_smith_submission",
     "created_at": "2020-06-03T00:00:00Z",
     "updated_at": "2020-06-04T00:00:00Z"
   }
@@ -2780,19 +2780,19 @@ The response will be an array of objects with the following parameters.
 ```python
 import requests
 
-url = "https://api.feathery.io/api/field/?id=alice@feathery.io";
+url = "https://api.feathery.io/api/field/?id=alice_smith_submission";
 headers = {"Authorization": "Token <API KEY>"}
 result = requests.get(url, headers=headers)
 print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/field/?id=alice@feathery.io" \
+curl "https://api.feathery.io/api/field/?id=alice_smith_submission" \
     -H "Authorization: Token <API KEY>"
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/field/?id=alice@feathery.io";
+const url = "https://api.feathery.io/api/field/?id=alice_smith_submission";
 const options = { headers: { Authorization: "Token <API KEY>" } };
 fetch(url, options)
     .then((response) => response.json())
@@ -2921,7 +2921,7 @@ Each form object will have the following parameters:
 import requests
 
 url = "https://api.feathery.io/api/user/";
-data = {"id": "alice@feathery.io"}
+data = {"id": "alice_smith_submission"}
 headers = {
     "Authorization": "Token <API KEY>",
     "Content-Type": "application/json",
@@ -2933,14 +2933,14 @@ print(result.json())
 ```shell
 curl "https://api.feathery.io/api/user/" \
     -X POST \
-    -d "{'id': 'alice@feathery.io'}" \
+    -d "{'id': 'alice_smith_submission'}" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
 
 ```javascript
 const url = "https://api.feathery.io/api/user/";
-const data = {id: "alice@feathery.io"}
+const data = {id: "alice_smith_submission"}
 const headers = {
     Authorization: "Token <API KEY>",
     "Content-Type": "application/json"
@@ -2960,7 +2960,7 @@ fetch(url, options)
 ```json
 {
   "sdk_key": "b8629a53-b1ba-49c1-99bc-0117cf12fd98",
-  "id": "alice@feathery.io",
+  "id": "alice_smith_submission",
   "created_at": "2020-06-03T00:00:00Z",
   "updated_at": "2020-06-04T00:00:00Z"
 }
@@ -2999,7 +2999,7 @@ the React library for displaying forms.
 ```python
 import requests
 
-url = "https://api.feathery.io/api/user/alice@feathery.io/";
+url = "https://api.feathery.io/api/user/alice_smith_submission/";
 headers = {
     "Authorization": "Token <API KEY>",
     "Content-Type": "application/json",
@@ -3009,15 +3009,14 @@ print(result.status_code)
 ```
 
 ```shell
-curl "https://api.feathery.io/api/user/alice@feathery.io/" \
+curl "https://api.feathery.io/api/user/alice_smith_submission/" \
     -X DELETE \
-    -d "{'key': 'alice@feathery.io'}" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/user/alice@feathery.io/";
+const url = "https://api.feathery.io/api/user/alice_smith_submission/";
 const headers = {
     Authorization: "Token <API KEY>",
     "Content-Type": "application/json"
