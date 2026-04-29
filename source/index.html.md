@@ -2211,6 +2211,93 @@ Create multiple hidden fields in your Feathery account by passing an array of fi
 
 `POST https://api.feathery.io/api/form/hidden_field/` — Use `/api/field/hidden/` instead. This endpoint accepts and returns an array of objects and does not include `internal_id`, `created_at`, or `updated_at` in the response.
 
+## Edit Hidden Fields
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/field/hidden/detail/";
+
+data = [{"id": "NewField", "type": "text_value", "server_side": True}]
+
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+
+result = requests.patch(url, json=data, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/field/hidden/detail/" \
+    -X PATCH \
+    -d "[{'id': 'NewField', 'type': 'text_value', 'server_side': true}]" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/field/hidden/detail/";
+const data = [{"id": "NewField", "type": "text_value", "server_side": true}]
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = {
+    headers,
+    method: 'PATCH',
+    body: JSON.stringify(data)
+};
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+[
+  {
+    "id": "NewField",
+    "internal_id": "42cbfa02-7c80-4db9-aedf-0ae7e7c00d5a",
+    "type": "text_value",
+    "server_side": true,
+    "created_at": "2025-09-17T18:47:58.117032Z",
+    "updated_at": "2025-09-17T18:47:58.117036Z"
+  }
+]
+```
+
+Edit one or more hidden fields in your Feathery account by passing an array of field objects. Bulk edits are limited to 100 fields per request.
+
+### HTTP Request
+
+`PATCH https://api.feathery.io/api/field/hidden/detail/`
+
+### Request Body Parameters
+
+An array of objects with the following properties:
+
+| Parameter   | Type                   | Description                                                                                                       |
+|-------------|------------------------|-------------------------------------------------------------------------------------------------------------------|
+| id          | String                 | The unique ID of the hidden field to edit                                                                         |
+| type        | String Enum (Optional) | The type of value in the hidden field: `json_value` (any format), `number_value` (numerical), `text_value` (text) |
+| server_side | Boolean (Optional)     | Whether the field is server-side only                                                                             |
+
+### Response Body
+
+An array of objects with the following properties:
+
+| Parameter   | Type        | Description                                      |
+|-------------|-------------|--------------------------------------------------|
+| id          | String      | The unique ID of the hidden field                |
+| internal_id | String      | Feathery-internal identifier of the hidden field |
+| type        | String Enum | The type of value in the hidden field: `json_value` (any format), `number_value` (numerical), `text_value` (text) |
+| server_side | Boolean     | Whether the field is server-side only            |
+| created_at  | Datetime    | When this field was created                      |
+| updated_at  | Datetime    | When this field was last updated                 |
+
 ## List Hidden Fields
 
 ```python
