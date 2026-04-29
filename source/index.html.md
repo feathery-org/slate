@@ -2216,7 +2216,7 @@ Create multiple hidden fields in your Feathery account by passing an array of fi
 ```python
 import requests
 
-url = "https://api.feathery.io/api/form/hidden_field/";
+url = "https://api.feathery.io/api/field/hidden/";
 headers = {
     "Authorization": "Token <API KEY>",
     "Content-Type": "application/json",
@@ -2227,20 +2227,20 @@ print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/form/hidden_field/" \
+curl "https://api.feathery.io/api/field/hidden/" \
     -X GET \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/form/hidden_field/";
+const url = "https://api.feathery.io/api/field/hidden/";
 const headers = {
     Authorization: "Token <API KEY>",
     "Content-Type": "application/json"
 };
 const options = {
-    headers, 
+    headers,
     method: 'GET'
 };
 fetch(url, options)
@@ -2251,23 +2251,27 @@ fetch(url, options)
 > The above command outputs JSON structured like this:
 
 ```json
-{
-  "id": "employmentType",
-  "internal_id": "42cbfa02-7c80-4db9-aedf-0ae7e7c00d5a",
-  "type": "json_value",
-  "server_side": false,
-  "created_at": "2025-09-17T18:47:58.117032Z",
-  "updated_at": "2025-09-17T18:47:58.117036Z"
-}
+[
+  {
+    "id": "employmentType",
+    "internal_id": "42cbfa02-7c80-4db9-aedf-0ae7e7c00d5a",
+    "type": "json_value",
+    "server_side": false,
+    "created_at": "2025-09-17T18:47:58.117032Z",
+    "updated_at": "2025-09-17T18:47:58.117036Z"
+  }
+]
 ```
 
-List the hidden fields in your Feathery account.
+List all hidden fields in your Feathery account.
 
 ### HTTP Request
 
-`GET https://api.feathery.io/api/form/hidden_field/`
+`GET https://api.feathery.io/api/field/hidden/`
 
 ### Response Body
+
+An array of objects with the following properties:
 
 | Parameter   | Type        | Description                                      |
 |-------------|-------------|--------------------------------------------------|
@@ -2277,6 +2281,10 @@ List the hidden fields in your Feathery account.
 | server_side | Boolean     | Whether the field is server-side only            |
 | created_at  | Datetime    | When this field was created                      |
 | updated_at  | Datetime    | When this field was last updated                 |
+
+### Deprecated
+
+`GET https://api.feathery.io/api/form/hidden_field/` — Use `/api/field/hidden/` instead.
 
 # Logs
 
