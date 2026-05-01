@@ -2373,6 +2373,75 @@ An array of objects with the following properties:
 
 `GET https://api.feathery.io/api/form/hidden_field/` — Use `/api/field/hidden/` instead.
 
+## Delete Hidden Fields
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/field/hidden/delete/";
+
+data = {"field_ids": ["field1", "field2"]}
+
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+
+result = requests.delete(url, json=data, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/field/hidden/delete/" \
+    -X DELETE \
+    -d "{'field_ids': ['field1', 'field2']}" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/field/hidden/delete/";
+const data = {"field_ids": ["field1", "field2"]}
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = {
+    headers,
+    method: 'DELETE',
+    body: JSON.stringify(data)
+};
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "field_ids": ["field1", "field2"]
+}
+```
+
+Delete one or more hidden fields from your Feathery account.
+
+### HTTP Request
+
+`DELETE https://api.feathery.io/api/field/hidden/delete/`
+
+### Request Body Parameters
+
+| Parameter | Type            | Description                                 |
+|-----------|-----------------|---------------------------------------------|
+| field_ids | Array of String | The unique IDs of the hidden fields to delete |
+
+### Response Body
+
+| Parameter | Type            | Description                              |
+|-----------|-----------------|------------------------------------------|
+| field_ids | Array of String | The unique IDs of the hidden fields that were deleted |
+
 # Logs
 
 ## List API Connector Errors
