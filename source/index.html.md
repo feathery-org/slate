@@ -2776,7 +2776,7 @@ The response will be an array of objects with the following parameters.
 | response    | JSON string | The API response                        |
 | created_at  | Datetime    | When this request was made.             |
 
-# Users
+# End Users
 
 ## List All Users
 
