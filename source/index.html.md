@@ -475,6 +475,8 @@ fetch(url, { headers })
   "success": true,
   "approved": true,
   "approver": "reviewer@mail.com",
+  "identity": "user@example.com",
+  "inbound_message": null,
   "email_extracted_at": "2020-06-02T00:00:00Z",
   "document_extracted_at": "2020-06-03T00:00:00Z",
   "data": [{"field_internal_id":  "<FIELD ID>", "value": ""}],
@@ -510,6 +512,8 @@ The response is an array of extraction run entries with the following parameters
 | data                  | {field_internal_id: string; value: any}[] | A list of datapoints extracted during this run                                                                         |
 | approved              | Boolean                                   | If the run required review and was approved                                                                            |
 | approver              | Email                                     | The email of the account who approved the run                                                                          |
+| identity              | String                                    | The email address of the user who triggered the extraction run. Empty string if not available                          |
+| inbound_message       | JSON (Optional)                           | The content payload of the email or audio that triggered the extraction. Null if not triggered by an inbound message   |
 | email_extracted_at    | Datetime (Optional)                       | If the inbox integration is turned on for this extraction, when the email associated with this run finished extracting |
 | document_extracted_at | Datetime                                  | When the document associated with this run finished extracting                                                         |
 | created_at            | Datetime                                  | When this extraction run was created                                                                                   |
