@@ -3892,3 +3892,129 @@ Each `results` entry contains the following parameters.
 | created_at          | Datetime | When this workspace was created                                                                                                                       |
 | submissions         | Integer | Number of distinct completed submissions (live environment only) in this workspace during the requested billing cycle                                  |
 | hidden_field_counts | Object  | Mapping from each requested `hidden_field_id` to the number of submissions that have a non-null value for that ID. Empty object if none requested. |
+
+# Data Hubs
+
+Data hubs are shared databases that all of your workflows can read from and write to. The Data Hub API lets you create, read, update, and delete hub entries programmatically.
+
+## Perform a Hub Entry Action
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/data-hub/<hub_id>/action/";
+data = {
+  "operation": "create",
+  "data": {
+    "name": "Alice",
+    "age": 25
+  }
+}
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+result = requests.post(url, json=data, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/data-hub/<hub_id>/action/" \
+    -X POST \
+    -d "{\"operation\": \"create\", \"data\": {\"name\": \"Alice\", \"age\": 25}}" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/data-hub/<hub_id>/action/";
+const data = {
+  operation: "create",
+  data: {
+    name: "Alice",
+    age: 25
+  }
+};
+const options = {
+  method: "POST",
+  headers: {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(data)
+};
+fetch(url, options)
+  .then((response) => response.json())
+  .then(result => console.log(result));
+```
+
+> Example response for `create` and `update` (201/200):
+
+```json
+{
+  "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "data": {
+    "name": "Alice",
+    "age": 25
+  }
+}
+```
+
+> Example response for `get` without `entry_id` (200):
+
+```json
+[
+  {
+    "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "data": {
+      "name": "Alice",
+      "age": 25
+    }
+  }
+]
+```
+
+> Example response for `get` with `entry_id` (200):
+
+```json
+{
+  "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "data": {
+    "name": "Alice",
+    "age": 25
+  }
+}
+```
+
+> `delete` returns 204 No Content with no body.
+
+Create, retrieve, update, or delete entries in a data hub.
+
+### HTTP Request
+
+`POST https://api.feathery.io/api/data-hub/<hub_id>/action/`
+
+### Request Body Parameters
+
+| Parameter  | Type                                            | Description                                                                                                  |
+|------------|-------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| operation  | 'create' &#124; 'get' &#124; 'update' &#124; 'delete' | The action to perform on hub entries.                                                                  |
+| data       | Object (Optional)                               | A mapping of hub field keys to values. Used as the entry data for `create`/`update`, or as filter criteria for `get`. |
+| entry_id   | UUID (Optional)                                 | The ID of an existing entry. Required for `update` and `delete`. If provided for `get`, returns that single entry. |
+| fields     | String\[\] (Optional)                           | For `get` only. A list of field keys to include in the response. If omitted, all fields are returned.        |
+
+### Response Body
+
+| Operation | Status | Response                                                                 |
+|-----------|--------|--------------------------------------------------------------------------|
+| create    | 201    | Entry object with `id` and `data`                                        |
+| get       | 200    | Single entry object (when `entry_id` provided) or array of entry objects |
+| update    | 200    | Updated entry object with `id` and `data`                                |
+| delete    | 204    | No content                                                               |
+
+Each entry object contains the following parameters.
+
+| Parameter | Type   | Description                                        |
+|-----------|--------|----------------------------------------------------|
+| id        | UUID   | The unique identifier of the hub entry             |
+| data      | Object | A mapping of hub field keys to their stored values |
