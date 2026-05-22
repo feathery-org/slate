@@ -950,6 +950,7 @@ fetch(url, options)
   ],
   "rules": [
     {
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
       "name": "Rule 1",
       "description": "Rule description",
       "trigger_event": "form_complete",
@@ -1034,6 +1035,7 @@ Each `rule` object contains the following parameters.
 
 | Parameter     | Type     | Description                                                         |
 |---------------|----------|---------------------------------------------------------------------|
+| id            | UUID     | The unique identifier of the rule                                   |
 | name          | String   | The user-friendly name of the rule                                  |
 | description   | String   | Description of the rule                                             |
 | trigger_event | Enum     | On what event the rule runs                                         |
@@ -1611,7 +1613,24 @@ fetch(url, options)
 ```json
 {
   "enabled": false,
-  "form_name": "New Name"
+  "form_name": "New Name",
+  "rules": [
+    {
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "name": "Rule 1",
+      "description": "",
+      "trigger_event": "form_complete",
+      "index": 0,
+      "steps": [],
+      "code": {},
+      "elements": [],
+      "enabled": true,
+      "valid": true,
+      "mode": "code_editor",
+      "created_at": "2020-06-01T00:00:00Z",
+      "updated_at": "2020-06-01T00:00:00Z"
+    }
+  ]
 }
 ```
 
@@ -1629,6 +1648,7 @@ Update a form's properties, including its status.
 | form_name    | String (Optional) | The new name to set for the form               |
 | translations | JSON (Optional)   | A mapping of default text to translations      |
 | integrations | Array`<Obj>` (Optional) | An array of integrations that have been created in this form (currently only webhook supported) |
+| logic_rules  | Array`<Obj>` (Optional) | The full set of logic rules for this form. If specified, replaces all existing rules. Rules with an `id` are updated; rules without an `id` are created; any existing rules not included are deleted. |
 
 ### Integration Objects
 
@@ -1638,6 +1658,21 @@ Update a form's properties, including its status.
 |              | active (Optional)   | boolean | `true` OR `false`
 |              | metadata    | Object | {"webhook": `<url>`, "test_webhook (optional)": `<url>`, "trigger (optional)": "data_received" OR "form_completion", "headers (optional)": [{"key":`<any>`, "value":`<any>`}]}
 
+### Logic Rule Objects
+
+Each `logic_rules` object contains the following parameters:
+
+| Parameter     | Type                                                                                                       | Description                                                                                                     |
+|---------------|------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
+| id            | UUID (Optional)                                                                                            | The ID of an existing rule to update. Omit to create a new rule.                                               |
+| name          | String                                                                                                     | The name of the logic rule                                                                                      |
+| code          | Object                                                                                                     | The logic rule code definition                                                                                  |
+| trigger_event | 'change' &#124; 'load' &#124; 'form_complete' &#124; 'submit' &#124; 'error' &#124; 'view' &#124; 'action' | The event that triggers the logic rule to run                                                                   |
+| steps         | String\[\] (Optional)                                                                                      | If `trigger_event` is 'submit' or 'load', the step IDs that will trigger the rule to run.                       |
+| elements      | String\[\] (Optional)                                                                                      | If `trigger_event` is 'change', 'error', 'view', or 'action', the elements that will trigger the rule to run.  |
+| description   | String (Optional)                                                                                          | A description of the logic rule                                                                                 |
+| index         | Number (Optional)                                                                                          | The execution order of the logic rule                                                                           |
+
 <aside class="notice">
 Please note that setting the translations parameter will override any existing translations
 </aside>
@@ -1646,10 +1681,11 @@ Please note that setting the translations parameter will override any existing t
 
 The response will be an object containing the following parameters.
 
-| Parameter | Type    | Description                             |
-|-----------|---------|-----------------------------------------|
-| enabled   | Boolean | Whether the form is enabled or disabled |
-| form_name | String  | The name of the form                    |
+| Parameter | Type         | Description                             |
+|-----------|--------------|-----------------------------------------|
+| enabled   | Boolean      | Whether the form is enabled or disabled |
+| form_name | String       | The name of the form                    |
+| rules     | Array`<Obj>` | The current set of logic rules on the form (same structure as the GET response `rules` array, including `id`) |
 
 ## Delete a Form
 
