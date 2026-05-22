@@ -441,6 +441,225 @@ The response will be an object containing the following parameters.
 |-----------|--------|----------------------------------------------------------------------------|
 | user_id   | String | The new Feathery user / submission who the extracted data is stored under. |
 
+## List Extractions
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/ai/extraction/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/ai/extraction/" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/ai/extraction/";
+const options = { headers: { Authorization: "Token <API KEY>" } };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "count": 2,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "name": "Insurance Policy Extraction",
+      "file_type": "image",
+      "extraction_type": "commercial_auto",
+      "created_at": "2020-06-01T00:00:00Z",
+      "updated_at": "2020-06-02T00:00:00Z"
+    }
+  ]
+}
+```
+
+List all extractions for your organization. Requires the Document Intelligence feature to be enabled on your account.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/ai/extraction/`
+
+### Response Body
+
+The response is a paginated object. Each `results` entry contains the following parameters.
+
+| Parameter       | Type     | Description                                                                 |
+|-----------------|----------|-----------------------------------------------------------------------------|
+| id              | UUID     | The unique identifier of the extraction                                     |
+| name            | String   | The name of the extraction                                                  |
+| file_type       | Enum     | The type of files this extraction processes (`image`, `csv`, `meeting`, `ai_query`) |
+| extraction_type | String   | A use-case-specific label for the extraction (e.g. `commercial_auto`)       |
+| created_at      | Datetime | When the extraction was created                                              |
+| updated_at      | Datetime | When the extraction was last updated                                         |
+
+## Retrieve an Extraction
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/ai/extraction/<extraction_id>/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/ai/extraction/<extraction_id>/" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/ai/extraction/<extraction_id>/";
+const options = { headers: { Authorization: "Token <API KEY>" } };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "name": "Insurance Policy Extraction",
+  "file_type": "image",
+  "extraction_type": "commercial_auto",
+  "merge_files": false,
+  "check_continuous_pages": false,
+  "accept_spreadsheets": false,
+  "confidence_scores_enabled": false,
+  "context_rules": ["The document is a commercial auto insurance policy"],
+  "file_sources": [
+    {
+      "id": "driver_license_upload",
+      "internal_id": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+      "source": "field",
+      "type": "file_upload"
+    }
+  ],
+  "file_filter_query": "",
+  "page_filter": null,
+  "queries": [
+    {
+      "id": "c3d4e5f6-a7b8-9012-cdef-123456789012",
+      "question_type": "one_value",
+      "entities": ["policy_number"],
+      "criteria": "Extract the policy number from the declarations page",
+      "data_validation_rules": [],
+      "properties": {},
+      "save_to_fields": [
+        {
+          "id": "policy_number_field",
+          "internal_id": "d4e5f6a7-b8c9-0123-defa-234567890123",
+          "source": "field",
+          "type": "text_field"
+        }
+      ],
+      "run_email_mode": "document_only",
+      "created_at": "2020-06-01T00:00:00Z",
+      "updated_at": "2020-06-01T00:00:00Z"
+    }
+  ],
+  "variants": [],
+  "rules": [],
+  "integrations": [{"type": "webhook"}],
+  "created_at": "2020-06-01T00:00:00Z",
+  "updated_at": "2020-06-02T00:00:00Z"
+}
+```
+
+Retrieve full configuration details for a single extraction, including all queries, variants, and active integrations.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/ai/extraction/<extraction_id>/`
+
+### Response Body
+
+| Parameter                 | Type         | Description                                                                                  |
+|---------------------------|--------------|----------------------------------------------------------------------------------------------|
+| id                        | UUID         | The unique identifier of the extraction                                                      |
+| name                      | String       | The name of the extraction                                                                   |
+| file_type                 | Enum         | The type of files processed (`image`, `csv`, `meeting`, `ai_query`)                         |
+| extraction_type           | String       | A use-case-specific label for the extraction                                                 |
+| merge_files               | Boolean      | Whether multiple uploaded files are merged before extraction                                 |
+| check_continuous_pages    | Boolean      | Whether page continuity is validated across files                                            |
+| accept_spreadsheets       | Boolean      | Whether spreadsheet files are accepted as input                                              |
+| confidence_scores_enabled | Boolean      | Whether confidence scores are returned with extracted values                                 |
+| context_rules             | String\[\]   | Global instructions or constraints provided to the AI during extraction                      |
+| file_sources              | Array`<Obj>` | Field references whose uploaded files are used as extraction input (see below)               |
+| file_filter_query         | String       | An optional filter expression to select which files are processed                            |
+| page_filter               | Integer      | If set, only the first N pages of each document are processed                               |
+| queries                   | Array`<Obj>` | The extraction queries (see below)                                                           |
+| variants                  | Array`<Obj>` | Variant configurations that override queries or file sources for specific use cases (see below) |
+| rules                     | Array`<Obj>` | Logic rules that run after extraction (see below)                                            |
+| integrations              | Array`<Obj>` | Active integrations on this extraction                                                       |
+| created_at                | Datetime     | When the extraction was created                                                              |
+| updated_at                | Datetime     | When the extraction was last updated                                                         |
+
+Each `file_sources` and `save_to_fields` entry is a field reference with the following parameters.
+
+| Parameter   | Type   | Description                                                                   |
+|-------------|--------|-------------------------------------------------------------------------------|
+| id          | String | The human-readable key of the field                                           |
+| internal_id | UUID   | The internal unique identifier of the field                                   |
+| source      | Enum   | Whether this is a `field`, `hidden_field`, or `unknown`                       |
+| type        | String | The field type (e.g. `file_upload`, `text_field`, `hidden`), or null if unknown |
+
+Each `queries` entry contains the following parameters.
+
+| Parameter            | Type         | Description                                                                                                                                    |
+|----------------------|--------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                   | UUID         | The unique identifier of the query                                                                                                             |
+| question_type        | Enum         | How the AI should extract data: `one_value`, `multiple_value`, `yes_no`, `page_number`, `cell_value`, `column_value`, `image_analysis`, `free_form`, `auto_detect` |
+| entities             | Array        | The list of entity names to extract                                                                                                            |
+| criteria             | String       | Instructions describing what to extract and how                                                                                                |
+| data_validation_rules | String\[\]  | Rules the extracted value must satisfy (e.g. format or exclusion requirements)                                                                 |
+| properties           | Object       | Additional AI service settings for this query                                                                                                  |
+| save_to_fields       | Array`<Obj>` | Field references where extracted values are saved (same structure as `file_sources`)                                                           |
+| run_email_mode       | Enum         | Whether to run the query on the email, document, or both: `email_only`, `email_document`, `document_only`                                      |
+| created_at           | Datetime     | When the query was created                                                                                                                     |
+| updated_at           | Datetime     | When the query was last updated                                                                                                                 |
+
+Each `variants` entry contains the following parameters.
+
+| Parameter       | Type         | Description                                                                           |
+|-----------------|--------------|---------------------------------------------------------------------------------------|
+| id              | UUID         | The unique identifier of the variant                                                  |
+| name            | String       | The name of the variant                                                               |
+| file_sources    | Array`<Obj>` | Variant-level file source overrides (same structure as top-level `file_sources`)      |
+| query_overrides | Array`<Obj>` | Per-query overrides for this variant. Each entry has `query_id` (UUID) and `save_to_fields` (Array`<Obj>`) |
+| created_at      | Datetime     | When the variant was created                                                          |
+| updated_at      | Datetime     | When the variant was last updated                                                     |
+
+Each `rules` entry contains the following parameters.
+
+| Parameter     | Type     | Description                                       |
+|---------------|----------|---------------------------------------------------|
+| name          | String   | The name of the logic rule                        |
+| description   | String   | A description of the rule                         |
+| trigger_event | Enum     | The event that triggers the rule to run           |
+| index         | Integer  | The execution order of the rule                   |
+| metadata      | Object   | Additional metadata for the rule                  |
+| code          | Object   | The rule code definition                          |
+| enabled       | Boolean  | Whether the rule is active                        |
+| valid         | Boolean  | Whether the rule configuration is valid           |
+| mode          | Enum     | Whether defined via `code_editor` or no-code      |
+| created_at    | Datetime | When the rule was created                         |
+| updated_at    | Datetime | When the rule was last updated                    |
+
 ## List Extraction Runs
 
 ```python
