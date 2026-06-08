@@ -1184,6 +1184,16 @@ fetch(url, options)
       "updated_at": "2020-06-01T00:00:00Z"
     }  
   ],
+  "shared_codes": [
+    {
+      "id": "b2c3d4e5-f6a7-8901-bcde-f23456789012",
+      "name": "My Shared Code",
+      "code": "var a = 1;",
+      "valid": true,
+      "created_at": "2020-06-01T00:00:00Z",
+      "updated_at": "2020-06-01T00:00:00Z"
+    }
+  ],
   "integrations": [
     {
       "type": "webhook"
@@ -1226,6 +1236,7 @@ The response will be an object containing the following parameters.
 | form_internal_id | String     | Your form's internal Feathery ID          |
 | steps            | Array`<Obj>` | An array of step objects                  |
 | rules            | Array`<Obj>` | An array of rule objects                  |
+| shared_codes     | Array`<Obj>` | An array of shared code objects           |
 | integrations     | Array`<Obj>` | An array of integration objects that are active on the form |
 | translations     | JSON       | A mapping of default text to translations |
 
@@ -1266,6 +1277,17 @@ Each `rule` object contains the following parameters.
 | mode          | Enum     | Is the rule defined via the code editor or no-code logic            |
 | created_at    | Datetime | When the rule was created                                           |
 | updated_at    | Datetime | When the rule was last updated                                      |
+
+Each `shared_code` object contains the following parameters.
+
+| Parameter  | Type     | Description                                          |
+|------------|----------|------------------------------------------------------|
+| id         | UUID     | The unique identifier of the shared code snippet     |
+| name       | String   | The name of the shared code snippet                  |
+| code       | Object   | The shared code definition                           |
+| valid      | Boolean  | Is the shared code in a valid state                  |
+| created_at | Datetime | When the shared code was created                     |
+| updated_at | Datetime | When the shared code was last updated                |
 
 Each `integration` object contains the following parameters.
 
@@ -1746,6 +1768,10 @@ data = {
         "value": 123
       }]
     }
+  }],
+  "shared_codes": [{
+    "name": "My Shared Code",
+    "code": "var a = 1;"
   }]
 }
 
@@ -1782,6 +1808,10 @@ curl "https://api.feathery.io/api/form/<form_id>/" \
                 'value': 123
               }]
             }
+          }],
+          'shared_codes': [{
+            'name': 'My Shared Code',
+            'code': 'var a = 1;'
           }]
         }" \
     -H "Authorization: Token <API KEY>" \
@@ -1811,6 +1841,10 @@ const data = {
         "value": 123
       }]
     }
+  }],
+  "shared_codes": [{
+    "name": "My Shared Code",
+    "code": "var a = 1;"
   }]
 }
 const headers = {
@@ -1849,6 +1883,16 @@ fetch(url, options)
       "created_at": "2020-06-01T00:00:00Z",
       "updated_at": "2020-06-01T00:00:00Z"
     }
+  ],
+  "shared_codes": [
+    {
+      "id": "b2c3d4e5-f6a7-8901-bcde-f23456789012",
+      "name": "My Shared Code",
+      "code": "var a = 1;",
+      "valid": true,
+      "created_at": "2020-06-01T00:00:00Z",
+      "updated_at": "2020-06-01T00:00:00Z"
+    }
   ]
 }
 ```
@@ -1868,6 +1912,7 @@ Update a form's properties, including its status.
 | translations | JSON (Optional)   | A mapping of default text to translations      |
 | integrations | Array`<Obj>` (Optional) | An array of integrations that have been created in this form (currently only webhook supported) |
 | logic_rules  | Array`<Obj>` (Optional) | The full set of logic rules for this form. If specified, replaces all existing rules. Rules with an `id` are updated; rules without an `id` are created; any existing rules not included are deleted. |
+| shared_codes | Array`<Obj>` (Optional) | The full set of shared code snippets for this form. If specified, replaces all existing shared code. Snippets with an `id` are updated; snippets without an `id` are created; any existing snippets not included are deleted. |
 
 ### Integration Objects
 
@@ -1892,6 +1937,16 @@ Each `logic_rules` object contains the following parameters:
 | description   | String (Optional)                                                                                          | A description of the logic rule                                                                                 |
 | index         | Number (Optional)                                                                                          | The execution order of the logic rule                                                                           |
 
+### Shared Code Objects
+
+Each `shared_codes` object contains the following parameters:
+
+| Parameter | Type            | Description                                                          |
+|-----------|-----------------|---------------------------------------------------------------------|
+| id        | UUID (Optional) | The ID of an existing shared code snippet to update. Omit to create a new snippet. |
+| name      | String          | The name of the shared code snippet, unique within the form         |
+| code      | Object          | The shared code definition                                          |
+
 <aside class="notice">
 Please note that setting the translations parameter will override any existing translations
 </aside>
@@ -1905,6 +1960,7 @@ The response will be an object containing the following parameters.
 | enabled   | Boolean      | Whether the form is enabled or disabled |
 | form_name | String       | The name of the form                    |
 | rules     | Array`<Obj>` | The current set of logic rules on the form (same structure as the GET response `rules` array, including `id`) |
+| shared_codes | Array`<Obj>` | The current set of shared code snippets on the form, each containing `id`, `name`, `code`, `valid`, `created_at`, and `updated_at` |
 
 ## Delete a Form
 
