@@ -2823,6 +2823,69 @@ The response will be an array of objects with the following parameters.
 | response    | JSON string | The API response, truncated if above 400 characters           |
 | created_at  | Datetime    | When this error was received.                                 |
 
+## List Webhook Errors
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/logs/webhook/<Form ID>/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/logs/webhook/<Form ID>/" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/logs/webhook/<Form ID>/";
+const options = { headers: { Authorization: "Token <API KEY>" } };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+[
+  {
+    "url": "https://example.com/webhook",
+    "status_code": 503,
+    "request": "{\"field\": \"value\"}",
+    "response": "Service Unavailable",
+    "created_at": "2020-06-03T00:00:00+00:00"
+  }
+]
+```
+
+List all recent webhook delivery errors triggered from Feathery forms, including HTTP 4xx/5xx responses and connection/timeout failures, up to the last week of data.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/logs/webhook/<Form ID>/`
+
+### Request Query Parameters
+
+| Parameter  | Type                | Description                          |
+|------------|---------------------|--------------------------------------|
+| start_time | Datetime (Optional) | Only return errors after this time.  |
+| end_time   | Datetime (Optional) | Only return errors before this time. |
+
+### Response Body
+
+The response will be an array of objects with the following parameters.
+
+| Parameter   | Type        | Description                                                                                          |
+|-------------|-------------|------------------------------------------------------------------------------------------------------|
+| url         | String      | The webhook URL that returned an error                                                               |
+| status_code | Number      | The HTTP status code returned. `0` indicates a connection or timeout failure with no HTTP response.  |
+| request     | JSON string | The webhook request body, truncated if above 1200 characters                                         |
+| response    | JSON string | The webhook response, truncated if above 1200 characters                                             |
+| created_at  | Datetime    | When this error was received.                                                                        |
+
 ## List Emails Sent From Form
 
 ```python
