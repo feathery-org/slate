@@ -3412,6 +3412,10 @@ fetch(url, options)
 
 Get the form events for a user, including when they loaded, completed, or skipped a given step.
 
+<aside class="notice">
+If another event of the same type is issued for the same step, it overwrites the older event rather than creating a new one.
+</aside>
+
 ### HTTP Request
 
 `GET https://api.feathery.io/api/user/<user_id>/event/`
