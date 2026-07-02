@@ -3363,6 +3363,77 @@ Each form object will have the following parameters:
 | name            | String  | Name of the form                                                     |
 | track_location  | Boolean | Whether the form remembers the user's location                       |
 
+## Get User Events
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/user/<user_id>/event/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/user/<user_id>/event/" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/user/<user_id>/event/";
+const options = { headers: { Authorization: "Token <API KEY>" } };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+[
+  {
+    "form_name": "My form",
+    "events": [
+      {
+        "event": "load",
+        "step_id": "step 1",
+        "last_received_at": "2024-04-17T23:10:45.992617Z"
+      },
+      {
+        "event": "complete",
+        "step_id": "step 1",
+        "next_step_id": "step 2",
+        "last_received_at": "2024-04-18T23:10:45.992617Z"
+      }
+    ]
+  }
+]
+```
+
+Get the step events for a user, grouped by form and ordered by time.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/user/<user_id>/event/`
+
+### Response Body
+
+The response will be an array of form objects, each with the following parameters.
+
+| Parameter | Type   | Description                                            |
+|-----------|--------|--------------------------------------------------------|
+| form_name | String | Name of the form the events belong to                  |
+| events    | Array  | The user's events on this form, ordered oldest to newest |
+
+Each event object will have the following parameters:
+
+| Parameter        | Type              | Description                                                                          |
+|------------------|-------------------|--------------------------------------------------------------------------------------|
+| event            | String            | The event type: `load`, `complete`, or `skip`                                        |
+| step_id          | String            | ID of the step the event occurred on                                                 |
+| next_step_id     | String (Optional) | ID of the step navigated to. Omitted for `load` events, which have no navigation     |
+| last_received_at | Datetime          | When the event was most recently received                                            |
+
 ## Create and Fetch a User
 
 ```python
