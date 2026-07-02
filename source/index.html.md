@@ -3410,7 +3410,7 @@ fetch(url, options)
 ]
 ```
 
-Get the step events for a user, grouped by form and ordered by time.
+Get the form events for a user, including when they loaded, completed, or skipped a given step.
 
 ### HTTP Request
 
