@@ -2427,24 +2427,11 @@ You must provide either `user_id` (single export) **or** a date range (`start_ti
 
 If `webhook` is provided, Feathery sends one `POST` request per submission once its PDF is ready:
 
-```json
-{
-  "status": "complete",
-  "form_id": "abcdef",
-  "user_id": "alice_smith_submission",
-  "pdf_url": "<PDF URL>"
-}
-```
+`{"status": "complete", "form_id": "abcdef", "user_id": "alice_smith_submission", "pdf_url": "<PDF URL>"}`
 
 If PDF generation fails for a submission, Feathery instead sends:
 
-```json
-{
-  "status": "error",
-  "form_id": "abcdef",
-  "user_id": "alice_smith_submission"
-}
-```
+`{"status": "error", "form_id": "abcdef", "user_id": "alice_smith_submission"}`
 
 ### Response Body
 
