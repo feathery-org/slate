@@ -2403,7 +2403,7 @@ fetch(url, options)
 
 Create a PDF export for a specific form submission by providing `user_id`, or export PDFs in bulk for multiple submissions by providing a date range filter instead. The returned URL(s) point to the generated PDF(s), with a few caveats:
 
-* The PDF may not be immediately available. If there is just one submission, we recommend polling the URL up to 5 times, once per second, to ensure availability. If there are more submissions, it will take longer for the pdfs further down the list of returned results.
+* The PDF may not be immediately available. If there is just one submission, we recommend polling the URL up to 5 times, once per second, to ensure availability. If there are more submissions, it will take longer for the pdfs further down the list of returned results. Alternatively, provide a `webhook` URL to be notified once each PDF is ready instead of polling.
 * Once a given submission is completed, the exported PDF will no longer be updated for it even if requested multiple times.
 
 ### HTTP Request
@@ -2423,7 +2423,15 @@ You must provide either `user_id` (single export) **or** a date range (`start_ti
 | created_after  | Datetime (Optional) | Export submissions created at or after this time. Pair with `created_before`.           |
 | created_before | Datetime (Optional) | Export submissions created at or before this time. Pair with `created_after`.           |
 | completed      | Boolean (Optional)  | Filter bulk exports to only completed (`true`) or incomplete (`false`) submissions.     |
+| webhook        | URL (Optional) | Callback URL. Once a submission's PDF has finished generating (or fails to generate), Feathery will `POST` a notification to this URL instead of you needing to poll `pdf_url`. |
 
+If `webhook` is provided, Feathery sends one `POST` request per submission once its PDF is ready:
+
+`{"status": "complete", "form_id": "abcdef", "user_id": "alice_smith_submission", "pdf_url": "<PDF URL>"}`
+
+If PDF generation fails for a submission, Feathery instead sends:
+
+`{"status": "error", "form_id": "abcdef", "user_id": "alice_smith_submission"}`
 
 ### Response Body
 
