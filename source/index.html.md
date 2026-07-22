@@ -1135,6 +1135,7 @@ fetch(url, options)
           "tooltipText": "",
           "submit_trigger": "none",
           "metadata": {},
+          "tags": {"category": "employment", "group": "work_history"},
           "display_text": "a",
           "format": "",
           "repeated": false,
@@ -1772,6 +1773,10 @@ data = {
   "shared_codes": [{
     "name": "My Shared Code",
     "code": "var a = 1;"
+  }],
+  "fields": [{
+    "id": "my_field",
+    "tags": {"category": "employment", "group": "work_history"}
   }]
 }
 
@@ -1812,6 +1817,10 @@ curl "https://api.feathery.io/api/form/<form_id>/" \
           'shared_codes': [{
             'name': 'My Shared Code',
             'code': 'var a = 1;'
+          }],
+          'fields': [{
+            'id': 'my_field',
+            'tags': {'category': 'employment', 'group': 'work_history'}
           }]
         }" \
     -H "Authorization: Token <API KEY>" \
@@ -1845,6 +1854,10 @@ const data = {
   "shared_codes": [{
     "name": "My Shared Code",
     "code": "var a = 1;"
+  }],
+  "fields": [{
+    "id": "my_field",
+    "tags": {"category": "employment", "group": "work_history"}
   }]
 }
 const headers = {
@@ -1913,6 +1926,7 @@ Update a form's properties, including its status.
 | integrations | Array`<Obj>` (Optional) | An array of integrations that have been created in this form (currently only webhook supported) |
 | logic_rules  | Array`<Obj>` (Optional) | The full set of logic rules for this form. If specified, replaces all existing rules. Rules with an `id` are updated; rules without an `id` are created; any existing rules not included are deleted. |
 | shared_codes | Array`<Obj>` (Optional) | The full set of shared code snippets for this form. If specified, replaces all existing shared code. Snippets with an `id` are updated; snippets without an `id` are created; any existing snippets not included are deleted. |
+| fields       | Array`<Obj>` (Optional) | Field-level `tags` updates. Each object sets the tags on one form field, identified by its field ID. Only the listed fields are affected. |
 
 ### Integration Objects
 
@@ -1946,6 +1960,15 @@ Each `shared_codes` object contains the following parameters:
 | id        | UUID (Optional) | The ID of an existing shared code snippet to update. Omit to create a new snippet. |
 | name      | String          | The name of the shared code snippet, unique within the form         |
 | code      | Object          | The shared code definition                                          |
+
+### Field Objects
+
+Each `fields` object sets the `tags` on a single form field, identified by its field ID.
+
+| Parameter | Type   | Description                                                                 |
+|-----------|--------|-----------------------------------------------------------------------------|
+| id        | String | The field ID of the form field to update                                    |
+| tags      | Object | An object mapping string keys to arbitrary JSON values (string, number, boolean, array, or nested object). Replaces the field's existing tags. Max 10KB. |
 
 <aside class="notice">
 Please note that setting the translations parameter will override any existing translations
@@ -2457,7 +2480,7 @@ import requests
 
 url = "https://api.feathery.io/api/field/hidden/";
 
-data = {"id": "NewField", "type": "json_value", "server_side": False}
+data = {"id": "NewField", "type": "json_value", "server_side": False, "tags": {"category": "employment", "group": "work_history"}}
 
 headers = {
     "Authorization": "Token <API KEY>",
@@ -2471,14 +2494,14 @@ print(result.json())
 ```shell
 curl "https://api.feathery.io/api/field/hidden/" \
     -X POST \
-    -d "{'id': 'NewField', 'type': 'json_value', 'server_side': false}" \
+    -d "{'id': 'NewField', 'type': 'json_value', 'server_side': false, 'tags': {'category': 'employment', 'group': 'work_history'}}" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
 
 ```javascript
 const url = "https://api.feathery.io/api/field/hidden/";
-const data = {"id": "NewField", "type": "json_value", "server_side": false}
+const data = {"id": "NewField", "type": "json_value", "server_side": false, "tags": {"category": "employment", "group": "work_history"}}
 const headers = {
     Authorization: "Token <API KEY>",
     "Content-Type": "application/json"
@@ -2501,6 +2524,7 @@ fetch(url, options)
   "internal_id": "42cbfa02-7c80-4db9-aedf-0ae7e7c00d5a",
   "type": "json_value",
   "server_side": false,
+  "tags": {"category": "employment", "group": "work_history"},
   "created_at": "2025-09-17T18:47:58.117032Z",
   "updated_at": "2025-09-17T18:47:58.117036Z"
 }
@@ -2519,6 +2543,7 @@ Create multiple hidden fields in your Feathery account by passing an array of fi
 | id          | String      | A new unique ID for the hidden field to create                                                                    |
 | type        | String Enum | The type of value in the hidden field: `json_value` (any format), `number_value` (numerical), `text_value` (text) |
 | server_side | Boolean     | Whether the field is server-side only                                                                             |
+| tags        | Object (Optional) | An object mapping string keys to arbitrary JSON values (string, number, boolean, array, or nested object). Max 10KB. |
 
 ### Response Body
 
@@ -2528,6 +2553,7 @@ Create multiple hidden fields in your Feathery account by passing an array of fi
 | internal_id | String      | Feathery-internal identifier of the hidden field |
 | type        | String Enum | The type of value in the hidden field: `json_value` (any format), `number_value` (numerical), `text_value` (text) |
 | server_side | Boolean     | Whether the field is server-side only            |
+| tags        | Object      | An object mapping string keys to arbitrary JSON values |
 | created_at  | Datetime    | When this field was created                      |
 | updated_at  | Datetime    | When this field was last updated                 |
 
@@ -2542,7 +2568,7 @@ import requests
 
 url = "https://api.feathery.io/api/field/hidden/detail/";
 
-data = [{"id": "NewField", "type": "text_value", "server_side": True}]
+data = [{"id": "NewField", "type": "text_value", "server_side": True, "tags": {"category": "employment", "group": "work_history"}}]
 
 headers = {
     "Authorization": "Token <API KEY>",
@@ -2556,14 +2582,14 @@ print(result.json())
 ```shell
 curl "https://api.feathery.io/api/field/hidden/detail/" \
     -X PATCH \
-    -d "[{'id': 'NewField', 'type': 'text_value', 'server_side': true}]" \
+    -d "[{'id': 'NewField', 'type': 'text_value', 'server_side': true, 'tags': {'category': 'employment', 'group': 'work_history'}}]" \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
 
 ```javascript
 const url = "https://api.feathery.io/api/field/hidden/detail/";
-const data = [{"id": "NewField", "type": "text_value", "server_side": true}]
+const data = [{"id": "NewField", "type": "text_value", "server_side": true, "tags": {"category": "employment", "group": "work_history"}}]
 const headers = {
     Authorization: "Token <API KEY>",
     "Content-Type": "application/json"
@@ -2587,6 +2613,7 @@ fetch(url, options)
     "internal_id": "42cbfa02-7c80-4db9-aedf-0ae7e7c00d5a",
     "type": "text_value",
     "server_side": true,
+    "tags": {"category": "employment", "group": "work_history"},
     "created_at": "2025-09-17T18:47:58.117032Z",
     "updated_at": "2025-09-17T18:47:58.117036Z"
   }
@@ -2608,6 +2635,7 @@ An array of objects with the following properties:
 | id          | String                 | The unique ID of the hidden field to edit                                                                         |
 | type        | String Enum (Optional) | The type of value in the hidden field: `json_value` (any format), `number_value` (numerical), `text_value` (text) |
 | server_side | Boolean (Optional)     | Whether the field is server-side only                                                                             |
+| tags        | Object (Optional)      | An object mapping string keys to arbitrary JSON values (string, number, boolean, array, or nested object). Replaces the field's existing tags. Max 10KB. |
 
 ### Response Body
 
@@ -2619,6 +2647,7 @@ An array of objects with the following properties:
 | internal_id | String      | Feathery-internal identifier of the hidden field |
 | type        | String Enum | The type of value in the hidden field: `json_value` (any format), `number_value` (numerical), `text_value` (text) |
 | server_side | Boolean     | Whether the field is server-side only            |
+| tags        | Object      | An object mapping string keys to arbitrary JSON values |
 | created_at  | Datetime    | When this field was created                      |
 | updated_at  | Datetime    | When this field was last updated                 |
 
@@ -2668,6 +2697,7 @@ fetch(url, options)
     "internal_id": "42cbfa02-7c80-4db9-aedf-0ae7e7c00d5a",
     "type": "json_value",
     "server_side": false,
+    "tags": {"category": "employment", "group": "work_history"},
     "created_at": "2025-09-17T18:47:58.117032Z",
     "updated_at": "2025-09-17T18:47:58.117036Z"
   }
@@ -2690,6 +2720,7 @@ An array of objects with the following properties:
 | internal_id | String      | Feathery-internal identifier of the hidden field |
 | type        | String Enum | The type of value in the hidden field: `json_value` (any format), `number_value` (numerical), `text_value` (text) |
 | server_side | Boolean     | Whether the field is server-side only            |
+| tags        | Object      | An object mapping string keys to arbitrary JSON values |
 | created_at  | Datetime    | When this field was created                      |
 | updated_at  | Datetime    | When this field was last updated                 |
 
