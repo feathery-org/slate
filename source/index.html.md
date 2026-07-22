@@ -1968,7 +1968,7 @@ Each `fields` object sets the `tags` on a single form field, identified by its f
 | Parameter | Type   | Description                                                                 |
 |-----------|--------|-----------------------------------------------------------------------------|
 | id        | String | The field ID of the form field to update                                    |
-| tags      | JSON   | Arbitrary developer-defined key/value tags to set on the field. Replaces the field's existing tags. Must be a JSON object (max 10KB). |
+| tags      | Object | An object mapping string keys to arbitrary JSON values (string, number, boolean, array, or nested object). Replaces the field's existing tags. Max 10KB. |
 
 <aside class="notice">
 Please note that setting the translations parameter will override any existing translations
@@ -2543,7 +2543,7 @@ Create multiple hidden fields in your Feathery account by passing an array of fi
 | id          | String      | A new unique ID for the hidden field to create                                                                    |
 | type        | String Enum | The type of value in the hidden field: `json_value` (any format), `number_value` (numerical), `text_value` (text) |
 | server_side | Boolean     | Whether the field is server-side only                                                                             |
-| tags        | JSON (Optional) | Arbitrary developer-defined key/value tags for the field. Must be a JSON object (max 10KB). |
+| tags        | Object (Optional) | An object mapping string keys to arbitrary JSON values (string, number, boolean, array, or nested object). Max 10KB. |
 
 ### Response Body
 
@@ -2553,7 +2553,7 @@ Create multiple hidden fields in your Feathery account by passing an array of fi
 | internal_id | String      | Feathery-internal identifier of the hidden field |
 | type        | String Enum | The type of value in the hidden field: `json_value` (any format), `number_value` (numerical), `text_value` (text) |
 | server_side | Boolean     | Whether the field is server-side only            |
-| tags        | JSON        | Arbitrary developer-defined key/value tags on the field |
+| tags        | Object      | An object mapping string keys to arbitrary JSON values |
 | created_at  | Datetime    | When this field was created                      |
 | updated_at  | Datetime    | When this field was last updated                 |
 
@@ -2635,7 +2635,7 @@ An array of objects with the following properties:
 | id          | String                 | The unique ID of the hidden field to edit                                                                         |
 | type        | String Enum (Optional) | The type of value in the hidden field: `json_value` (any format), `number_value` (numerical), `text_value` (text) |
 | server_side | Boolean (Optional)     | Whether the field is server-side only                                                                             |
-| tags        | JSON (Optional)        | Arbitrary developer-defined key/value tags for the field. Replaces the field's existing tags. Must be a JSON object (max 10KB). |
+| tags        | Object (Optional)      | An object mapping string keys to arbitrary JSON values (string, number, boolean, array, or nested object). Replaces the field's existing tags. Max 10KB. |
 
 ### Response Body
 
@@ -2647,7 +2647,7 @@ An array of objects with the following properties:
 | internal_id | String      | Feathery-internal identifier of the hidden field |
 | type        | String Enum | The type of value in the hidden field: `json_value` (any format), `number_value` (numerical), `text_value` (text) |
 | server_side | Boolean     | Whether the field is server-side only            |
-| tags        | JSON        | Arbitrary developer-defined key/value tags on the field |
+| tags        | Object      | An object mapping string keys to arbitrary JSON values |
 | created_at  | Datetime    | When this field was created                      |
 | updated_at  | Datetime    | When this field was last updated                 |
 
@@ -2720,7 +2720,7 @@ An array of objects with the following properties:
 | internal_id | String      | Feathery-internal identifier of the hidden field |
 | type        | String Enum | The type of value in the hidden field: `json_value` (any format), `number_value` (numerical), `text_value` (text) |
 | server_side | Boolean     | Whether the field is server-side only            |
-| tags        | JSON        | Arbitrary developer-defined key/value tags on the field |
+| tags        | Object      | An object mapping string keys to arbitrary JSON values |
 | created_at  | Datetime    | When this field was created                      |
 | updated_at  | Datetime    | When this field was last updated                 |
 
