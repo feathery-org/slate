@@ -2310,6 +2310,8 @@ fetch(url, { headers })
         "created_at": "2024-10-28T07:56:09.391398Z",
         "updated_at": "2024-10-28T16:39:32.577794Z",
         "value": "Test Value",
+        "value_created_at": "2024-10-29T18:12:05Z",
+        "value_updated_at": "2024-10-30T02:07:32Z",
         "hidden": false,
         "display_text": "",
         "internal_id": "ef5ed054-73de-4463-ba61-82c36aca5afc"
@@ -2346,7 +2348,7 @@ List submission data for a particular form
 | no_field_values | Boolean (Optional)                          | Don't return field data. If this is enabled, you may fetch more records and the endpoint is more performant.                                                                                                                                                                                                                                                                                                                                       |
 | sort            | String (Optional)                           | If "layout", the returned field values will be sorted in the way fields are laid out in the form. Otherwise, values will be sorted by field ID alphabetically.                                                                                                                                                                                                                                                                                     |
 | page_size       | Number (Optional)                           | By default the API pagination returns 500 results in each page. You can specify a different page size using this parameter up to a maximum of 1000.                                                                                                                                                                                                                                                                                                |
-| use_cache       | Boolean (Optional)                          | If true, results are obtained from a cached source which reduces response time but the data might not reflect the live results and could be a few minutes old.                                                                                                                                                                                                                                                                                     |
+| use_cache       | Boolean (Optional)                          | If true, results are obtained from a cached source which reduces response time but the data might not reflect the live results and could be a few minutes old. Cached results don't include `value_created_at` or `value_updated_at`.                                                                                                                                                                                                               |
 
 ### Fuzzy Search Parameters
 | Parameter  | Type                                                  | Description                                                                                                                                                                                                                                 |
@@ -2363,6 +2365,23 @@ List submission data for a particular form
 | total_pages  | Number      | Total number of pages to get all of the data.                                                                 |
 | current_page | Number      | The current page number out of all the total pages.                                                           |
 | results      | Array       | An array of submission entries. The similarity score will be returned as well if fuzzy search is implemented. |
+
+### Submission Values
+
+Each submission entry contains a `values` array of the user's field data, where each entry has the following parameters.
+
+| Parameter        | Type                   | Description                                                                                                                                     |
+|------------------|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| id               | String                 | Your unique field ID                                                                                                                            |
+| internal_id      | String                 | Feathery-internal identifier of the field. Always static                                                                                        |
+| hidden           | Boolean                | If true, this is a hidden field. Otherwise, it's a form field.                                                                                  |
+| type             | String Enum (Optional) | The [form field type](https://docs.feathery.io/platform/build-forms/elements/fields#example).                                                 |
+| display_text     | String (Optional)      | Human-friendly text to display for this field                                                                                                   |
+| value            | Polymorphic (Optional) | The user's submitted value for this field                                                                                                       |
+| created_at       | Datetime               | When this field was created                                                                                                                     |
+| updated_at       | Datetime               | When this field was last updated                                                                                                                |
+| value_created_at | Datetime or Array      | When the user's value for this field was first submitted. For repeated and file fields, an array of datetimes aligned with the `value` array.    |
+| value_updated_at | Datetime or Array      | When the user's value for this field was last updated. For repeated and file fields, an array of datetimes aligned with the `value` array.       |
 
 ## Export Form Submission PDF
 
@@ -3297,6 +3316,8 @@ fetch(url, options)
     "value": "Alice Smith",
     "created_at": "2020-06-01T00:00:00Z",
     "updated_at": "2020-06-02T00:00:00Z",
+    "value_created_at": "2020-06-03T14:22:10Z",
+    "value_updated_at": "2020-06-04T09:15:47Z",
     "internal_id": "50c15c23-7558-4d51-810a-1a02dlf0bf58"
   }
 ]
@@ -3327,6 +3348,8 @@ The response will be an array of objects with the following parameters.
 | value        | Polymorphic (Optional) | Submitted value of the user whose key was passed in.                                             |
 | created_at   | Datetime               | When this field was created                                                                      |
 | updated_at   | Datetime               | When this field was last updated                                                                 |
+| value_created_at | Datetime or Array (Optional) | When the user's value for this field was first submitted. For repeated and file fields, an array of datetimes aligned with the `value` array. Null if no user was passed in. |
+| value_updated_at | Datetime or Array (Optional) | When the user's value for this field was last updated. For repeated and file fields, an array of datetimes aligned with the `value` array. Null if no user was passed in. |
 | internal_id  | String                 | Feathery-internal identifier of your field. Always static                                        |
 
 ## Get User Form Session
