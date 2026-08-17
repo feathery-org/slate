@@ -2122,6 +2122,184 @@ Duplicate a form in your account.
 | created_at  | Datetime        | When this form was created                                                           |
 | updated_at  | Datetime        | When this form was last updated                                                      |
 
+## Retrieve Form Defaults
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/form/defaults/";
+
+headers = {"Authorization": "Token <API KEY>"}
+
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/form/defaults/" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/form/defaults/";
+const headers = {Authorization: "Token <API KEY>"};
+fetch(url, {headers})
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "own_defaults": {
+    "clear_hide_if_fields": true
+  },
+  "parent_defaults": {
+    "clear_hide_if_fields": false,
+    "track_users": false
+  },
+  "applied_defaults": {
+    "clear_hide_if_fields": true,
+    "track_users": false
+  }
+}
+```
+
+Fetch the form settings your team applies to newly created forms.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/form/defaults/`
+
+### Response Body
+
+| Parameter        | Type   | Description                                                                        |
+|------------------|--------|------------------------------------------------------------------------------------|
+| own_defaults     | Object | The defaults set on this workspace, and the only ones a write to this endpoint changes |
+| parent_defaults  | Object | The defaults inherited from your parent workspace, if you are under one    |
+| applied_defaults | Object | What a newly created form is actually given, the two above merged                   |
+
+## Update Form Defaults
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/form/defaults/";
+
+data = {
+    "clear_hide_if_fields": True,
+    "error_type": "inline",
+    "track_users": False,
+}
+
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+
+result = requests.put(url, json=data, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/form/defaults/" \
+    -X PUT \
+    -d "{'clear_hide_if_fields': true, 'error_type': 'inline', 'track_users': false}" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/form/defaults/";
+const data = {
+    clear_hide_if_fields: true,
+    error_type: 'inline',
+    track_users: false
+};
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = {
+    headers,
+    method: 'PUT',
+    body: JSON.stringify(data)
+};
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "own_defaults": {
+    "clear_hide_if_fields": true,
+    "error_type": "inline",
+    "track_users": false
+  },
+  "parent_defaults": {},
+  "applied_defaults": {
+    "clear_hide_if_fields": true,
+    "error_type": "inline",
+    "track_users": false
+  }
+}
+```
+
+Set the form settings your team applies to newly created forms, so you don't have to
+configure them one form at a time.
+
+These defaults only apply to forms created **after** they are set. Existing forms are
+never modified, and a form's settings are never re-synced after it is created. They are
+applied to forms created from scratch and to forms created from a template (including
+`POST /api/form/` and workspace template population), but not to a straight duplicate of an
+existing form, which always keeps its source form's settings.
+
+If your workspace is under a parent, it inherits the parent's defaults.
+Any setting the workspace defines itself takes precedence for that setting.
+
+The request replaces your defaults with what you send, so include every setting you want
+defaulted, not just the ones you are changing. A setting you leave out is no longer
+defaulted, and an empty body clears them all — a workspace that drops a setting falls back
+to its parent's default for it, if there is one.
+
+### HTTP Request
+
+`PUT https://api.feathery.io/api/form/defaults/`
+
+### Request Body Parameters
+
+Every parameter is optional. Any setting not listed here cannot be defaulted.
+
+| Parameter                           | Type    | Default          | Description                                                                          |
+|-------------------------------------|---------|------------------|--------------------------------------------------------------------------------------|
+| redirect_url                        | String  | null             | URL to send the user to after they complete the form                                 |
+| error_type                          | String  | `html5`          | How validation errors display. `html5` or `inline`                                   |
+| autocomplete                        | Boolean | true             | Allow the browser to autocomplete fields                                             |
+| autofocus                           | Boolean | true             | Focus the first field automatically                                                  |
+| enter_submit                        | Boolean | true             | Submit the step when the user presses Enter                                          |
+| autoscroll                          | String  | `top_of_form`    | Scroll behavior between steps. `none`, `top_of_form`, or `top_of_window`             |
+| brand_position                      | String  | `bottom_right`   | Feathery branding position. `top_left`, `top_right`, `bottom_left`, or `bottom_right` |
+| complete_required_fields_submission | Boolean | true             | Mark a submission complete once all required fields are filled                       |
+| completion_behavior                 | String  | `""`             | What happens after completion. `""` (hide), `redirect`, or `show_completed_screen`   |
+| track_users                         | Boolean | true             | Track users via cookie or fingerprint                                                |
+| save_user_data                      | Boolean | true             | Save submitted user data                                                             |
+| save_user_location                  | Boolean | false            | Save the user's location                                                             |
+| is_authenticated                    | String  | `none`           | Authentication required to open the form. `none`, `email_login`, or `sso`            |
+| hide_logout_button                  | Boolean | false            | Hide the log out button on authenticated forms                                       |
+| allow_edits                         | Boolean | true             | Let users edit a submission after completing it                                      |
+| save_hide_if_fields                 | Boolean | false            | Save conditionally hidden field values on submit                                     |
+| clear_hide_if_fields                | Boolean | false            | Clear conditionally hidden field values when they become hidden                      |
+| save_url_params                     | Boolean | false            | Save URL query parameters onto the submission                                        |
+| track_hashes                        | Boolean | true             | Track step navigation in the URL hash                                                |
+
+### Response Body
+
+Same as `GET https://api.feathery.io/api/form/defaults/`.
+
 ## Create or Update Form Submissions
 
 ```python
