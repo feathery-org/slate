@@ -2497,7 +2497,21 @@ fetch(url, { headers })
     ],
       "user_id": "131e7132-dg6d-4a8c-9d70-cgd493c2a368",
       "submission_start": "2024-10-30T02:07:32Z",
-      "last_submitted": "2024-10-30T02:07:32Z"
+      "last_submitted": "2024-10-30T02:07:32Z",
+      "collaborators": [
+        {
+          "id": "4102d694-615b-4620-b6a1-0d528d319e19",
+          "status": "In Progress",
+          "invited_emails": [],
+          "invited_user_groups": ["Cyber Underwriters"],
+          "invited_at": "2026-08-14T09:27:39Z",
+          "first_viewed": "2026-08-14T09:47:44Z",
+          "first_viewed_by": "adam.an@gmail.com",
+          "last_viewed": "2026-08-14T09:47:51Z",
+          "completed_at": null,
+          "completed_by": null
+        }
+      ]
   }]
 }
 ```
@@ -2560,6 +2574,47 @@ Each submission entry contains a `values` array of the user's field data, where 
 | updated_at       | Datetime               | When this field was last updated                                                                                                                |
 | value_created_at | Datetime or Array      | When the user's value for this field was first submitted. For repeated and file fields, an array of datetimes aligned with the `value` array.    |
 | value_updated_at | Datetime or Array      | When the user's value for this field was last updated. For repeated and file fields, an array of datetimes aligned with the `value` array.       |
+
+### Collaborators
+
+Each submission entry also contains a `collaborators` array, giving you a submission's collaborator activity without a separate task lookup. This array is `[]` when the submission has no collaborators.
+
+Each entry in `collaborators` has the following parameters.
+
+| Parameter            | Type              | Description                                                                                                                                                    |
+|----------------------|-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                   | String            | The CollaboratorRole ID. Identifies this specific collaborator assignment/task.                                                                              |
+| status               | String            | Derived task status: `Ready`, `In Progress`, `Completed`, `Inactive`, or an org-defined custom status.                                                       |
+| invited_emails       | Array of Strings  | Individual collaborator emails invited directly (not through a group).                                                                                       |
+| invited_user_groups  | Array of Strings  | Names of any user groups invited to this role.                                                                                                               |
+| invited_at           | Datetime          | When this collaborator role was invited.                                                                                                                     |
+| first_viewed         | Datetime or null  | Timestamp the role was first opened.                                                                                                                         |
+| first_viewed_by      | String or null    | Email of the specific person who first opened it. Resolved even when invited via a group, so you can tell which group member actually acted on it.          |
+| last_viewed          | Datetime or null  | Timestamp of the most recent view.                                                                                                                           |
+| completed_at         | Datetime or null  | When the role was completed. `null` if not yet completed.                                                                                                    |
+| completed_by         | String or null    | Email of whoever completed it. `null` if not yet completed.                                                                                                  |
+
+For example, the following entry shows a role invited to a group, but resolves the actual person (`adam.an@gmail.com`) who opened it — it has not yet been completed.
+
+```json
+{
+    "id": "4102d694-615b-4620-b6a1-0d528d319e19",
+    "status": "In Progress",
+    "invited_emails": [],
+    "invited_user_groups": ["Cyber Underwriters"],
+    "invited_at": "2026-08-14T09:27:39Z",
+    "first_viewed": "2026-08-14T09:47:44Z",
+    "first_viewed_by": "adam.an@gmail.com",
+    "last_viewed": "2026-08-14T09:47:51Z",
+    "completed_at": null,
+    "completed_by": null
+}
+```
+
+The same `collaborators` array is also included on:
+
+- `GET /api/user/`
+- `GET /api/form/submission/batch/<form_id>/` (deprecated, but still supported)
 
 ## Export Form Submission PDF
 
@@ -3424,12 +3479,27 @@ fetch(url, options)
   {
     "id": "alice_smith_submission",
     "created_at": "2020-06-01T00:00:00Z",
-    "updated_at": "2020-06-02T00:00:00Z"
+    "updated_at": "2020-06-02T00:00:00Z",
+    "collaborators": []
   },
   {
     "id": "bob_smith_submission",
     "created_at": "2020-06-03T00:00:00Z",
-    "updated_at": "2020-06-04T00:00:00Z"
+    "updated_at": "2020-06-04T00:00:00Z",
+    "collaborators": [
+      {
+        "id": "4102d694-615b-4620-b6a1-0d528d319e19",
+        "status": "In Progress",
+        "invited_emails": [],
+        "invited_user_groups": ["Cyber Underwriters"],
+        "invited_at": "2026-08-14T09:27:39Z",
+        "first_viewed": "2026-08-14T09:47:44Z",
+        "first_viewed_by": "adam.an@gmail.com",
+        "last_viewed": "2026-08-14T09:47:51Z",
+        "completed_at": null,
+        "completed_by": null
+      }
+    ]
   }
 ]
 ```
@@ -3453,11 +3523,12 @@ List all of your users in Feathery. A user is equivalent to their form submissio
 
 The response will be an array of objects with the following parameters.
 
-| Parameter  | Type     | Description                     |
-|------------|----------|---------------------------------|
-| id         | String   | Your unique user ID             |
-| created_at | Datetime | When this user was created      |
-| updated_at | Datetime | When this user was last updated |
+| Parameter     | Type     | Description                                                                     |
+|---------------|----------|----------------------------------------------------------------------------------|
+| id            | String   | Your unique user ID                                                             |
+| created_at    | Datetime | When this user was created                                                      |
+| updated_at    | Datetime | When this user was last updated                                                 |
+| collaborators | Array    | The user's collaborator activity. See [Collaborators](#collaborators). `[]` if none. |
 
 ## List All Data for a User
 
