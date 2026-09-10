@@ -738,6 +738,176 @@ The response is an array of extraction run entries with the following parameters
 | created_at            | Datetime                                  | When this extraction run was created                                                                                   |
 | updated_at            | Datetime                                  | When this extraction run was last updated                                                                              |
 
+# Computer Agents
+
+Computer agents complete tasks in a real browser session. Define the agent's task, start URL, and browser policy in your Feathery dashboard, then trigger runs from your own systems with the API. Use `{{field_id}}` placeholders in the agent's task to substitute field values you pass in with each run. You must have computer agents enabled on your account.
+
+## Trigger a Computer Agent Run
+```python
+import requests
+
+url = "https://api.feathery.io/api/computer-agent/agent/<agent_id>/run/";
+headers = {"Authorization": "Token <API KEY>"}
+data = {
+    "fields": {"policy_number": "PN-1042", "loss_date": "2026-09-01"},
+    "user_id": "<USER ID>"
+}
+result = requests.post(url, json=data, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/computer-agent/agent/<agent_id>/run/" \
+    -X POST \
+    -d "{\"fields\": {\"policy_number\": \"PN-1042\", \"loss_date\": \"2026-09-01\"}, \"user_id\": \"<USER ID>\"}" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/computer-agent/agent/<agent_id>/run/";
+const data = {
+    fields: { policy_number: "PN-1042", loss_date: "2026-09-01" },
+    user_id: "<USER ID>"
+};
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = {
+    headers,
+    method: 'POST',
+    body: JSON.stringify(data)
+};
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "run_id": "<RUN ID>",
+  "run_url": "https://app.feathery.io/computer-agents/<AGENT ID>/runs/<RUN ID>",
+  "user_id": "<USER ID>"
+}
+```
+
+Start a run of a computer agent. The field values you pass are stored on a
+Feathery user / submission and substituted into the agent's task wherever it
+uses `{{field_id}}` placeholders. Files the agent downloads are saved to the
+submission when the agent is configured to save files to a field.
+
+The run starts asynchronously. Poll the run to see its status and result.
+
+### HTTP Request
+
+`POST https://api.feathery.io/api/computer-agent/agent/<agent_id>/run/`
+
+### URL Parameters
+
+| Parameter | Type   | Description                                                                  |
+|-----------|--------|------------------------------------------------------------------------------|
+| agent_id  | String | The ID of the computer agent to run, found on its Settings page in Feathery. |
+
+### Request Body Parameters
+
+| Parameter | Type              | Description                                                                                                                                                                     |
+|-----------|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| fields    | Object (Optional) | A mapping from field IDs to values. Each field must exist in your account. Repeating fields take an array of values.                                                             |
+| user_id   | String (Optional) | The ID of the Feathery user / submission to store the field values on and run the agent for. If the user does not exist, it is created. If omitted, a new user is created.     |
+
+### Response Body
+
+The response will be an object containing the following parameters.
+
+| Parameter | Type   | Description                                                             |
+|-----------|--------|-------------------------------------------------------------------------|
+| run_id    | String | The unique ID of the run. Use it to retrieve the run's status and result. |
+| run_url   | String | A link to review the run in your Feathery dashboard.                    |
+| user_id   | String | The Feathery user / submission the run's field values are stored under. |
+
+## Retrieve a Computer Agent Run
+```python
+import requests
+
+url = "https://api.feathery.io/api/computer-agent/run/<run_id>/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/computer-agent/run/<run_id>/" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/computer-agent/run/<run_id>/";
+const headers = { Authorization: "Token <API KEY>" };
+fetch(url, { headers })
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "id": "<RUN ID>",
+  "agent": "<AGENT ID>",
+  "status": "succeeded",
+  "result": {
+    "status": "succeeded",
+    "notes": "Filed claim for policy PN-1042",
+    "confirmation_number": "CLM-88213",
+    "field_mismatches": []
+  },
+  "error": "",
+  "run_url": "https://app.feathery.io/computer-agents/<AGENT ID>/runs/<RUN ID>",
+  "user_id": "<USER ID>",
+  "data": {"policy_number": "PN-1042", "loss_date": "2026-09-01"},
+  "file_values": {"claim_receipt": [{"url": "<FILE URL>", "path": "<FILE PATH>"}]},
+  "created_at": "2026-09-01T00:00:00Z",
+  "started_at": "2026-09-01T00:00:03Z",
+  "finished_at": "2026-09-01T00:01:12Z"
+}
+```
+
+Retrieve the status and result of a computer agent run, along with the data
+stored on its user / submission. Poll this endpoint until `status` is
+`succeeded`, `failed`, or `cancelled`.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/computer-agent/run/<run_id>/`
+
+### URL Parameters
+
+| Parameter | Type   | Description                                              |
+|-----------|--------|----------------------------------------------------------|
+| run_id    | String | The ID of the run, returned when the run was triggered. |
+
+### Response Body
+
+The response will be an object containing the following parameters.
+
+| Parameter   | Type                | Description                                                                                                                                                       |
+|-------------|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id          | String              | The unique ID of the run                                                                                                                                          |
+| agent       | String              | The ID of the computer agent that ran                                                                                                                             |
+| status      | String              | One of `pending`, `running`, `awaiting_approval`, `succeeded`, `failed`, or `cancelled`. `awaiting_approval` means the run is paused for a reviewer in Feathery. |
+| result      | Object              | Set when the run finishes. Contains `status`, `notes`, an optional `confirmation_number`, and `field_mismatches`, a list of fields the agent could not enter as given. |
+| error       | String              | Why the run failed. Empty string otherwise                                                                                                                        |
+| run_url     | String              | A link to review the run in your Feathery dashboard                                                                                                               |
+| user_id     | String (Optional)   | The Feathery user / submission the run is associated with. Null for scheduled runs                                                                                |
+| data        | Object              | The field values stored on the run's user / submission, keyed by field ID                                                                                          |
+| file_values | Object              | File fields on the run's user / submission, keyed by field ID, including files the agent saved                                                                    |
+| created_at  | Datetime            | When the run was triggered                                                                                                                                        |
+| started_at  | Datetime (Optional) | When the agent's browser session started. Null while the run is pending                                                                                          |
+| finished_at | Datetime (Optional) | When the run finished. Null while the run is active                                                                                                               |
+
 # Document Templates
 
 ## Fill or Sign a Document Template 
