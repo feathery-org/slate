@@ -2781,19 +2781,23 @@ If PDF generation fails for a submission, Feathery instead sends:
 
 `{"status": "error", "form_id": "abcdef", "user_id": "alice_smith_submission"}`
 
+If the submission had no data to render, there is no file to download and Feathery sends:
+
+`{"status": "empty", "form_id": "abcdef", "user_id": "alice_smith_submission"}`
+
 ### Response Body
 
 **Single export** (when `user_id` is provided):
 
 | Parameter | Type | Description                                                                                   |
 |-----------|------|-----------------------------------------------------------------------------------------------|
-| pdf_url   | URL  | A URL where the PDF export can be downloaded from. The file may not be immediately available. |
+| pdf_url   | URL  | A URL where the PDF export can be downloaded from. The file may not be immediately available. `null` if the submission has no data yet, since there would be nothing to export. |
 
 **Bulk export** (when a date range is provided):
 
 | Parameter        | Type     | Description                                                               |
 |------------------|----------|---------------------------------------------------------------------------|
-| results          | Object[] | An array of objects, each with `user_id` (String) and `pdf_url` (URL). The files may not be immediately available  |
+| results          | Object[] | An array of objects, each with `user_id` (String) and `pdf_url` (URL). The files may not be immediately available. `pdf_url` is `null` for submissions with no data yet, since there would be nothing to export. |
 | submission_count | Integer  | The total number of submissions that exist with the specified filters applied.                  |
 
 ## Retrieve Form Defaults
