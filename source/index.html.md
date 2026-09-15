@@ -746,7 +746,7 @@ Computer agents complete tasks in a real browser session. Define the agent's tas
 ```python
 import requests
 
-url = "https://api.feathery.io/api/computer-agent/agent/<agent_id>/run/";
+url = "https://api.feathery.io/api/computer-agent/<agent_id>/run/";
 headers = {"Authorization": "Token <API KEY>"}
 data = {
     "fields": {"policy_number": "PN-1042", "loss_date": "2026-09-01"},
@@ -757,7 +757,7 @@ print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/computer-agent/agent/<agent_id>/run/" \
+curl "https://api.feathery.io/api/computer-agent/<agent_id>/run/" \
     -X POST \
     -d "{\"fields\": {\"policy_number\": \"PN-1042\", \"loss_date\": \"2026-09-01\"}, \"user_id\": \"<USER ID>\"}" \
     -H "Authorization: Token <API KEY>" \
@@ -765,7 +765,7 @@ curl "https://api.feathery.io/api/computer-agent/agent/<agent_id>/run/" \
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/computer-agent/agent/<agent_id>/run/";
+const url = "https://api.feathery.io/api/computer-agent/<agent_id>/run/";
 const data = {
     fields: { policy_number: "PN-1042", loss_date: "2026-09-01" },
     user_id: "<USER ID>"
@@ -803,7 +803,7 @@ The run starts asynchronously. Poll the run to see its status and result.
 
 ### HTTP Request
 
-`POST https://api.feathery.io/api/computer-agent/agent/<agent_id>/run/`
+`POST https://api.feathery.io/api/computer-agent/<agent_id>/run/`
 
 ### URL Parameters
 
@@ -828,23 +828,103 @@ The response will be an object containing the following parameters.
 | run_url   | String | A link to review the run in your Feathery dashboard.                    |
 | user_id   | String | The Feathery user / submission the run's field values are stored under. |
 
-## Retrieve a Computer Agent Run
+## List Computer Agent Runs
 ```python
 import requests
 
-url = "https://api.feathery.io/api/computer-agent/run/<run_id>/";
+url = "https://api.feathery.io/api/computer-agent/<agent_id>/run/";
 headers = {"Authorization": "Token <API KEY>"}
 result = requests.get(url, headers=headers)
 print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/computer-agent/run/<run_id>/" \
+curl "https://api.feathery.io/api/computer-agent/<agent_id>/run/" \
     -H "Authorization: Token <API KEY>"
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/computer-agent/run/<run_id>/";
+const url = "https://api.feathery.io/api/computer-agent/<agent_id>/run/";
+const headers = { Authorization: "Token <API KEY>" };
+fetch(url, { headers })
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "count": 2,
+  "next": null,
+  "previous": null,
+  "total_pages": 1,
+  "current_page": 1,
+  "results": [{
+    "id": "<RUN ID>",
+    "agent": "<AGENT ID>",
+    "status": "succeeded",
+    "result": {
+      "status": "succeeded",
+      "notes": "Filed claim for policy PN-1042",
+      "confirmation_number": "CLM-88213",
+      "field_mismatches": []
+    },
+    "error": "",
+    "run_url": "https://app.feathery.io/computer-agents/<AGENT ID>/runs/<RUN ID>",
+    "user_id": "<USER ID>",
+    "data": {"policy_number": "PN-1042", "loss_date": "2026-09-01"},
+    "file_values": {},
+    "created_at": "2026-09-01T00:00:00Z",
+    "started_at": "2026-09-01T00:00:03Z",
+    "finished_at": "2026-09-01T00:01:12Z"
+  }]
+}
+```
+
+List a computer agent's runs, newest first.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/computer-agent/<agent_id>/run/`
+
+### URL Parameters
+
+| Parameter | Type   | Description                                       |
+|-----------|--------|-----------------------------------------------------|
+| agent_id  | String | The ID of the computer agent whose runs to list. |
+
+### Response Body
+
+The response is a paginated object. `results` holds the runs, each with the same
+parameters as [Retrieve a Computer Agent Run](#retrieve-a-computer-agent-run).
+
+| Parameter     | Type              | Description                                    |
+|---------------|-------------------|--------------------------------------------------|
+| count         | Integer           | The total number of runs for this agent        |
+| next          | String (Optional) | A link to the next page of runs, if any        |
+| previous      | String (Optional) | A link to the previous page of runs, if any    |
+| total_pages   | Integer           | The total number of pages                      |
+| current_page  | Integer           | The page this response represents              |
+| results       | Object Array      | The runs on this page                          |
+
+## Retrieve a Computer Agent Run
+```python
+import requests
+
+url = "https://api.feathery.io/api/computer-agent/<agent_id>/run/<run_id>/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.get(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/computer-agent/<agent_id>/run/<run_id>/" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/computer-agent/<agent_id>/run/<run_id>/";
 const headers = { Authorization: "Token <API KEY>" };
 fetch(url, { headers })
     .then((response) => response.json())
@@ -881,13 +961,14 @@ stored on its user / submission. Poll this endpoint until `status` is
 
 ### HTTP Request
 
-`GET https://api.feathery.io/api/computer-agent/run/<run_id>/`
+`GET https://api.feathery.io/api/computer-agent/<agent_id>/run/<run_id>/`
 
 ### URL Parameters
 
-| Parameter | Type   | Description                                              |
-|-----------|--------|----------------------------------------------------------|
-| run_id    | String | The ID of the run, returned when the run was triggered. |
+| Parameter | Type   | Description                                                                  |
+|-----------|--------|--------------------------------------------------------------------------------|
+| agent_id  | String | The ID of the computer agent the run belongs to.                             |
+| run_id    | String | The ID of the run, returned when the run was triggered.                      |
 
 ### Response Body
 
