@@ -2781,6 +2781,10 @@ If PDF generation fails for a submission, Feathery instead sends:
 
 `{"status": "error", "form_id": "abcdef", "user_id": "alice_smith_submission"}`
 
+If the submission had no data to render, there is no file to download and Feathery sends:
+
+`{"status": "empty", "form_id": "abcdef", "user_id": "alice_smith_submission"}`
+
 ### Response Body
 
 **Single export** (when `user_id` is provided):
