@@ -2800,6 +2800,290 @@ If the submission had no data to render, there is no file to download and Feathe
 | results          | Object[] | An array of objects, each with `user_id` (String) and `pdf_url` (URL). The files may not be immediately available. `pdf_url` is `null` for submissions with no data yet, since there would be nothing to export. |
 | submission_count | Integer  | The total number of submissions that exist with the specified filters applied.                  |
 
+## Create a Form Access Link
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/form/link/";
+
+data = {
+  "form": "My Form",
+  "user_id": "alice_smith_submission",
+  "fields": {
+    "client_name": "Acme"
+  },
+  "expires_in": 604800,
+  "single_use": True
+}
+
+headers = {
+    "Authorization": "Token <API KEY>",
+    "Content-Type": "application/json",
+}
+
+result = requests.post(url, data=data, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/form/link/" \
+    -X POST \
+    -d "{
+        'form': 'My Form',
+        'user_id': 'alice_smith_submission',
+        'fields': {
+          'client_name': 'Acme'
+        },
+        'expires_in': 604800,
+        'single_use': true
+      }" \
+    -H "Authorization: Token <API KEY>" \
+    -H "Content-Type: application/json"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/form/link/";
+const data = {
+  "form": "My Form",
+  "user_id": "alice_smith_submission",
+  "fields": {
+    "client_name": "Acme"
+  },
+  "expires_in": 604800,
+  "single_use": true
+}
+const headers = {
+    Authorization: "Token <API KEY>",
+    "Content-Type": "application/json"
+};
+const options = {
+    headers,
+    method: 'POST',
+    body: JSON.stringify(data)
+};
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "id": "0f8c1e2a-1b3d-4a5e-9c77-2f6b0d4e8a11",
+  "url": "https://form.feathery.io/to/my-form/?_lt=<TOKEN>",
+  "token": "<TOKEN>",
+  "user_id": "alice_smith_submission",
+  "collaborator_id": null,
+  "expires_at": "2026-09-29T17:04:22.118000Z",
+  "single_use": true,
+  "status": "active",
+  "redeemed_at": null,
+  "revoked_at": null
+}
+```
+
+Create an access link that opens one specific submission of one form. An access link may expire after a set time, work on a single device only, or both.
+
+The link is returned as a ready-to-send `url`. Distribute it however you like, for example from a form rule that emails it to the next person in a workflow.
+
+<aside class="notice">
+The <code>token</code> and the <code>url</code> that contains it are only returned by this endpoint. Listing or revoking a link never returns them again, so store the <code>url</code> when you create it.
+</aside>
+
+Creating a link also creates the submission it opens, so you can prefill that submission with `fields` before anyone follows the link. From then on, the submission can only be opened through an access link, not through its plain `?_id=` URL.
+
+### HTTP Request
+
+`POST https://api.feathery.io/api/form/link/`
+
+### Request Body Parameters
+
+| Parameter          | Type                | Description                                                                                                                                                       |
+|--------------------|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| form               | String (Required)   | The ID, slug, or name of the form the link opens.                                                                                                                  |
+| user_id            | Optional String     | A new or existing user ID. If not provided, a random ID is generated and returned. An existing user ID reuses that submission instead of starting a new one.        |
+| fields             | Optional Object     | A mapping from field identifier (ID or Internal ID) to the value to prefill on the submission. Prefilled values do not trigger field change rules or integrations. |
+| expires_in         | Optional Integer    | Seconds from now until the link expires. At most 10 years. Cannot be combined with `expires_at`.                                                                    |
+| expires_at         | Optional Datetime   | ISO 8601 timestamp when the link expires. Must be in the future and at most 10 years from now. Cannot be combined with `expires_in`.                                |
+| single_use         | Optional Boolean    | Defaults to `false`. A single-use link binds to the first device that opens it, and is refused everywhere else.                                                     |
+| collaborator_email | Optional String     | The collaborator the link is for. Only supported on collaborative forms, and required when the form accepts collaborative submissions only.                        |
+
+If neither `expires_in` nor `expires_at` is provided, the link does not expire on its own.
+
+### Response Body
+
+| Parameter       | Type               | Description                                                                                                       |
+|-----------------|--------------------|---------------------------------------------------------------------------------------------------------------------|
+| id              | UUID               | The ID of the link, used to revoke it.                                                                             |
+| url             | String             | The link to send to your recipient. `null` if the form has no published URL in this environment.                   |
+| token           | String             | The credential embedded in `url`. Returned only here.                                                              |
+| user_id         | String             | The ID of the submission the link opens.                                                                           |
+| collaborator_id | UUID               | The collaborator the link acts as, or `null` on a non-collaborative form.                                          |
+| expires_at      | Datetime           | When the link expires, or `null` if it does not expire.                                                            |
+| single_use      | Boolean            | Same as request body.                                                                                              |
+| status          | String             | One of `active`, `redeemed`, `expired`, or `revoked`.                                                              |
+| redeemed_at     | Datetime           | When a single-use link was bound to a device, or `null`.                                                           |
+| revoked_at      | Datetime           | When the link was revoked, or `null`.                                                                              |
+
+### Errors
+
+| Status | Meaning                                                                                                                                                                                                          |
+|--------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 400    | The request was invalid. Both `expires_in` and `expires_at` were provided, the expiry is in the past or more than 10 years out, `fields` was not a mapping, `collaborator_email` was sent for a non-collaborative form or left out of a collaboration-only form, or your plan does not include this API. |
+| 404    | No form matched the `form` identifier.                                                                                                                                                                            |
+
+## List Form Access Links
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/form/link/";
+headers = {"Authorization": "Token <API KEY>"}
+data = {"form": "My Form", "user_id": "alice_smith_submission"}
+result = requests.get(url, params=data, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/form/link/?form=My%20Form&user_id=alice_smith_submission" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/form/link/?form=My%20Form&user_id=alice_smith_submission";
+const headers = { Authorization: "Token <API KEY>" };
+fetch(url, { headers })
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "count": 1,
+  "next": null,
+  "previous": null,
+  "total_pages": 1,
+  "current_page": 1,
+  "results": [
+    {
+      "id": "0f8c1e2a-1b3d-4a5e-9c77-2f6b0d4e8a11",
+      "user_id": "alice_smith_submission",
+      "collaborator_id": null,
+      "expires_at": "2026-09-29T17:04:22.118000Z",
+      "single_use": true,
+      "status": "redeemed",
+      "redeemed_at": "2026-09-22T09:12:40.552000Z",
+      "revoked_at": null
+    }
+  ]
+}
+```
+
+List the access links in your environment, newest first, optionally filtered to one form or one submission. Use it to check whether a link you sent has been opened, has expired, or has been revoked.
+
+<aside class="notice">
+Listed links never include <code>token</code> or <code>url</code>. Only the response that creates a link hands out its credential.
+</aside>
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/form/link/`
+
+### Query Parameters
+
+| Parameter | Type            | Description                                                          |
+|-----------|-----------------|-------------------------------------------------------------------------|
+| form      | Optional String | Only return links for this form, specified by ID, slug, or name.      |
+| user_id   | Optional String | Only return links for this submission.                                |
+
+### Response Body
+
+| Parameter    | Type     | Description                                                                                                             |
+|--------------|----------|----------------------------------------------------------------------------------------------------------------------------|
+| count        | Integer  | The total number of links matching the filters.                                                                          |
+| next         | URL      | The URL of the next page of results, or `null`.                                                                          |
+| previous     | URL      | The URL of the previous page of results, or `null`.                                                                      |
+| total_pages  | Integer  | The total number of pages of results.                                                                                    |
+| current_page | Integer  | The page these results come from.                                                                                        |
+| results      | Object[] | The links, each with `id`, `user_id`, `collaborator_id`, `expires_at`, `single_use`, `status`, `redeemed_at`, and `revoked_at`, as described above. |
+
+### Errors
+
+| Status | Meaning                                                                        |
+|--------|-----------------------------------------------------------------------------------|
+| 400    | Your plan does not include this API.                                            |
+| 404    | No form matched the `form` filter.                                              |
+
+## Revoke a Form Access Link
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/form/link/<LINK ID>/";
+headers = {"Authorization": "Token <API KEY>"}
+result = requests.delete(url, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/form/link/<LINK ID>/" \
+    -X DELETE \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/form/link/<LINK ID>/";
+const headers = { Authorization: "Token <API KEY>" };
+const options = { headers, method: 'DELETE' };
+fetch(url, options)
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "id": "0f8c1e2a-1b3d-4a5e-9c77-2f6b0d4e8a11",
+  "user_id": "alice_smith_submission",
+  "collaborator_id": null,
+  "expires_at": "2026-09-29T17:04:22.118000Z",
+  "single_use": true,
+  "status": "revoked",
+  "redeemed_at": "2026-09-22T09:12:40.552000Z",
+  "revoked_at": "2026-09-22T11:30:05.900000Z"
+}
+```
+
+Revoke a specific access link. The link stops opening its form immediately, and the response returns the link in its final state rather than an empty body. Revoking a link that is already revoked leaves it unchanged.
+
+Revoking does not reopen the submission through its plain `?_id=` URL. A submission that has been given an access link stays closed until you create a new link for it.
+
+### HTTP Request
+
+`DELETE https://api.feathery.io/api/form/link/<LINK ID>/`
+
+### URL Parameters
+
+| Parameter | Type | Description                      |
+|-----------|------|-------------------------------------|
+| link_id   | UUID | The ID of the link to revoke.     |
+
+### Response Body
+
+The revoked link, in the same shape as a listed link. `token` and `url` are not included.
+
+### Errors
+
+| Status | Meaning                                                    |
+|--------|---------------------------------------------------------------|
+| 400    | Your plan does not include this API.                        |
+| 404    | No link in your environment has that ID.                    |
+
 ## Retrieve Form Defaults
 
 ```python
