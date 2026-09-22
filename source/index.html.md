@@ -2888,7 +2888,7 @@ Create a one-time link that opens one specific submission of one form. A one-tim
 
 A link that only expires, created with `single_use` set to `false`, is still a one-time link as far as this API is concerned. The name covers both controls, and `single_use` is what restricts a link to one device.
 
-Expiry and `single_use` fall back to the form's default link settings whenever the request leaves them out, so a caller that sends neither gets whatever that form is configured to hand out. Anything you send explicitly wins.
+Expiry and `single_use` fall back to the form's default link settings whenever the request leaves them out, so a caller that sends neither gets whatever that form is configured to hand out. Anything you send explicitly wins, and that includes `null`: sending `expires_at: null` or `expires_in: null` asks for a link that never expires, overriding the form's default expiry.
 
 The link is returned as a ready-to-send `url`. Distribute it however you like, for example from a form rule that emails it to the next person in a workflow.
 
@@ -2909,12 +2909,12 @@ Creating a link also creates the submission it opens, so you can prefill that su
 | form               | String (Required)   | The ID, slug, or name of the form the link opens.                                                                                                                  |
 | user_id            | Optional String     | A new or existing user ID. If not provided, a random ID is generated and returned. An existing user ID reuses that submission instead of starting a new one.        |
 | fields             | Optional Object     | A mapping from field identifier (ID or Internal ID) to the value to prefill on the submission. Prefilled values do not trigger field change rules or integrations. |
-| expires_in         | Optional Integer    | Seconds from now until the link expires. At most 10 years. Cannot be combined with `expires_at`. If neither expiry parameter is sent, the form's default link settings apply, which is no expiry unless the form configures one. |
-| expires_at         | Optional Datetime   | ISO 8601 timestamp when the link expires. Must be in the future and at most 10 years from now. Cannot be combined with `expires_in`. Falls back to the form's default link settings the same way as `expires_in`. |
+| expires_in         | Optional Integer    | Seconds from now until the link expires. At most 10 years. Cannot be combined with a deadline in `expires_at`. Send `null` for a link that never expires, overriding the form's default expiry. If the parameter is omitted entirely, the form's default link settings apply, which is no expiry unless the form configures one. |
+| expires_at         | Optional Datetime   | ISO 8601 timestamp when the link expires. Must be in the future and at most 10 years from now. Cannot be combined with a deadline in `expires_in`. Accepts `null` and falls back to the form's default link settings the same way as `expires_in`. |
 | single_use         | Optional Boolean    | A single-use link binds to the first device that opens it, and is refused everywhere else. If omitted, the form's default link settings apply, where the single device restriction is on unless the form turns it off. Send `false` to override it. |
 | collaborator_email | Optional String     | The collaborator the link is for. Only supported on collaborative forms, and required when the form accepts collaborative submissions only.                        |
 
-If neither `expires_in` nor `expires_at` is provided, the link expires according to the form's default link settings, and does not expire at all when that form configures no expiry.
+If neither `expires_in` nor `expires_at` is provided, the link expires according to the form's default link settings, and does not expire at all when that form configures no expiry. Naming either parameter, even as `null`, decides the expiry yourself.
 
 ### Response Body
 
