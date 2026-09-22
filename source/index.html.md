@@ -2800,12 +2800,12 @@ If the submission had no data to render, there is no file to download and Feathe
 | results          | Object[] | An array of objects, each with `user_id` (String) and `pdf_url` (URL). The files may not be immediately available. `pdf_url` is `null` for submissions with no data yet, since there would be nothing to export. |
 | submission_count | Integer  | The total number of submissions that exist with the specified filters applied.                  |
 
-## Create a Form Access Link
+## Create a One-Time Link
 
 ```python
 import requests
 
-url = "https://api.feathery.io/api/form/access-link/";
+url = "https://api.feathery.io/api/form/one-time-link/";
 
 data = {
   "form": "My Form",
@@ -2827,7 +2827,7 @@ print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/form/access-link/" \
+curl "https://api.feathery.io/api/form/one-time-link/" \
     -X POST \
     -d "{
         'form': 'My Form',
@@ -2843,7 +2843,7 @@ curl "https://api.feathery.io/api/form/access-link/" \
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/form/access-link/";
+const url = "https://api.feathery.io/api/form/one-time-link/";
 const data = {
   "form": "My Form",
   "user_id": "alice_smith_submission",
@@ -2884,7 +2884,9 @@ fetch(url, options)
 }
 ```
 
-Create an access link that opens one specific submission of one form. An access link may expire after a set time, work on a single device only, or both.
+Create a one-time link that opens one specific submission of one form. A one-time link may expire after a set time, work on a single device only, or both.
+
+A link that only expires, created with `single_use` left `false`, is still a one-time link as far as this API is concerned. The name covers both controls, and `single_use` is what restricts a link to one device.
 
 The link is returned as a ready-to-send `url`. Distribute it however you like, for example from a form rule that emails it to the next person in a workflow.
 
@@ -2892,11 +2894,11 @@ The link is returned as a ready-to-send `url`. Distribute it however you like, f
 The <code>token</code> and the <code>url</code> that contains it are only returned by this endpoint. Listing or revoking a link never returns them again, so store the <code>url</code> when you create it.
 </aside>
 
-Creating a link also creates the submission it opens, so you can prefill that submission with `fields` before anyone follows the link. From then on, the submission can only be opened through an access link, not through its plain `?_id=` URL.
+Creating a link also creates the submission it opens, so you can prefill that submission with `fields` before anyone follows the link. From then on, the submission can only be opened through a one-time link, not through its plain `?_id=` URL.
 
 ### HTTP Request
 
-`POST https://api.feathery.io/api/form/access-link/`
+`POST https://api.feathery.io/api/form/one-time-link/`
 
 ### Request Body Parameters
 
@@ -2934,12 +2936,12 @@ If neither `expires_in` nor `expires_at` is provided, the link does not expire o
 | 400    | The request was invalid. Both `expires_in` and `expires_at` were provided, the expiry is in the past or more than 10 years out, `fields` was not a mapping, `collaborator_email` was sent for a non-collaborative form or left out of a collaboration-only form, or your plan does not include this API. |
 | 404    | No form matched the `form` identifier.                                                                                                                                                                            |
 
-## List Form Access Links
+## List One-Time Links
 
 ```python
 import requests
 
-url = "https://api.feathery.io/api/form/access-link/";
+url = "https://api.feathery.io/api/form/one-time-link/";
 headers = {"Authorization": "Token <API KEY>"}
 data = {"form": "My Form", "user_id": "alice_smith_submission"}
 result = requests.get(url, params=data, headers=headers)
@@ -2947,12 +2949,12 @@ print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/form/access-link/?form=My%20Form&user_id=alice_smith_submission" \
+curl "https://api.feathery.io/api/form/one-time-link/?form=My%20Form&user_id=alice_smith_submission" \
     -H "Authorization: Token <API KEY>"
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/form/access-link/?form=My%20Form&user_id=alice_smith_submission";
+const url = "https://api.feathery.io/api/form/one-time-link/?form=My%20Form&user_id=alice_smith_submission";
 const headers = { Authorization: "Token <API KEY>" };
 fetch(url, { headers })
     .then((response) => response.json())
@@ -2983,7 +2985,7 @@ fetch(url, { headers })
 }
 ```
 
-List the access links in your environment, newest first, optionally filtered to one form or one submission. Use it to check whether a link you sent has been opened, has expired, or has been revoked.
+List the one-time links in your environment, newest first, optionally filtered to one form or one submission. Use it to check whether a link you sent has been opened, has expired, or has been revoked.
 
 <aside class="notice">
 Listed links never include <code>token</code> or <code>url</code>. Only the response that creates a link hands out its credential.
@@ -2991,7 +2993,7 @@ Listed links never include <code>token</code> or <code>url</code>. Only the resp
 
 ### HTTP Request
 
-`GET https://api.feathery.io/api/form/access-link/`
+`GET https://api.feathery.io/api/form/one-time-link/`
 
 ### Query Parameters
 
@@ -3018,25 +3020,25 @@ Listed links never include <code>token</code> or <code>url</code>. Only the resp
 | 400    | Your plan does not include this API.                                            |
 | 404    | No form matched the `form` filter.                                              |
 
-## Revoke a Form Access Link
+## Revoke a One-Time Link
 
 ```python
 import requests
 
-url = "https://api.feathery.io/api/form/access-link/<LINK ID>/";
+url = "https://api.feathery.io/api/form/one-time-link/<LINK ID>/";
 headers = {"Authorization": "Token <API KEY>"}
 result = requests.delete(url, headers=headers)
 print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/form/access-link/<LINK ID>/" \
+curl "https://api.feathery.io/api/form/one-time-link/<LINK ID>/" \
     -X DELETE \
     -H "Authorization: Token <API KEY>"
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/form/access-link/<LINK ID>/";
+const url = "https://api.feathery.io/api/form/one-time-link/<LINK ID>/";
 const headers = { Authorization: "Token <API KEY>" };
 const options = { headers, method: 'DELETE' };
 fetch(url, options)
@@ -3059,13 +3061,13 @@ fetch(url, options)
 }
 ```
 
-Revoke a specific access link. The link stops opening its form immediately, and the response returns the link in its final state rather than an empty body. Revoking a link that is already revoked leaves it unchanged.
+Revoke a specific one-time link. The link stops opening its form immediately, and the response returns the link in its final state rather than an empty body. Revoking a link that is already revoked leaves it unchanged.
 
-Revoking does not reopen the submission through its plain `?_id=` URL. A submission that has been given an access link stays closed until you create a new link for it.
+Revoking does not reopen the submission through its plain `?_id=` URL. A submission that has been given a one-time link stays closed until you create a new link for it.
 
 ### HTTP Request
 
-`DELETE https://api.feathery.io/api/form/access-link/<LINK ID>/`
+`DELETE https://api.feathery.io/api/form/one-time-link/<LINK ID>/`
 
 ### URL Parameters
 
