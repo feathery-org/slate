@@ -2805,7 +2805,7 @@ If the submission had no data to render, there is no file to download and Feathe
 ```python
 import requests
 
-url = "https://api.feathery.io/api/form/link/";
+url = "https://api.feathery.io/api/form/access-link/";
 
 data = {
   "form": "My Form",
@@ -2827,7 +2827,7 @@ print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/form/link/" \
+curl "https://api.feathery.io/api/form/access-link/" \
     -X POST \
     -d "{
         'form': 'My Form',
@@ -2843,7 +2843,7 @@ curl "https://api.feathery.io/api/form/link/" \
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/form/link/";
+const url = "https://api.feathery.io/api/form/access-link/";
 const data = {
   "form": "My Form",
   "user_id": "alice_smith_submission",
@@ -2896,7 +2896,7 @@ Creating a link also creates the submission it opens, so you can prefill that su
 
 ### HTTP Request
 
-`POST https://api.feathery.io/api/form/link/`
+`POST https://api.feathery.io/api/form/access-link/`
 
 ### Request Body Parameters
 
@@ -2939,7 +2939,7 @@ If neither `expires_in` nor `expires_at` is provided, the link does not expire o
 ```python
 import requests
 
-url = "https://api.feathery.io/api/form/link/";
+url = "https://api.feathery.io/api/form/access-link/";
 headers = {"Authorization": "Token <API KEY>"}
 data = {"form": "My Form", "user_id": "alice_smith_submission"}
 result = requests.get(url, params=data, headers=headers)
@@ -2947,12 +2947,12 @@ print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/form/link/?form=My%20Form&user_id=alice_smith_submission" \
+curl "https://api.feathery.io/api/form/access-link/?form=My%20Form&user_id=alice_smith_submission" \
     -H "Authorization: Token <API KEY>"
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/form/link/?form=My%20Form&user_id=alice_smith_submission";
+const url = "https://api.feathery.io/api/form/access-link/?form=My%20Form&user_id=alice_smith_submission";
 const headers = { Authorization: "Token <API KEY>" };
 fetch(url, { headers })
     .then((response) => response.json())
@@ -2991,7 +2991,7 @@ Listed links never include <code>token</code> or <code>url</code>. Only the resp
 
 ### HTTP Request
 
-`GET https://api.feathery.io/api/form/link/`
+`GET https://api.feathery.io/api/form/access-link/`
 
 ### Query Parameters
 
@@ -3023,20 +3023,20 @@ Listed links never include <code>token</code> or <code>url</code>. Only the resp
 ```python
 import requests
 
-url = "https://api.feathery.io/api/form/link/<LINK ID>/";
+url = "https://api.feathery.io/api/form/access-link/<LINK ID>/";
 headers = {"Authorization": "Token <API KEY>"}
 result = requests.delete(url, headers=headers)
 print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/form/link/<LINK ID>/" \
+curl "https://api.feathery.io/api/form/access-link/<LINK ID>/" \
     -X DELETE \
     -H "Authorization: Token <API KEY>"
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/form/link/<LINK ID>/";
+const url = "https://api.feathery.io/api/form/access-link/<LINK ID>/";
 const headers = { Authorization: "Token <API KEY>" };
 const options = { headers, method: 'DELETE' };
 fetch(url, options)
@@ -3065,7 +3065,7 @@ Revoking does not reopen the submission through its plain `?_id=` URL. A submiss
 
 ### HTTP Request
 
-`DELETE https://api.feathery.io/api/form/link/<LINK ID>/`
+`DELETE https://api.feathery.io/api/form/access-link/<LINK ID>/`
 
 ### URL Parameters
 
