@@ -4067,7 +4067,11 @@ listAuditEvents().then((events) => console.log(events));
 
 List your account's audit log: sign-ins, access to submission data, bulk exports, configuration changes and refused requests, newest first.
 
-Audit log queries can take a while to run. If a query doesn't finish within a few seconds, the endpoint returns HTTP `202` with `status` set to `pending`, an empty `events` array and a `next_cursor`. Wait for the number of seconds in the `Retry-After` header, then call again with **only** that `cursor`, repeating while the response is still `202`. When the query finishes you get HTTP `200` with the first page. If there are more pages, `next_cursor` is set, and you fetch them the same way. `next_cursor` is `null` on the last page.
+<aside class="notice">
+This endpoint is available only to accounts with the audit log feature enabled or with HIPAA compliance enabled. Other accounts get a 403.
+</aside>
+
+Audit log queries can take anywhere from a few seconds to 2-3 minutes to run, depending on the time range and how many events your account has. Short queries return their first page right away. Longer ones return HTTP `202` with `status` set to `pending`, an empty `events` array and a `next_cursor`. Wait for the number of seconds in the `Retry-After` header, then call again with **only** that `cursor`, repeating while the response is still `202`. When the query finishes you get HTTP `200` with the first page. If there are more pages, `next_cursor` is set, and you fetch them the same way. `next_cursor` is `null` on the last page.
 
 <aside class="warning">
 Once you have a cursor, send only <code>cursor</code> (and optionally <code>limit</code>). A request that combines <code>cursor</code> with <code>start</code>, <code>end</code>, <code>actor_id</code>, <code>action</code>, <code>category</code> or <code>resource_id</code> is rejected with a 400, because a cursor's filters are fixed when the query starts. Resending the original filters without the cursor starts a new query from the beginning instead of continuing the pending one.
@@ -4130,7 +4134,7 @@ Repeated views of the same resource by the same actor within 5 minutes are recor
 | Status | Meaning                                                                                                     |
 |--------|-------------------------------------------------------------------------------------------------------------|
 | 400    | Invalid parameters: an inverted or over-90-day range, an invalid cursor, or a cursor combined with filters. |
-| 403    | Audit logging is not enabled for your account.                                                              |
+| 403    | Audit logging is not enabled for your account (it requires the audit log feature or HIPAA compliance).       |
 | 503    | The audit log query failed. Retrying its cursor won't help; start again without a cursor.                    |
 
 # End Users
