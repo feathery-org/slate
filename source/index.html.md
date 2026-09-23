@@ -3970,6 +3970,173 @@ The response will be an array of objects with the following parameters.
 | response    | JSON string | The API response                        |
 | created_at  | Datetime    | When this request was made.             |
 
+## List Audit Log Events
+
+```python
+import time
+import requests
+
+url = "https://api.feathery.io/api/logs/audit/"
+headers = {"Authorization": "Token <API KEY>"}
+params = {"start": "2026-09-01T00:00:00Z", "category": "config_change"}
+
+events = []
+while True:
+    result = requests.get(url, headers=headers, params=params)
+    result.raise_for_status()
+    body = result.json()
+    events.extend(body["events"])
+    if not body["next_cursor"]:
+        break
+    if result.status_code == 202:
+        time.sleep(int(result.headers.get("Retry-After", 2)))
+    # Later calls send only the cursor, never the original filters.
+    params = {"cursor": body["next_cursor"]}
+print(events)
+```
+
+```shell
+curl "https://api.feathery.io/api/logs/audit/?start=2026-09-01T00:00:00Z&category=config_change" \
+    -H "Authorization: Token <API KEY>"
+
+# Next page, or collect a query that returned 202
+curl "https://api.feathery.io/api/logs/audit/?cursor=<next_cursor>" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const base = "https://api.feathery.io/api/logs/audit/";
+const options = { headers: { Authorization: "Token <API KEY>" } };
+
+async function listAuditEvents() {
+  const events = [];
+  let query = new URLSearchParams({ start: "2026-09-01T00:00:00Z" });
+  while (true) {
+    const response = await fetch(`${base}?${query}`, options);
+    if (!response.ok) throw new Error(`Audit log request failed: ${response.status}`);
+    const body = await response.json();
+    events.push(...body.events);
+    if (!body.next_cursor) return events;
+    if (response.status === 202) {
+      const wait = Number(response.headers.get("Retry-After") || 2);
+      await new Promise((resolve) => setTimeout(resolve, wait * 1000));
+    }
+    // Later calls send only the cursor, never the original filters.
+    query = new URLSearchParams({ cursor: body.next_cursor });
+  }
+}
+listAuditEvents().then((events) => console.log(events));
+```
+
+> A completed page (HTTP 200) looks like this:
+
+```json
+{
+  "status": "complete",
+  "next_cursor": "eyJvIjoiNmQ1Y2Y...",
+  "events": [
+    {
+      "event_id": "3f0c2a8e-5b1d-4c7a-9d2e-8a41b6f0c9d3",
+      "timestamp": "2026-09-22T17:04:11.482Z",
+      "category": "config_change",
+      "action": "update",
+      "actor_type": "account",
+      "actor_id": "b9e1c7d2-40a6-4f3e-8c55-1d2a9e7f6b10",
+      "actor_label": "mary@feathery.io",
+      "resource_type": "form",
+      "resource_id": "c2a7e4f1-9b3d-4e60-a8f2-5d1c7b9e0a34",
+      "resource_label": "Onboarding",
+      "form_id": "c2a7e4f1-9b3d-4e60-a8f2-5d1c7b9e0a34",
+      "form_key": "Onboarding",
+      "ip": "203.0.113.24",
+      "user_agent": "Mozilla/5.0 ..."
+    }
+  ]
+}
+```
+
+> A query that is still running (HTTP 202, with a `Retry-After` header) looks like this:
+
+```json
+{
+  "status": "pending",
+  "next_cursor": "eyJvIjoiNmQ1Y2Y...",
+  "events": []
+}
+```
+
+List your account's audit log: sign-ins, access to submission data, bulk exports, configuration changes and refused requests, newest first.
+
+<aside class="notice">
+This endpoint is available only to accounts with the audit log feature enabled or with HIPAA compliance enabled. Other accounts get a 403.
+</aside>
+
+Audit log queries can take anywhere from a few seconds to 2-3 minutes to run, depending on the time range and how many events your account has. Short queries return their first page right away. Longer ones return HTTP `202` with `status` set to `pending`, an empty `events` array and a `next_cursor`. Wait for the number of seconds in the `Retry-After` header, then call again with **only** that `cursor`, repeating while the response is still `202`. When the query finishes you get HTTP `200` with the first page. If there are more pages, `next_cursor` is set, and you fetch them the same way. `next_cursor` is `null` on the last page.
+
+<aside class="warning">
+Once you have a cursor, send only <code>cursor</code> (and optionally <code>limit</code>). A request that combines <code>cursor</code> with <code>start</code>, <code>end</code>, <code>actor_id</code>, <code>action</code>, <code>category</code> or <code>resource_id</code> is rejected with a 400, because a cursor's filters are fixed when the query starts. Resending the original filters without the cursor starts a new query from the beginning instead of continuing the pending one.
+</aside>
+
+<aside class="notice">
+Reading the audit log is itself recorded, as a <code>bulk_export</code> event with the action <code>audit_log</code>. Only the first call of each query is recorded. Paging and polling with a cursor are not.
+</aside>
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/logs/audit/`
+
+### Request Query Parameters
+
+| Parameter   | Type                | Description                                                                                                                              |
+|-------------|---------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| start       | Datetime (Optional) | Only return events at or after this time. Defaults to 7 days before `end`.                                                               |
+| end         | Datetime (Optional) | Only return events at or before this time. Defaults to now. The range between `start` and `end` may span at most 90 days.               |
+| category    | String (Optional)   | One of `login`, `data`, `bulk_export`, `config_change` or `permission_denied`.                                                           |
+| action      | String (Optional)   | Only return events with this action, e.g. `view`, `create`, `update`, `delete`, `login`, `publish`, `export`.                            |
+| actor_id    | String (Optional)   | Only return events performed by this actor: a dashboard user's ID, or the ID of the environment whose API key was used.                   |
+| resource_id | String (Optional)   | Only return events about this resource, e.g. a form or submission internal ID.                                                                    |
+| limit       | Number (Optional)   | Events per page. Defaults to 100, maximum 500. May be sent alongside `cursor` to change the page size.                                   |
+| cursor      | String (Optional)   | The `next_cursor` from a previous response. Resumes a pending query or fetches the next page. Cannot be combined with the filters above. |
+
+### Response Body
+
+| Parameter   | Type   | Description                                                                                                      |
+|-------------|--------|------------------------------------------------------------------------------------------------------------------|
+| status      | String | `complete` (HTTP 200) when `events` holds a page, or `pending` (HTTP 202) while the query is still running.      |
+| events      | Array  | The page of events, newest first, described below. Always empty while `status` is `pending`.                     |
+| next_cursor | String | Send this as `cursor` to fetch the next page or to collect a pending query. `null` once there are no more pages. |
+
+Each event has the following parameters. Fields that don't apply to an event are omitted.
+
+| Parameter      | Type     | Description                                                                                                            |
+|----------------|----------|------------------------------------------------------------------------------------------------------------------------|
+| event_id       | String   | Unique ID of the event.                                                                                                |
+| timestamp      | Datetime | When the event occurred, in UTC with millisecond precision.                                                            |
+| category       | String   | One of `login`, `data`, `bulk_export`, `config_change` or `permission_denied`.                                         |
+| action         | String   | What was done, e.g. `view`, `create`, `update`, `delete`, `publish` or `export`.                                       |
+| actor_type     | String   | `account` for a dashboard user, or `api_key` for a request made with an API key.                                       |
+| actor_id       | String   | The dashboard user's ID, or the ID of the environment whose API key was used.                                          |
+| actor_label    | String   | The dashboard user's email, or the environment's name.                                                                 |
+| resource_type  | String   | The kind of resource acted on, e.g. `form`, `submission`, `account` or `organization`.                                 |
+| resource_id    | String   | The ID of the resource acted on.                                                                                       |
+| resource_label | String   | A human-readable name for the resource, such as a form name or email.                                                  |
+| form_id        | String   | The internal ID of the form the resource belongs to, if any.                                                                    |
+| form_key       | String   | The name of that form.                                                                                                 |
+| environment_id | String   | The environment whose API key made the request, for `api_key` actors.                                                  |
+| ip             | String   | The requester's IP address.                                                                                            |
+| user_agent     | String   | The requester's user agent.                                                                                            |
+| metadata       | Object   | Extra detail specific to the action, such as the IDs included in a bulk export.                                        |
+
+Repeated views of the same resource by the same actor within 5 minutes are recorded as a single `view` event.
+
+### Errors
+
+| Status | Meaning                                                                                                     |
+|--------|-------------------------------------------------------------------------------------------------------------|
+| 400    | Invalid parameters: an inverted or over-90-day range, an invalid cursor, or a cursor combined with filters. |
+| 403    | Audit logging is not enabled for your account (it requires the audit log feature or HIPAA compliance).       |
+| 503    | The audit log query failed. Retrying its cursor won't help; start again without a cursor.                    |
+
 # End Users
 
 ## List All Users
