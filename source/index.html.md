@@ -4065,7 +4065,7 @@ listAuditEvents().then((events) => console.log(events));
 }
 ```
 
-List your account's audit log: sign-ins, access to submission data, bulk exports, configuration changes and refused requests, newest first. Audit logging is an enterprise feature and must be enabled for your account. Otherwise this endpoint returns a 403.
+List your account's audit log: sign-ins, access to submission data, bulk exports, configuration changes and refused requests, newest first.
 
 Audit log queries can take a while to run. If a query doesn't finish within a few seconds, the endpoint returns HTTP `202` with `status` set to `pending`, an empty `events` array and a `next_cursor`. Wait for the number of seconds in the `Retry-After` header, then call again with **only** that `cursor`, repeating while the response is still `202`. When the query finishes you get HTTP `200` with the first page. If there are more pages, `next_cursor` is set, and you fetch them the same way. `next_cursor` is `null` on the last page.
 
@@ -4090,7 +4090,7 @@ Reading the audit log is itself recorded, as a <code>bulk_export</code> event wi
 | category    | String (Optional)   | One of `login`, `data`, `bulk_export`, `config_change` or `permission_denied`.                                                           |
 | action      | String (Optional)   | Only return events with this action, e.g. `view`, `create`, `update`, `delete`, `login`, `publish`, `export`.                            |
 | actor_id    | String (Optional)   | Only return events performed by this actor: a dashboard user's ID, or the ID of the environment whose API key was used.                   |
-| resource_id | String (Optional)   | Only return events about this resource, e.g. a form or submission ID.                                                                    |
+| resource_id | String (Optional)   | Only return events about this resource, e.g. a form or submission internal ID.                                                                    |
 | limit       | Number (Optional)   | Events per page. Defaults to 100, maximum 500. May be sent alongside `cursor` to change the page size.                                   |
 | cursor      | String (Optional)   | The `next_cursor` from a previous response. Resumes a pending query or fetches the next page. Cannot be combined with the filters above. |
 
@@ -4116,7 +4116,7 @@ Each event has the following parameters. Fields that don't apply to an event are
 | resource_type  | String   | The kind of resource acted on, e.g. `form`, `submission`, `account` or `organization`.                                 |
 | resource_id    | String   | The ID of the resource acted on.                                                                                       |
 | resource_label | String   | A human-readable name for the resource, such as a form name or email.                                                  |
-| form_id        | String   | The ID of the form the resource belongs to, if any.                                                                    |
+| form_id        | String   | The internal ID of the form the resource belongs to, if any.                                                                    |
 | form_key       | String   | The name of that form.                                                                                                 |
 | environment_id | String   | The environment whose API key made the request, for `api_key` actors.                                                  |
 | ip             | String   | The requester's IP address.                                                                                            |
