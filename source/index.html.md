@@ -2822,22 +2822,22 @@ headers = {
     "Content-Type": "application/json",
 }
 
-result = requests.post(url, data=data, headers=headers)
+result = requests.post(url, json=data, headers=headers)
 print(result.json())
 ```
 
 ```shell
 curl "https://api.feathery.io/api/form/one-time-link/" \
     -X POST \
-    -d "{
-        'form': 'My Form',
-        'user_id': 'alice_smith_submission',
-        'fields': {
-          'client_name': 'Acme'
+    -d '{
+        "form": "My Form",
+        "user_id": "alice_smith_submission",
+        "fields": {
+          "client_name": "Acme"
         },
-        'expires_in': 604800,
-        'single_use': true
-      }" \
+        "expires_in": 604800,
+        "single_use": true
+      }' \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
@@ -2907,10 +2907,10 @@ Creating a link also creates the submission it opens, so you can prefill that su
 | Parameter          | Type                | Description                                                                                                                                                       |
 |--------------------|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | form               | String (Required)   | The ID, slug, or name of the form the link opens.                                                                                                                  |
-| user_id            | Optional String     | A new or existing user ID. If not provided, a random ID is generated and returned. An existing user ID reuses that submission instead of starting a new one.        |
+| user_id            | Optional String     | A new or existing user ID. If not provided, a random ID is generated and returned. An existing user ID reuses that submission instead of starting a new one, except with `collaborator_email`, which needs a new user ID. |
 | fields             | Optional Object     | A mapping from field identifier (ID or Internal ID) to the value to prefill on the submission. Prefilled values do not trigger field change rules or integrations. |
-| expires_in         | Optional Integer    | Seconds from now until the link expires. At most 10 years. Cannot be combined with a deadline in `expires_at`. Send `null` for a link that never expires, overriding the form's default expiry. If the parameter is omitted entirely, the form's link expiry applies, which is 7 days unless the form sets another length. |
-| expires_at         | Optional Datetime   | ISO 8601 timestamp when the link expires. Must be in the future and at most 10 years from now. Cannot be combined with a deadline in `expires_in`. Accepts `null` and falls back to the form's link expiry the same way as `expires_in`. |
+| expires_in         | Optional Integer    | Seconds from now until the link expires. At most 10 years. Cannot be sent together with `expires_at` unless both are `null`. Send `null` for a link that never expires, overriding the form's default expiry. If the parameter is omitted entirely, the form's link expiry applies, which is 7 days unless the form sets another length. |
+| expires_at         | Optional Datetime   | ISO 8601 timestamp when the link expires. Must be in the future and at most 10 years from now. Cannot be sent together with `expires_in` unless both are `null`. Send `null` for a link that never expires. If the parameter is omitted entirely, the form's link expiry applies the same way as `expires_in`. |
 | single_use         | Optional Boolean    | A single-use link binds to the first device that opens it, and is refused everywhere else. Defaults to `true`. Send `false` for a link that can be reopened on any device until it expires. |
 | collaborator_email | Optional String     | The collaborator the link is for. Only supported on collaborative forms, and required when the form accepts collaborative submissions only.                        |
 
@@ -2935,7 +2935,7 @@ If neither `expires_in` nor `expires_at` is provided, the link expires after the
 
 | Status | Meaning                                                                                                                                                                                                          |
 |--------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 400    | The request was invalid. Both `expires_in` and `expires_at` were provided, the expiry is in the past or more than 10 years out, `fields` was not a mapping, `collaborator_email` was sent for a non-collaborative form or left out of a collaboration-only form, or your plan does not include this API. |
+| 400    | The request was invalid. Both `expires_in` and `expires_at` were provided (other than both `null`), the expiry is in the past or more than 10 years out, `fields` was not a mapping, `collaborator_email` was sent for a non-collaborative form or left out of a collaboration-only form, `collaborator_email` was sent with a `user_id` that already has a submission, or your plan does not include this API. |
 | 404    | No form matched the `form` identifier.                                                                                                                                                                            |
 
 ## List One-Time Links
@@ -3019,7 +3019,6 @@ Listed links never include <code>token</code> or <code>url</code>. Only the resp
 
 | Status | Meaning                                                                        |
 |--------|-----------------------------------------------------------------------------------|
-| 400    | Your plan does not include this API.                                            |
 | 404    | No form matched the `form` filter.                                              |
 
 ## Revoke a One-Time Link
@@ -3085,7 +3084,6 @@ The revoked link, in the same shape as a listed link. `token` and `url` are not 
 
 | Status | Meaning                                                    |
 |--------|---------------------------------------------------------------|
-| 400    | Your plan does not include this API.                        |
 | 404    | No link in your environment has that ID.                    |
 
 ## Retrieve Form Defaults
