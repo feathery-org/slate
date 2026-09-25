@@ -2800,12 +2800,12 @@ If the submission had no data to render, there is no file to download and Feathe
 | results          | Object[] | An array of objects, each with `user_id` (String) and `pdf_url` (URL). The files may not be immediately available. `pdf_url` is `null` for submissions with no data yet, since there would be nothing to export. |
 | submission_count | Integer  | The total number of submissions that exist with the specified filters applied.                  |
 
-## Create a Form Access Link
+## Create a One-Time Link
 
 ```python
 import requests
 
-url = "https://api.feathery.io/api/form/link/";
+url = "https://api.feathery.io/api/form/one-time-link/";
 
 data = {
   "form": "My Form",
@@ -2822,28 +2822,28 @@ headers = {
     "Content-Type": "application/json",
 }
 
-result = requests.post(url, data=data, headers=headers)
+result = requests.post(url, json=data, headers=headers)
 print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/form/link/" \
+curl "https://api.feathery.io/api/form/one-time-link/" \
     -X POST \
-    -d "{
-        'form': 'My Form',
-        'user_id': 'alice_smith_submission',
-        'fields': {
-          'client_name': 'Acme'
+    -d '{
+        "form": "My Form",
+        "user_id": "alice_smith_submission",
+        "fields": {
+          "client_name": "Acme"
         },
-        'expires_in': 604800,
-        'single_use': true
-      }" \
+        "expires_in": 604800,
+        "single_use": true
+      }' \
     -H "Authorization: Token <API KEY>" \
     -H "Content-Type: application/json"
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/form/link/";
+const url = "https://api.feathery.io/api/form/one-time-link/";
 const data = {
   "form": "My Form",
   "user_id": "alice_smith_submission",
@@ -2884,7 +2884,11 @@ fetch(url, options)
 }
 ```
 
-Create an access link that opens one specific submission of one form. An access link may expire after a set time, work on a single device only, or both.
+Create a one-time link that opens one specific submission of one form. A one-time link may expire after a set time, work on a single device only, or both.
+
+A link that only expires, created with `single_use` set to `false`, is still a one-time link as far as this API is concerned. The name covers both controls, and `single_use` is what restricts a link to one device.
+
+A request that leaves out the expiry gets the form's link expiry, which is 7 days unless the form sets another length, and a request that leaves out `single_use` gets a single-use link. Anything you send explicitly wins, and that includes `null`: sending `expires_at: null` or `expires_in: null` asks for a link that never expires, overriding the form's link expiry.
 
 The link is returned as a ready-to-send `url`. Distribute it however you like, for example from a form rule that emails it to the next person in a workflow.
 
@@ -2892,25 +2896,25 @@ The link is returned as a ready-to-send `url`. Distribute it however you like, f
 The <code>token</code> and the <code>url</code> that contains it are only returned by this endpoint. Listing or revoking a link never returns them again, so store the <code>url</code> when you create it.
 </aside>
 
-Creating a link also creates the submission it opens, so you can prefill that submission with `fields` before anyone follows the link. From then on, the submission can only be opened through an access link, not through its plain `?_id=` URL.
+Creating a link also creates the submission it opens, so you can prefill that submission with `fields` before anyone follows the link. From then on, the submission can only be opened through a one-time link, not through its plain `?_id=` URL.
 
 ### HTTP Request
 
-`POST https://api.feathery.io/api/form/link/`
+`POST https://api.feathery.io/api/form/one-time-link/`
 
 ### Request Body Parameters
 
 | Parameter          | Type                | Description                                                                                                                                                       |
 |--------------------|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | form               | String (Required)   | The ID, slug, or name of the form the link opens.                                                                                                                  |
-| user_id            | Optional String     | A new or existing user ID. If not provided, a random ID is generated and returned. An existing user ID reuses that submission instead of starting a new one.        |
+| user_id            | Optional String     | A new or existing user ID. If not provided, a random ID is generated and returned. An existing user ID reuses that submission instead of starting a new one, except with `collaborator_email`, which needs a new user ID. |
 | fields             | Optional Object     | A mapping from field identifier (ID or Internal ID) to the value to prefill on the submission. Prefilled values do not trigger field change rules or integrations. |
-| expires_in         | Optional Integer    | Seconds from now until the link expires. At most 10 years. Cannot be combined with `expires_at`.                                                                    |
-| expires_at         | Optional Datetime   | ISO 8601 timestamp when the link expires. Must be in the future and at most 10 years from now. Cannot be combined with `expires_in`.                                |
-| single_use         | Optional Boolean    | Defaults to `false`. A single-use link binds to the first device that opens it, and is refused everywhere else.                                                     |
+| expires_in         | Optional Integer    | Seconds from now until the link expires. At most 10 years. Cannot be sent together with `expires_at` unless both are `null`. Send `null` for a link that never expires, overriding the form's default expiry. If the parameter is omitted entirely, the form's link expiry applies, which is 7 days unless the form sets another length. |
+| expires_at         | Optional Datetime   | ISO 8601 timestamp when the link expires. Must be in the future and at most 10 years from now. Cannot be sent together with `expires_in` unless both are `null`. Send `null` for a link that never expires. If the parameter is omitted entirely, the form's link expiry applies the same way as `expires_in`. |
+| single_use         | Optional Boolean    | A single-use link binds to the first device that opens it, and is refused everywhere else. Defaults to `true`. Send `false` for a link that can be reopened on any device until it expires. |
 | collaborator_email | Optional String     | The collaborator the link is for. Only supported on collaborative forms, and required when the form accepts collaborative submissions only.                        |
 
-If neither `expires_in` nor `expires_at` is provided, the link does not expire on its own.
+If neither `expires_in` nor `expires_at` is provided, the link expires after the form's link expiry. Naming either parameter, even as `null`, decides the expiry yourself.
 
 ### Response Body
 
@@ -2931,15 +2935,15 @@ If neither `expires_in` nor `expires_at` is provided, the link does not expire o
 
 | Status | Meaning                                                                                                                                                                                                          |
 |--------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 400    | The request was invalid. Both `expires_in` and `expires_at` were provided, the expiry is in the past or more than 10 years out, `fields` was not a mapping, `collaborator_email` was sent for a non-collaborative form or left out of a collaboration-only form, or your plan does not include this API. |
+| 400    | The request was invalid. Both `expires_in` and `expires_at` were provided (other than both `null`), the expiry is in the past or more than 10 years out, `fields` was not a mapping, `collaborator_email` was sent for a non-collaborative form or left out of a collaboration-only form, `collaborator_email` was sent with a `user_id` that already has a submission, or your plan does not include this API. |
 | 404    | No form matched the `form` identifier.                                                                                                                                                                            |
 
-## List Form Access Links
+## List One-Time Links
 
 ```python
 import requests
 
-url = "https://api.feathery.io/api/form/link/";
+url = "https://api.feathery.io/api/form/one-time-link/";
 headers = {"Authorization": "Token <API KEY>"}
 data = {"form": "My Form", "user_id": "alice_smith_submission"}
 result = requests.get(url, params=data, headers=headers)
@@ -2947,12 +2951,12 @@ print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/form/link/?form=My%20Form&user_id=alice_smith_submission" \
+curl "https://api.feathery.io/api/form/one-time-link/?form=My%20Form&user_id=alice_smith_submission" \
     -H "Authorization: Token <API KEY>"
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/form/link/?form=My%20Form&user_id=alice_smith_submission";
+const url = "https://api.feathery.io/api/form/one-time-link/?form=My%20Form&user_id=alice_smith_submission";
 const headers = { Authorization: "Token <API KEY>" };
 fetch(url, { headers })
     .then((response) => response.json())
@@ -2983,7 +2987,7 @@ fetch(url, { headers })
 }
 ```
 
-List the access links in your environment, newest first, optionally filtered to one form or one submission. Use it to check whether a link you sent has been opened, has expired, or has been revoked.
+List the one-time links in your environment, newest first, optionally filtered to one form or one submission. Use it to check whether a link you sent has been opened, has expired, or has been revoked.
 
 <aside class="notice">
 Listed links never include <code>token</code> or <code>url</code>. Only the response that creates a link hands out its credential.
@@ -2991,7 +2995,7 @@ Listed links never include <code>token</code> or <code>url</code>. Only the resp
 
 ### HTTP Request
 
-`GET https://api.feathery.io/api/form/link/`
+`GET https://api.feathery.io/api/form/one-time-link/`
 
 ### Query Parameters
 
@@ -3015,28 +3019,27 @@ Listed links never include <code>token</code> or <code>url</code>. Only the resp
 
 | Status | Meaning                                                                        |
 |--------|-----------------------------------------------------------------------------------|
-| 400    | Your plan does not include this API.                                            |
 | 404    | No form matched the `form` filter.                                              |
 
-## Revoke a Form Access Link
+## Revoke a One-Time Link
 
 ```python
 import requests
 
-url = "https://api.feathery.io/api/form/link/<LINK ID>/";
+url = "https://api.feathery.io/api/form/one-time-link/<LINK ID>/";
 headers = {"Authorization": "Token <API KEY>"}
 result = requests.delete(url, headers=headers)
 print(result.json())
 ```
 
 ```shell
-curl "https://api.feathery.io/api/form/link/<LINK ID>/" \
+curl "https://api.feathery.io/api/form/one-time-link/<LINK ID>/" \
     -X DELETE \
     -H "Authorization: Token <API KEY>"
 ```
 
 ```javascript
-const url = "https://api.feathery.io/api/form/link/<LINK ID>/";
+const url = "https://api.feathery.io/api/form/one-time-link/<LINK ID>/";
 const headers = { Authorization: "Token <API KEY>" };
 const options = { headers, method: 'DELETE' };
 fetch(url, options)
@@ -3059,13 +3062,13 @@ fetch(url, options)
 }
 ```
 
-Revoke a specific access link. The link stops opening its form immediately, and the response returns the link in its final state rather than an empty body. Revoking a link that is already revoked leaves it unchanged.
+Revoke a specific one-time link. The link stops opening its form immediately, and the response returns the link in its final state rather than an empty body. Revoking a link that is already revoked leaves it unchanged.
 
-Revoking does not reopen the submission through its plain `?_id=` URL. A submission that has been given an access link stays closed until you create a new link for it.
+Revoking does not reopen the submission through its plain `?_id=` URL. A submission that has been given a one-time link stays closed until you create a new link for it.
 
 ### HTTP Request
 
-`DELETE https://api.feathery.io/api/form/link/<LINK ID>/`
+`DELETE https://api.feathery.io/api/form/one-time-link/<LINK ID>/`
 
 ### URL Parameters
 
@@ -3081,7 +3084,6 @@ The revoked link, in the same shape as a listed link. `token` and `url` are not 
 
 | Status | Meaning                                                    |
 |--------|---------------------------------------------------------------|
-| 400    | Your plan does not include this API.                        |
 | 404    | No link in your environment has that ID.                    |
 
 ## Retrieve Form Defaults
