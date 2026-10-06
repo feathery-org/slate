@@ -4131,6 +4131,64 @@ Each event has the following parameters. Fields that don't apply to an event are
 
 Repeated views of the same resource by the same actor within 5 minutes are recorded as a single `view` event.
 
+### Event Types
+
+The tables below list every `action` recorded in each category and the `resource_type` values it can carry. New actions and resource types may be added over time, so treat values you don't recognize as valid rather than as errors.
+
+#### login
+
+| Action | Resource types | Recorded when                                                                                    |
+|--------|----------------|--------------------------------------------------------------------------------------------------|
+| login  | (none)         | A dashboard user signs in.                                                                       |
+| switch | organization   | A dashboard user switches to another organization. The event is recorded in the organization they switch into. |
+
+#### data
+
+| Action     | Resource types                                                        | Recorded when                                                                                                                            |
+|------------|-----------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| view       | submission, form, task, envelope, extraction, extraction_run          | Submission data is viewed, searched or listed, a document is filled from a submission, or a form's integration logs, tasks, envelopes or extraction results are read. |
+| create     | submission                                                            | A submission is created through the API.                                                                                                 |
+| update     | submission, extraction_run                                            | Submission values or status are edited, an API submission updates an existing user, or extraction results are edited.                   |
+| delete     | submission, envelope, extraction_run                                  | A submission, document envelope or extraction run is deleted, individually or in bulk.                                                  |
+| import     | submission                                                            | Submissions are bulk uploaded.                                                                                                           |
+| claim      | submission                                                            | A user claims a submission's task.                                                                                                       |
+| reassign   | task                                                                  | Tasks are reassigned in bulk.                                                                                                            |
+| set_status | task                                                                  | A task's status is set.                                                                                                                  |
+| run        | extraction                                                            | An AI extraction is run.                                                                                                                 |
+| commit     | extraction_run                                                        | An extraction run's results are committed to a submission.                                                                              |
+
+#### bulk_export
+
+| Action    | Resource types                  | Recorded when                                                                                     |
+|-----------|---------------------------------|---------------------------------------------------------------------------------------------------|
+| csv       | form, extraction, organization  | A form's submissions, an extraction's results or the team member list is exported as CSV.         |
+| pdf       | form                            | Submission PDFs are generated through the API. `metadata` lists the submissions included.          |
+| export    | form                            | A batch of a form's submissions is exported through the API. `metadata` holds the submission count. |
+| bundle    | submission                      | A submission's export bundle is generated.                                                        |
+| audit_log | (none)                          | The audit log is queried.                                                                         |
+
+#### config_change
+
+| Action   | Resource types                                                                                                                         | Recorded when                                                                                                     |
+|----------|----------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+| create   | form, field, hidden_field, custom_field, environment, integration, api_connector, ai_api_connector, extraction, organization            | One of these is created. `organization` is a new workspace; `integration` includes connecting an OAuth account.   |
+| update   | form, field, hidden_field, custom_field, environment, integration, api_connector, ai_api_connector, extraction, organization, account, logic_rule, shared_code | One of these is changed. `account` covers a team member's profile, role and permissions, and API key rotation. |
+| delete   | form, field, hidden_field, custom_field, environment, integration, api_connector, ai_api_connector, extraction, organization, account  | One of these is deleted. `integration` includes disconnecting an OAuth account.                                  |
+| invite   | organization                                                                                                                           | Users are invited to the organization or a workspace. `metadata` lists the invited emails.                        |
+| uninvite | account                                                                                                                                | A user is removed from the organization.                                                                          |
+| publish  | extraction                                                                                                                             | An extraction draft is published.                                                                                 |
+| promote  | form                                                                                                                                   | A form is promoted between environments.                                                                          |
+| import   | form                                                                                                                                   | A form migration package is imported.                                                                             |
+| export   | form                                                                                                                                   | Forms are packaged for migration.                                                                                 |
+
+`config_change` events record which resource changed and who changed it, not the values that were changed.
+
+#### permission_denied
+
+A `permission_denied` event is recorded when a signed-in dashboard user or a valid API key makes a request that is refused as forbidden (HTTP `403`). Its `action` and `resource_type` are those the request would have recorded had it succeeded, or a bare `view`, `create`, `update` or `delete` matching the HTTP method when the refused request isn't otherwise audited. `metadata` holds the refused `method` and `path`.
+
+Requests that fail authentication, such as an invalid or expired API key or a failed sign-in, can't be attributed to your account and aren't recorded.
+
 ### Errors
 
 | Status | Meaning                                                                                                     |
