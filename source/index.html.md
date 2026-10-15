@@ -4127,9 +4127,9 @@ Each event has the following parameters. Fields that don't apply to an event are
 | environment_id | String   | The environment whose API key made the request, for `api_key` actors.                                                  |
 | ip             | String   | The requester's IP address.                                                                                            |
 | user_agent     | String   | The requester's user agent.                                                                                            |
-| metadata       | Object   | Extra detail specific to the action, such as the IDs included in a bulk export.                                        |
+| metadata       | Object   | Extra detail specific to the action, such as the fields a configuration change touched or the IDs included in a bulk export. See [Event Metadata](#event-metadata). |
 
-Repeated views of the same resource by the same actor within 5 minutes are recorded as a single `view` event.
+Repeated views of the same resource by the same actor within 5 minutes are recorded as a single `view` event. A list, such as a page of submissions, is only collapsed when it returned the same records, so each page you fetch is recorded.
 
 ### Event Types
 
@@ -4171,9 +4171,9 @@ The tables below list every `action` recorded in each category and the `resource
 
 | Action   | Resource types                                                                                                                         | Recorded when                                                                                                     |
 |----------|----------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
-| create   | form, field, hidden_field, custom_field, environment, integration, api_connector, ai_api_connector, extraction, organization            | One of these is created. `organization` is a new workspace; `integration` includes connecting an OAuth account.   |
-| update   | form, field, hidden_field, custom_field, environment, integration, api_connector, ai_api_connector, extraction, organization, account, logic_rule, shared_code | One of these is changed. `account` covers a team member's profile, role and permissions, and API key rotation. Edits to a form's logic rules and shared code are recorded as `update` on `form`; `logic_rule` and `shared_code` mean a saved version of one was created. |
-| delete   | form, field, hidden_field, custom_field, environment, integration, api_connector, ai_api_connector, extraction, organization, account  | One of these is deleted. `form` and `extraction` also cover discarding an unpublished draft; `integration` means an OAuth account was disconnected; `account` means a user deleted their own account.                                  |
+| create   | form, field, hidden_field, custom_field, environment, integration, api_connector, ai_api_connector, extraction, organization, user_group | One of these is created. `organization` is a new workspace; `integration` includes connecting an OAuth account.   |
+| update   | form, field, hidden_field, custom_field, environment, integration, api_connector, ai_api_connector, extraction, organization, account, user_group, logic_rule, shared_code | One of these is changed. `account` covers a team member's profile, role, permissions and group memberships, and API key rotation. `user_group` covers renaming a group, changing what it grants access to, and adding members. Edits to a form's logic rules and shared code are recorded as `update` on `form`; `logic_rule` and `shared_code` mean a saved version of one was created. |
+| delete   | form, field, hidden_field, custom_field, environment, integration, api_connector, ai_api_connector, extraction, organization, account, user_group | One of these is deleted. `form` and `extraction` also cover discarding an unpublished draft; `integration` means an OAuth account was disconnected; `account` means a user deleted their own account.                                  |
 | invite   | organization                                                                                                                           | Users are invited to the organization or a workspace. For invites sent from the dashboard's team page, `metadata` lists the invited emails.                        |
 | uninvite | account                                                                                                                                | A user is removed from the organization.                                                                          |
 | publish  | extraction                                                                                                                             | An extraction draft is published.                                                                                 |
@@ -4181,13 +4181,89 @@ The tables below list every `action` recorded in each category and the `resource
 | import   | form                                                                                                                                   | Feathery staff import a form migration package into your account.                                                |
 | export   | form                                                                                                                                   | Feathery staff package your forms for migration.                                                                  |
 
-`config_change` events record which resource changed and who changed it, not the values that were changed.
+`config_change` `update` events name every field that changed in `metadata.changes`. Values are recorded only for roles, permissions and group access, as described in [Event Metadata](#event-metadata).
+
+Removing a member from a group is recorded as an `update` on the member's `account`, whose `user_groups` change shows the group they left.
 
 #### permission_denied
 
 A `permission_denied` event is recorded when a signed-in dashboard user or a valid API key makes a request that is refused as forbidden (HTTP `403`). When the refused endpoint records events, the event carries the `action` and `resource_type` that endpoint records. Otherwise it carries a bare `view`, `create`, `update` or `delete` matching the HTTP method. `metadata` holds the refused `method` and `path`.
 
 Requests that fail authentication, such as an invalid or expired API key or a failed sign-in, can't be attributed to your account and aren't recorded.
+
+### Event Metadata
+
+> A role change and a group rename look like this:
+
+```json
+{
+  "category": "config_change",
+  "action": "update",
+  "resource_type": "account",
+  "resource_label": "sam@example.com",
+  "metadata": {
+    "changes": [
+      {"field": "role", "before": "editor", "after": "admin"},
+      {"field": "custom_attributes"}
+    ]
+  }
+}
+```
+
+```json
+{
+  "category": "config_change",
+  "action": "update",
+  "resource_type": "user_group",
+  "resource_label": "Operations",
+  "metadata": {
+    "changes": [{"field": "name", "before": "Ops", "after": "Operations"}]
+  }
+}
+```
+
+> A page of submissions listed through the API looks like this:
+
+```json
+{
+  "category": "data",
+  "action": "view",
+  "actor_type": "api_key",
+  "resource_type": "submission",
+  "form_id": "c2a7e4f1-9b3d-4e60-a8f2-5d1c7b9e0a34",
+  "form_key": "Onboarding",
+  "metadata": {
+    "method": "GET",
+    "path": "/api/form/submission/",
+    "resource_ids": ["7d0e9b6a-...", "a41c2f83-..."],
+    "resource_labels": ["jane@example.com", "joe@example.com"],
+    "resource_count": 2
+  }
+}
+```
+
+`metadata` holds detail that depends on the event. These are the keys it can carry:
+
+| Key             | Recorded on                                                              | Description |
+|-----------------|--------------------------------------------------------------------------|-------------|
+| method, path    | Every event made with an API key, and every `permission_denied` event     | The HTTP method and path of the request, such as `GET` and `/api/form/submission/`. |
+| changes         | `config_change` `update` events                                           | One entry per changed field, with the field's name in `field`. See below for which entries also carry `before` and `after`. |
+| resource_ids    | Events that touch several records at once                                 | The IDs of every record involved, such as the submissions an API list call returned or a bulk delete removed. At most 1,000 are listed. |
+| resource_labels | Submission lists through the API                                          | The user ID of each submission, in the same order as `resource_ids`. |
+| resource_count  | Events that carry `resource_ids`                                          | How many records were involved. Never truncated. |
+
+When an event that carries `resource_ids` involves exactly one record, its `resource_id` is filled in too, along with `resource_label` when the event carries `resource_labels`.
+
+**Before and after values.** Changed fields are always named, but values are recorded only for these fields. Every other changed setting, including organization, form, field and integration settings, is listed by name with no values.
+
+| Resource type | Fields recorded with values |
+|---------------|-----------------------------|
+| account       | `role`, `is_active`, `is_billing_contact`, `is_primary_billing_contact`, every `permission_*` setting, and `user_groups` (the IDs of the groups the member belongs to) |
+| user_group    | `name`, `accounts` (the IDs of its members), and the IDs it grants access to: `panel_ids` (forms), `field_ids`, `hub_ids`, `view_ids` and `extraction_ids` |
+
+**Bulk team edits.** Editing several team members at once records one event whose `changes` entries each carry the `resource_id` of the member they apply to.
+
+**Form builder saves.** Saving a form in the builder records an `update` on `form` whose `changes` entries name the section of the form that was saved (`steps`, `theme`, `logic_rules` or `shared_codes`) in `field`, and the IDs of the entries saved in `ids`. A save that replaces the whole theme also lists the theme entries it removed in `removed`.
 
 ### Errors
 
