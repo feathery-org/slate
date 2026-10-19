@@ -4129,7 +4129,7 @@ Each event has the following parameters. Fields that don't apply to an event are
 | user_agent     | String   | The requester's user agent.                                                                                            |
 | metadata       | Object   | Extra detail specific to the action, such as the fields a configuration change touched or the IDs included in a bulk export. See [Event Metadata](#event-metadata). |
 
-Repeated views of the same resource by the same actor within 5 minutes are recorded as a single `view` event. A list, such as a page of submissions, is only collapsed when it returned the same records, so each page you fetch is recorded.
+Repeated views of the same resource by the same actor within 5 minutes are recorded as a single `view` event. A list that records the IDs it returned, such as a page of submissions listed through the API, is only collapsed when it returned the same records, so each page you fetch is recorded.
 
 ### Event Types
 
@@ -4181,7 +4181,7 @@ The tables below list every `action` recorded in each category and the `resource
 | import   | form                                                                                                                                   | Feathery staff import a form migration package into your account.                                                |
 | export   | form                                                                                                                                   | Feathery staff package your forms for migration.                                                                  |
 
-`config_change` `update` events name every field that changed in `metadata.changes`. Values are recorded only for roles, permissions and group access, as described in [Event Metadata](#event-metadata).
+`config_change` `update` events name the fields that changed in `metadata.changes`, except on `integration`, whose updates don't list fields. Values are recorded only for roles, permissions and group access, as described in [Event Metadata](#event-metadata).
 
 Removing a member from a group is recorded as an `update` on the member's `account`, whose `user_groups` change shows the group they left.
 
@@ -4254,7 +4254,7 @@ Requests that fail authentication, such as an invalid or expired API key or a fa
 
 When an event that carries `resource_ids` involves exactly one record, its `resource_id` is filled in too, along with `resource_label` when the event carries `resource_labels`.
 
-**Before and after values.** Changed fields are always named, but values are recorded only for these fields. Every other changed setting, including organization, form, field and integration settings, is listed by name with no values.
+**Before and after values.** Values are recorded only for these fields. Every other changed setting, including organization, form and field settings, is listed by name with no values.
 
 | Resource type | Fields recorded with values |
 |---------------|-----------------------------|
@@ -4263,7 +4263,7 @@ When an event that carries `resource_ids` involves exactly one record, its `reso
 
 **Bulk team edits.** Editing several team members at once records one event whose `changes` entries each carry the `resource_id` of the member they apply to.
 
-**Form builder saves.** Saving a form in the builder records an `update` on `form` whose `changes` entries name the section of the form that was saved (`steps`, `theme`, `logic_rules` or `shared_codes`) in `field`, and the IDs of the entries saved in `ids`. A save that replaces the whole theme also lists the theme entries it removed in `removed`.
+**Form builder saves.** Saving a form in the builder records an `update` on `form` whose `changes` entries name the section of the form that was saved (`steps`, `theme`, `logic_rules` or `shared_codes`) in `field`, and the IDs of the entries saved in `ids`. A save that resends the whole theme lists only the theme entries it changed in `ids`, and the ones it removed in `removed`.
 
 ### Errors
 
