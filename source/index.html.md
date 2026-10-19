@@ -4261,7 +4261,7 @@ When an event that carries `resource_ids` involves exactly one record, its `reso
 | account       | `role`, `is_active`, `is_billing_contact`, `is_primary_billing_contact`, every `permission_*` setting, and `user_groups` (the IDs of the groups the member belongs to) |
 | user_group    | `name`, `accounts` (the IDs of its members), and the IDs it grants access to: `panel_ids` (forms), `field_ids`, `hub_ids`, `view_ids` and `extraction_ids` |
 
-**Bulk team edits.** Editing several team members at once records one event whose `changes` entries each carry the `resource_id` of the member they apply to.
+**Bulk team edits.** Editing several team members at once records one event whose `changes` entries each carry the `resource_id` of the member they apply to. A member's group moves are recorded as one `user_groups` entry listing the group IDs in `added` and `removed`, rather than `before` and `after`. If an edit is too large to record in full, `changes` is left out and `changes_omitted` is `true`; `resource_ids` still lists the members it changed.
 
 **Form builder saves.** Saving a form in the builder records an `update` on `form` whose `changes` entries name the section of the form that was saved (`steps`, `theme`, `logic_rules` or `shared_codes`) in `field`, and the IDs of the entries saved in `ids`. A save that resends the whole theme lists only the theme entries it changed in `ids`, and the ones it removed in `removed`.
 
