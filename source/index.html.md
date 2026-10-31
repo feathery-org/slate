@@ -4118,7 +4118,7 @@ Each event has the following parameters. Fields that don't apply to an event are
 | action         | String   | What was done, e.g. `view`, `create`, `update`, `delete`, `publish` or `export`.                                       |
 | actor_type     | String   | `account` for a dashboard user, or `api_key` for a request made with an API key.                                       |
 | actor_id       | String   | The dashboard user's ID, or the ID of the mode whose API key was used.                                                 |
-| actor_label    | String   | The dashboard user's email, or the mode's name.                                                                        |
+| actor_label    | String   | The dashboard user's email, or the mode's internal name (`Production` for Live mode, `Development` for Test mode).                                                                     |
 | resource_type  | String   | The kind of resource acted on, e.g. `form`, `submission`, `account` or `organization`.                                 |
 | resource_id    | String   | The ID of the resource acted on.                                                                                       |
 | resource_label | String   | A human-readable name for the resource, such as a form name or email.                                                  |
@@ -4178,7 +4178,7 @@ The tables below list every `action` recorded in each category and the `resource
 | invite   | organization                                                                                                                           | Users are invited to the organization or a workspace. For invites sent from the dashboard's team page, `metadata` lists the invited emails.                        |
 | uninvite | account                                                                                                                                | A user is removed from the organization.                                                                          |
 | publish  | extraction                                                                                                                             | An extraction draft is published.                                                                                 |
-| promote  | form                                                                                                                                   | A form is promoted between modes.                                                                                 |
+| promote  | form                                                                                                                                   | A form's staging copy is promoted to live.                                                                            |
 | import   | form                                                                                                                                   | Feathery staff import a form migration package into your account.                                                |
 | export   | form                                                                                                                                   | Feathery staff package your forms for migration.                                                                  |
 
