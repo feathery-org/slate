@@ -7,7 +7,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
   - javascript
 
 toc_footers:
-  - <a href='https://feathery.io'>Sign up for an API key</a>
+  - <a href='https://docs.feathery.io/develop/api-authentication'>API authentication guide</a>
 
 includes:
   - errors
@@ -32,6 +32,7 @@ The base URL for the Feathery API depends on the region your account is hosted i
 | US (default) | `https://api.feathery.io` |
 | Canada | `https://api-ca.feathery.io` |
 | Europe | `https://api-eu.feathery.io` |
+| Japan | `https://api-jp.feathery.io` |
 | Australia | `https://api-au.feathery.io` |
 
 <aside class="notice">
@@ -40,19 +41,63 @@ All API examples in this documentation use <code>https://api.feathery.io</code> 
 
 # Authentication
 
-Provide your Feathery admin API key to authenticate access.
-You can get an API key by creating an [account](https://app.feathery.io). 
+```python
+import requests
 
-API keys are mode-specific (Live mode or Test mode), which allows you to
-separate real from test data. All API keys have access to the same fields and forms,
-but users are mode-specific (Live/Test).
+url = "https://api.feathery.io/oauth/token"
+data = {"grant_type": "client_credentials"}
+result = requests.post(url, auth=("<CLIENT ID>", "<CLIENT SECRET>"), data=data)
+print(result.json())
+```
 
-Include your API key as a request header that looks like the following:
+```shell
+curl "https://api.feathery.io/oauth/token" \
+    -u "<CLIENT ID>:<CLIENT SECRET>" \
+    -d grant_type=client_credentials
+```
+
+```javascript
+const url = "https://api.feathery.io/oauth/token";
+const headers = {
+  Authorization: "Basic " + btoa("<CLIENT ID>:<CLIENT SECRET>"),
+  "Content-Type": "application/x-www-form-urlencoded",
+};
+const options = { headers, method: 'POST', body: "grant_type=client_credentials" };
+fetch(url, options)
+  .then((response) => response.json())
+  .then(result => console.log(result));
+```
+
+> The above command returns an access token like this:
+
+```json
+{
+  "access_token": "fthr_oat_...",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "scope": "forms:read submissions:read"
+}
+```
+
+Authenticate with an OAuth app or a personal access token, and send it as a Bearer token:
+
+`Authorization: Bearer <TOKEN>`
+
+- **OAuth apps** are for servers and integrations, and belong to your organization. Exchange the client ID and secret for an access token, which lasts 1 hour.
+- **Personal access tokens** are for your own scripts and tools. They act as you, limited by your role.
+
+Both are limited to the access you choose and expire on their own. In the Developer tab of your Feathery settings, admins create OAuth apps and any member creates personal access tokens. See the [API authentication guide](https://docs.feathery.io/develop/api-authentication) for setup, access levels and errors.
+
+<aside class="warning">
+API keys are deprecated. They have full access to their mode and never expire. Use an OAuth app or a personal access token instead. Responses to requests made with an API key include a <code>Deprecation</code> header.
+</aside>
+
+Existing integrations can still send an API key, which is specific to a mode (Live or Test):
 
 `Authorization: Token <API KEY>`
 
 <aside class="notice">
-You must replace <code>&lt;API KEY&gt;</code> with your personal API key.
+The examples in this reference send an API key. To use an OAuth app or a personal access token, replace <code>Token &lt;API KEY&gt;</code> with <code>Bearer &lt;TOKEN&gt;</code>. Rotate API Key is the exception: it needs the API key itself.
 </aside>
 
 ## Rotate API Key
@@ -93,6 +138,10 @@ fetch(url, options)
 ```
 
 Rotate your Feathery API key. The rotated key is the one used to authenticate the request.
+
+<aside class="warning">
+The old key stops working right away, so anything still using it fails until you update it. OAuth apps avoid this: each one can have two active secrets, so you can deploy a new secret before revoking the old one.
+</aside>
 
 ### HTTP Request
 
