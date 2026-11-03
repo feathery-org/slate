@@ -43,9 +43,9 @@ All API examples in this documentation use <code>https://api.feathery.io</code> 
 Provide your Feathery admin API key to authenticate access.
 You can get an API key by creating an [account](https://app.feathery.io). 
 
-API keys are environment-specific (production, development, etc.), which allows you to
+API keys are mode-specific (Live mode or Test mode), which allows you to
 separate real from test data. All API keys have access to the same fields and forms,
-but users are environment-specific.
+but users are mode-specific (Live/Test).
 
 Include your API key as a request header that looks like the following:
 
@@ -2921,7 +2921,7 @@ If neither `expires_in` nor `expires_at` is provided, the link expires after the
 | Parameter       | Type               | Description                                                                                                       |
 |-----------------|--------------------|---------------------------------------------------------------------------------------------------------------------|
 | id              | UUID               | The ID of the link, used to revoke it.                                                                             |
-| url             | String             | The link to send to your recipient. `null` if the form has no published URL in this environment.                   |
+| url             | String             | The link to send to your recipient. `null` if the form has no published URL in this mode (Live/Test).                          |
 | token           | String             | The credential embedded in `url`. Returned only here.                                                              |
 | user_id         | String             | The ID of the submission the link opens.                                                                           |
 | collaborator_id | UUID               | The collaborator the link acts as, or `null` on a non-collaborative form.                                          |
@@ -2987,7 +2987,7 @@ fetch(url, { headers })
 }
 ```
 
-List the one-time links in your environment, newest first, optionally filtered to one form or one submission. Use it to check whether a link you sent has been opened, has expired, or has been revoked.
+List the one-time links in your current mode (Live/Test), newest first, optionally filtered to one form or one submission. Use it to check whether a link you sent has been opened, has expired, or has been revoked.
 
 <aside class="notice">
 Listed links never include <code>token</code> or <code>url</code>. Only the response that creates a link hands out its credential.
@@ -3084,7 +3084,7 @@ The revoked link, in the same shape as a listed link. `token` and `url` are not 
 
 | Status | Meaning                                                    |
 |--------|---------------------------------------------------------------|
-| 404    | No link in your environment has that ID.                    |
+| 404    | No link in your mode (Live/Test) has that ID.                           |
 
 ## Retrieve Form Defaults
 
@@ -4095,7 +4095,7 @@ Reading the audit log is itself recorded, as a <code>bulk_export</code> event wi
 | end         | Datetime (Optional) | Only return events at or before this time. Defaults to now. The range between `start` and `end` may span at most 90 days.               |
 | category    | String (Optional)   | One of `login`, `data`, `bulk_export`, `config_change` or `permission_denied`.                                                           |
 | action      | String (Optional)   | Only return events with this action, e.g. `view`, `create`, `update`, `delete`, `login`, `publish`, `export`.                            |
-| actor_id    | String (Optional)   | Only return events performed by this actor: a dashboard user's ID, or the ID of the environment whose API key was used.                   |
+| actor_id    | String (Optional)   | Only return events performed by this actor: a dashboard user's ID, or the ID of the mode (Live/Test) whose API key was used.                          |
 | resource_id | String (Optional)   | Only return events about this resource, e.g. a form or submission internal ID.                                                                    |
 | limit       | Number (Optional)   | Events per page. Defaults to 100, maximum 500. May be sent alongside `cursor` to change the page size.                                   |
 | cursor      | String (Optional)   | The `next_cursor` from a previous response. Resumes a pending query or fetches the next page. Cannot be combined with the filters above. |
@@ -4117,14 +4117,15 @@ Each event has the following parameters. Fields that don't apply to an event are
 | category       | String   | One of `login`, `data`, `bulk_export`, `config_change` or `permission_denied`.                                         |
 | action         | String   | What was done, e.g. `view`, `create`, `update`, `delete`, `publish` or `export`.                                       |
 | actor_type     | String   | `account` for a dashboard user, or `api_key` for a request made with an API key.                                       |
-| actor_id       | String   | The dashboard user's ID, or the ID of the environment whose API key was used.                                          |
-| actor_label    | String   | The dashboard user's email, or the environment's name.                                                                 |
+| actor_id       | String   | The dashboard user's ID, or the ID of the mode (Live/Test) whose API key was used.                                                 |
+| actor_label    | String   | The dashboard user's email, or the mode's internal name (`Production` for Live mode, `Development` for Test mode).                                                                     |
 | resource_type  | String   | The kind of resource acted on, e.g. `form`, `submission`, `account` or `organization`.                                 |
 | resource_id    | String   | The ID of the resource acted on.                                                                                       |
 | resource_label | String   | A human-readable name for the resource, such as a form name or email.                                                  |
 | form_id        | String   | The internal ID of the form the resource belongs to, if any.                                                                    |
 | form_key       | String   | The name of that form.                                                                                                 |
-| environment_id | String   | The environment whose API key made the request, for `api_key` actors.                                                  |
+| mode_id        | String   | The mode (Live/Test) whose API key made the request, for `api_key` actors.                                                         |
+| environment_id | String   | Deprecated alias of `mode_id`, still returned for backward compatibility.                                              |
 | ip             | String   | The requester's IP address.                                                                                            |
 | user_agent     | String   | The requester's user agent.                                                                                            |
 | metadata       | Object   | Extra detail specific to the action, such as the fields a configuration change touched or the IDs included in a bulk export. See [Event Metadata](#event-metadata). |
@@ -4171,13 +4172,13 @@ The tables below list every `action` recorded in each category and the `resource
 
 | Action   | Resource types                                                                                                                         | Recorded when                                                                                                     |
 |----------|----------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
-| create   | form, field, hidden_field, custom_field, environment, integration, api_connector, ai_api_connector, extraction, organization, user_group | One of these is created. `organization` is a new workspace; `integration` includes connecting an OAuth account.   |
-| update   | form, field, hidden_field, custom_field, environment, integration, api_connector, ai_api_connector, extraction, organization, account, user_group, logic_rule, shared_code | One of these is changed. `account` covers a team member's profile, role, permissions and group memberships, and API key rotation. `user_group` covers renaming a group, changing what it grants access to, and adding members. Edits to a form's logic rules and shared code are recorded as `update` on `form`; `logic_rule` and `shared_code` mean a saved version of one was created. |
-| delete   | form, field, hidden_field, custom_field, environment, integration, api_connector, ai_api_connector, extraction, organization, account, user_group | One of these is deleted. `form` and `extraction` also cover discarding an unpublished draft; `integration` means an OAuth account was disconnected; `account` means a user deleted their own account.                                  |
+| create   | form, field, hidden_field, custom_field, environment, integration, api_connector, ai_api_connector, extraction, organization, user_group | One of these is created. `environment` refers to a mode (Live/Test) and only appears on older events. `organization` is a new workspace; `integration` includes connecting an OAuth account.   |
+| update   | form, field, hidden_field, custom_field, environment, integration, api_connector, ai_api_connector, extraction, organization, account, user_group, logic_rule, shared_code | One of these is changed. `environment` refers to a mode (Live/Test) and only appears on older events. `account` covers a team member's profile, role, permissions and group memberships, and API key rotation. `user_group` covers renaming a group, changing what it grants access to, and adding members. Edits to a form's logic rules and shared code are recorded as `update` on `form`; `logic_rule` and `shared_code` mean a saved version of one was created. |
+| delete   | form, field, hidden_field, custom_field, environment, integration, api_connector, ai_api_connector, extraction, organization, account, user_group | One of these is deleted. `environment` refers to a mode (Live/Test) and only appears on older events. `form` and `extraction` also cover discarding an unpublished draft; `integration` means an OAuth account was disconnected; `account` means a user deleted their own account.                                  |
 | invite   | organization                                                                                                                           | Users are invited to the organization or a workspace. For invites sent from the dashboard's team page, `metadata` lists the invited emails.                        |
 | uninvite | account                                                                                                                                | A user is removed from the organization.                                                                          |
 | publish  | extraction                                                                                                                             | An extraction draft is published.                                                                                 |
-| promote  | form                                                                                                                                   | A form is promoted between environments.                                                                          |
+| promote  | form                                                                                                                                   | A form's staging copy is promoted to live.                                                                            |
 | import   | form                                                                                                                                   | Feathery staff import a form migration package into your account.                                                |
 | export   | form                                                                                                                                   | Feathery staff package your forms for migration.                                                                  |
 
@@ -5097,7 +5098,7 @@ The response will be an array of objects with the following parameters.
 | live_api_key                          | String                | The live API key of the workspace which can be used to call APIs on its behalf.                                       |
 | test_api_key                          | String                | The test API key of the workspace which can be used to call APIs on its behalf.                                       |
 | live_sdk_key                          | String                | The live SDK key of the workspace which can be used to embed workspace forms.                                         |
-| test_sdk_key                          | String                | The test API key of the workspace which can be used to embed workspace forms.                                         |
+| test_sdk_key                          | String                | The test SDK key of the workspace which can be used to embed workspace forms.                                         |
 | submission_cycle_interval             | 'month' &#124; 'year' | The billing cycle interval                                                                                            |
 | submissions_this_cycle                | Number (Optional)     | If submission_data is requested, the number of submissions in the workspace on the current billing cycle is returned. |
 | submission_usage_this_cycle           | Number (Optional)     | If submission data is requested, the percentage of the current cycle's submissions that have been used.               |
@@ -5568,5 +5569,5 @@ Each `results` entry contains the following parameters.
 | id                  | String  | The workspace ID                                                                                                                                      |
 | name                | String  | The workspace name                                                                                                                                      |
 | created_at          | Datetime | When this workspace was created                                                                                                                       |
-| submissions         | Integer | Number of distinct completed submissions (live environment only) in this workspace during the requested billing cycle                                  |
+| submissions         | Integer | Number of distinct completed submissions (Live mode only) in this workspace during the requested billing cycle                                  |
 | hidden_field_counts | Object  | Mapping from each requested `hidden_field_id` to the number of submissions that have a non-null value for that ID. Empty object if none requested. |
