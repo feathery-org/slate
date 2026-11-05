@@ -97,7 +97,7 @@ Existing integrations can still send an API key, which is specific to a mode (Li
 `Authorization: Token <API KEY>`
 
 <aside class="notice">
-The examples in this reference send an API key. To use an OAuth app or a personal access token, replace <code>Token &lt;API KEY&gt;</code> with <code>Bearer &lt;TOKEN&gt;</code>. Rotate API Key is the exception: it needs the API key itself.
+The examples in this reference send an API key. To use an OAuth app or a personal access token, replace <code>Token &lt;API KEY&gt;</code> with <code>Bearer &lt;TOKEN&gt;</code>. These endpoints only accept an API key: Rotate API Key, <code>GET /api/form/submission/batch/&lt;form_id&gt;/</code> (use <code>GET /api/form/submission/</code>) and <code>/api/form/hidden_field/</code> (use <code>/api/field/hidden/</code>).
 </aside>
 
 ## Rotate API Key
