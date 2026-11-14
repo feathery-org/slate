@@ -463,6 +463,7 @@ Note that this needs to be formatted as a multipart/form-data request.
 |-----------|------------|-------------------------------------------------------------------|
 | files     | File Array | An array of files that will be parsed by the extraction for data. |
 | webhook   | JSON string | Optional JSON string describing webhook delivery settings for extracted data (callback URL and wait behavior). |
+| hub_association | JSON string | Optional. A [hub association object](#hub-association-object) as a JSON string. The run's documents, plus the PDF Feathery renders from any non-PDF document, are filed into that data hub record once the run is processed. |
 
 `webhook` should be a JSON string with this structure:
 
@@ -1098,6 +1099,7 @@ uploaded and mapped in your Feathery account.
 | field_values | Object (optional) | A mapping of field ID to field value to fill the document                       |
 | signer_email | String (optional) | The document will route to the specified email for signature after being filled |
 | user_id      | String (Optional) | Associate an existing Feathery user with the generated document                 |
+| hub_association | Object (Optional) | A [hub association object](#hub-association-object). The generated document is filed into that data hub record. If it's sent for signature, the signed copy becomes a new version of the same hub file once signing completes. |
 
 ### Response Body
 
@@ -1106,6 +1108,8 @@ The response will be an object containing the following parameters.
 | Parameter | Type   | Description                        |
 |-----------|--------|------------------------------------|
 | file_url  | String | The URL to the filled out document |
+
+An invalid `hub_association` returns a 400 before any document is generated.
 
 ## List Document Templates
 
@@ -4752,7 +4756,52 @@ Delete a specific user.
 
 # Data Hubs
 
-Data hubs are shared databases that all of your workflows can read from and write to. The Data Hub API lets you create, read, update, and delete hub entries programmatically.
+Data hubs are shared databases that all of your workflows can read from and write to. The Data Hub API lets you create, read, update, and delete hub entries programmatically. These endpoints require the Business plan.
+
+### Relation Fields
+
+A relation field links records of one hub to records of another, for example a `household` field on a Clients hub linking to records of a Households hub. Relations are created in pairs, one field on each hub, so a link made from either side shows on both. A side is single (each record links at most one record) or many.
+
+Relation values are kept beside a record's `data`, under `relations`, both when you read and when you write. A relation field's key inside `data` is refused with a 400.
+
+When reading, each relation field maps to an object with the following parameters.
+
+| Parameter | Type   | Description                                                                                                         |
+|-----------|--------|---------------------------------------------------------------------------------------------------------------------|
+| items     | Array  | The first 25 linked records, oldest link first. Each has the record's `id`, its `label`, and `data` when you asked for linked columns. |
+| count     | Number | How many records are linked in total, which can be more than the listed `items`.                                    |
+
+A record's `label` is the linked hub's display field, otherwise its first field that isn't a file or relation, otherwise `"Untitled"`. Links to unverified records aren't shown or counted.
+
+To read a column of the linked records, name it as `<relation>.<column>` in `fields`, for example `household.city`. Each listed item then carries a `data` object with those columns. A path goes one link deep, can't read a linked file or relation column, and one read can ask for at most 10 of them.
+
+### File Fields
+
+A file field holds a list of file objects. Each has an `id`, a `name`, a `path` and a `url` you can download it from. For a file Feathery stores, the `url` expires 5 minutes after it's returned, so read the entry again rather than storing it. A file added as an outside link keeps its own `url`, which doesn't expire.
+
+When you write a file field, send the field's full list. Files you keep are identified by their `id` alone, and a file you leave out is removed from that field. You can also add a link to a file hosted elsewhere as `{"url": "https://...", "path": "...", "name": "..."}`. An `id` that isn't already in that field is refused.
+
+### Hub Association Object
+
+```json
+{
+  "hub_id": "<HUB ID>",
+  "entry_id": "<ENTRY ID>",
+  "field": "documents"
+}
+```
+
+[Extract Data from Documents](#extract-data-from-documents) and [Fill or Sign a Document Template](#fill-or-sign-a-document-template) accept a `hub_association`, which files the documents they produce into a data hub record. The record must belong to the mode (Live/Test) of your API key.
+
+| Parameter | Type                    | Description                                                                                                                                                                         |
+|-----------|-------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| hub_id    | UUID                    | The ID of the data hub.                                                                                                                                                             |
+| entry_id  | UUID                    | The ID of the hub record to file into. On a hub with unverified data enabled, this can be an unverified record.                                                                     |
+| field     | String (Optional)       | The key or ID of the file field to file into. Required when the hub has more than one file field. Send `null` to attach the files to the record itself rather than to a file field. |
+| label     | String (Optional)       | The name the filed documents show under on this record, up to 255 characters.                                                                                                      |
+| tags      | String\[\] (Optional)   | Up to 50 tags to add to the filed documents.                                                                                                                                       |
+
+An association that doesn't resolve is rejected with a 400 before anything is produced, with the reason under `hub_association`, for example `{"hub_association": "Unknown hub entry"}`. That happens when the hub or record doesn't exist in your account and mode, `field` isn't one of the hub's file fields, `field` is left out on a hub with several file fields or none, or `label` or `tags` are malformed.
 
 ## Perform a Hub Entry Action
 
@@ -4843,7 +4892,53 @@ fetch(url, options)
 }
 ```
 
-> `delete` returns 204 No Content with no body.
+> `delete` with `entry_id` returns 204 No Content with no body. `delete` with `where` returns 200 with `{"deleted": <n>}`.
+
+> Example `create` that links the new entry to a household record:
+
+```json
+{
+  "operation": "create",
+  "data": {"name": "Alice"},
+  "relations": {"household": ["c3d4e5f6-a7b8-9012-cdef-345678901234"]}
+}
+```
+
+> Example `get` filtered and sorted by a linked record's column, returning that column:
+
+```json
+{
+  "operation": "get",
+  "fields": ["name", "household.city"],
+  "where": [{"field_id": "household.state", "operator": "equals", "value": "CA"}],
+  "sort": "household.city",
+  "sort_direction": "asc",
+  "limit": 100
+}
+```
+
+> Its response (200):
+
+```json
+[
+  {
+    "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "data": {"name": "Alice"},
+    "relations": {
+      "household": {
+        "items": [
+          {
+            "id": "c3d4e5f6-a7b8-9012-cdef-345678901234",
+            "label": "Smith Household",
+            "data": {"city": "San Diego"}
+          }
+        ],
+        "count": 1
+      }
+    }
+  }
+]
+```
 
 Create, retrieve, update, or delete entries in a data hub.
 
@@ -4856,9 +4951,45 @@ Create, retrieve, update, or delete entries in a data hub.
 | Parameter  | Type                                            | Description                                                                                                  |
 |------------|-------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
 | operation  | 'create' &#124; 'get' &#124; 'update' &#124; 'delete' | The action to perform on hub entries.                                                                  |
-| data       | Object (Optional)                               | A mapping of hub field keys to values. Used as the entry data for `create`/`update`, or as filter criteria for `get`. |
-| entry_id   | UUID (Optional)                                 | The ID of an existing entry. Required for `update` and `delete`. If provided for `get`, returns that single entry. |
-| fields     | String\[\] (Optional)                           | For `get` only. A list of field keys to include in the response. If omitted, all fields are returned.        |
+| data       | Object (Optional)                               | A mapping of hub field keys to values. Used as the entry data for `create`/`update`, or as filter criteria for `get`. Relation fields go in `relations` instead. See [File Fields](#file-fields) for writing a file field. |
+| relations  | Object (Optional)                               | For `create` and `update`. A mapping of relation field keys to the records to link, described below.        |
+| entry_id   | UUID (Optional)                                 | The ID of an existing entry. Required for `update` and `delete` unless `where` is sent. If provided for `get`, returns that single entry. |
+| where      | Object\[\] (Optional)                           | For `get`, `update` and `delete`, instead of `entry_id`. Conditions an entry must all match, described below. An `update` or `delete` with `where` returns the number of entries it changed, as `{"updated": <n>}` or `{"deleted": <n>}`. |
+| fields     | String\[\] (Optional)                           | For `get` only. A list of field keys to include in the response. If omitted, all fields are returned. Name a relation field to get its links, or `<relation>.<column>` to also get that column of each linked record. Keys that don't match a field are ignored. |
+| sort       | String (Optional)                               | For `get` only. A field key, or `<relation>.<column>` to sort by a linked record's column. Entries without a value come last. |
+| sort_direction | 'asc' &#124; 'desc' (Optional)              | For `get` only. Defaults to `asc`.                                                                           |
+| limit      | Number (Optional)                               | For `get` only. Return at most this many entries, from 1 to 1,000. With no `sort`, the newest entries are returned first. |
+
+Without `sort` or `limit`, `get` returns every matching entry in no particular order.
+
+#### Relation values
+
+Each key of `relations` is a relation field, and its value is one of the following.
+
+| Value                                     | Effect                                                                 |
+|-------------------------------------------|------------------------------------------------------------------------|
+| `["<record id>", ...]`                    | Replaces the entry's links with these records.                         |
+| `{"add": [...], "remove": [...]}`         | Links and unlinks these records, leaving its other links as they are.  |
+| `[]` or `null`                            | Removes every link.                                                    |
+
+A request can add up to 1,000 records per relation field. Linked records must be verified records of the related hub in the same mode. An `update` with `relations` must target exactly one entry. `create` and `update` return the entry's `data` without its relations.
+
+#### Where conditions
+
+Each condition is either `{"entry_id": "<ID>"}`, or `{"field_id": "<field key>", "operator": "<operator>", "value": <value>}` on a column. With no `operator`, the value must match the stored value exactly: case-sensitive and not converted to the column's type. An explicit `equals` compares the value converted to the column's type, and ignores case on text.
+
+| Operator                                                                     | Supported on                       |
+|------------------------------------------------------------------------------|------------------------------------|
+| `equals`, `not_equals`                                                       | Every column except files and relations |
+| `in`, `not_in` (the value is a non-empty list)                               | Text, number and date columns      |
+| `greater_than`, `greater_than_or_equal`, `less_than`, `less_than_or_equal`   | Number and date columns            |
+| `contains`, `not_contains`, `starts_with`, `ends_with`                       | Text columns                       |
+| `is_empty`, `is_filled` (no value)                                           | Every column                       |
+| `contains` (one record ID), `in` (a list of record IDs)                      | Relation fields                    |
+
+A relation field matches its links: `contains` finds entries linked to that record, `in` entries linked to any of those records, and `is_empty` entries with no links.
+
+`field_id` can also be `<relation>.<column>` to match on a linked record's column, using that column's operators. Conditions through the same relation must all match one linked record. A negative condition (`not_equals`, `not_contains`, `not_in` or `is_empty`) through a relation matches entries with no linked record matching its positive form, which includes entries with no links.
 
 ### Response Body
 
@@ -4867,7 +4998,7 @@ Create, retrieve, update, or delete entries in a data hub.
 | create    | 201    | Entry object with `id` and `data`                                        |
 | get       | 200    | Single entry object (when `entry_id` provided) or array of entry objects |
 | update    | 200    | Updated entry object with `id` and `data`                                |
-| delete    | 204    | No content                                                               |
+| delete    | 204 / 200 | No content with `entry_id`; `{"deleted": <n>}` with `where`           |
 
 Each entry object contains the following parameters.
 
@@ -4875,6 +5006,128 @@ Each entry object contains the following parameters.
 |-----------|--------|----------------------------------------------------|
 | id        | UUID   | The unique identifier of the hub entry             |
 | data      | Object | A mapping of hub field keys to their stored values |
+| relations | Object | For `get`, when `fields` names a relation field or a `<relation>.<column>` path. A mapping of those relation field keys to their [relation values](#relation-fields). |
+
+### Errors
+
+Errors return a 400. Some of those that relation fields add:
+
+| Error                                                                               | Meaning                                                                                                   |
+|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| `` `<key>` is a relation; send its value in `relations` ``                          | A relation field was sent inside `data`.                                                                  |
+| `` `<key>`: record <id> not found ``                                                | A record to link isn't in the related hub, or is in the other mode.                                      |
+| `` `<key>` links at most one record ``                                              | More than one record was linked through a single side.                                                   |
+| `Relation fields can only be set on one entry at a time`                            | An `update` with `relations` matched more than one entry.                                                 |
+| `Missing required fields: <key>`                                                    | A new entry was created without a link through a required relation field.                                 |
+| `` '<relation>' links many records, so it can't sort by one of them ``              | `sort` named a column through a relation whose side holds many records.                                   |
+| `Filter the list to 10,000 records or fewer to sort by a linked record`             | `sort` named a `<relation>.<column>` path and more than 10,000 entries matched. Narrow `where` first. Returned as `[{"message": ..., "code": "linked_sort_needs_narrowing"}]`. |
+| `A read can ask for at most 10 linked columns`                                      | `fields` named more than 10 `<relation>.<column>` paths.                                                  |
+
+## List Hub Entries
+
+```python
+import requests
+
+url = "https://api.feathery.io/api/data-hub/<hub_id>/entry/";
+headers = {"Authorization": "Token <API KEY>"}
+params = {"fields": "name,household,household.city", "page_size": 100}
+result = requests.get(url, params=params, headers=headers)
+print(result.json())
+```
+
+```shell
+curl "https://api.feathery.io/api/data-hub/<hub_id>/entry/?fields=name,household,household.city&page_size=100" \
+    -H "Authorization: Token <API KEY>"
+```
+
+```javascript
+const url = "https://api.feathery.io/api/data-hub/<hub_id>/entry/?fields=name,household,household.city&page_size=100";
+const headers = { Authorization: "Token <API KEY>" };
+fetch(url, { headers })
+    .then((response) => response.json())
+    .then(result => console.log(result));
+```
+
+> The above command outputs JSON structured like this:
+
+```json
+{
+  "count": 1,
+  "next": null,
+  "previous": null,
+  "total_pages": 1,
+  "current_page": 1,
+  "results": [
+    {
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "verified": true,
+      "data": {"name": "Alice"},
+      "relations": {
+        "household": {
+          "items": [
+            {
+              "id": "c3d4e5f6-a7b8-9012-cdef-345678901234",
+              "label": "Smith Household",
+              "data": {"city": "San Diego"}
+            }
+          ],
+          "count": 1
+        }
+      },
+      "created_at": "2026-11-02T18:12:05Z",
+      "updated_at": "2026-11-03T09:40:11Z",
+      "relations_updated_at": "2026-11-04T14:02:37Z"
+    }
+  ]
+}
+```
+
+List a page of a data hub's entries in the mode (Live/Test) of your API key.
+
+To sync changes, pass the time of your last sync as `updated_after` and walk the pages in the default order. `updated_after` and `updated_before` match an entry when its data or its links changed. A link made from the other hub's side only changes the record it was written on, so to catch every link, read both hubs.
+
+### HTTP Request
+
+`GET https://api.feathery.io/api/data-hub/<hub_id>/entry/`
+
+### Request Query Parameters
+
+| Parameter      | Type                  | Description                                                                                                                                                                                   |
+|----------------|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| fields         | String (Optional)     | Comma-separated field keys to return. If omitted, every field and relation field is returned. Can include up to 10 `<relation>.<column>` paths, which add that column of each linked record. |
+| filter         | JSON (Optional)       | A stringified JSON object of field keys to values. Only entries whose fields exactly equal those values are returned. Relation fields can't be filtered here.                                |
+| verification   | String (Optional)     | `verified` (default), `unverified` or `all`.                                                                                                                                                  |
+| updated_after  | Datetime (Optional)   | Only return entries whose data or links changed at or after this time.                                                                                                                        |
+| updated_before | Datetime (Optional)   | Only return entries whose data or links changed at or before this time.                                                                                                                       |
+| sort           | String (Optional)     | `created_at` or `updated_at`, where `updated_at` is the last time the entry's data or links changed. Defaults to `updated_at` when `updated_after` or `updated_before` is sent, otherwise `created_at`. |
+| sort_direction | String (Optional)     | `ascending` or `descending`. Defaults to `ascending` when `updated_after` or `updated_before` is sent, otherwise `descending`.                                                               |
+| page           | Number (Optional)     | The page to return. Defaults to 1.                                                                                                                                                            |
+| page_size      | Number (Optional)     | Entries per page. Defaults to 50, at most 100.                                                                                                                                                |
+
+### Response Body
+
+| Parameter    | Type        | Description                                                    |
+|--------------|-------------|----------------------------------------------------------------|
+| count        | Number      | The exact number of entries that match, across all pages.      |
+| next         | URL or null | A URL to the next page of results, or null.                    |
+| previous     | URL or null | A URL to the previous page of results, or null.                |
+| total_pages  | Number      | Total number of pages to get all of the entries.               |
+| current_page | Number      | The current page number.                                       |
+| results      | Array       | An array of entry objects.                                     |
+
+Each entry object contains the following parameters.
+
+| Parameter            | Type             | Description                                                                                         |
+|----------------------|------------------|-----------------------------------------------------------------------------------------------------|
+| id                   | UUID             | The unique identifier of the hub entry.                                                             |
+| verified             | Boolean          | Whether the entry is verified.                                                                      |
+| data                 | Object           | A mapping of hub field keys to their stored values.                                                 |
+| relations            | Object           | A mapping of relation field keys to their [relation values](#relation-fields).                      |
+| created_at           | Datetime         | When the entry was created.                                                                         |
+| updated_at           | Datetime         | When the entry's data last changed.                                                                 |
+| relations_updated_at | Datetime or null | When a link was last made or removed on this entry, or null if never.                               |
+
+Errors return a 400, for example when `fields` or `filter` names a key the hub doesn't have, `filter` names a relation field, or `fields` asks for more than 10 linked columns or a path that doesn't reach a linked record's column.
 
 # Workspaces
 
